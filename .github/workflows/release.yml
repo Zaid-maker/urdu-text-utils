@@ -3,6 +3,10 @@ name: Release
 # Publishing is driven by tags: push a `v1.2.3` tag and this workflow publishes
 # that exact version to npm with a provenance attestation, then opens a GitHub
 # Release. Nothing publishes on an ordinary push to main.
+#
+# Authentication is npm Trusted Publishing (OIDC) — there is no npm token in this
+# repo. npm trusts this exact repo + workflow filename, so the trust breaks if this
+# file is renamed; update the trusted publisher on npm first if it ever moves.
 on:
   push:
     tags: ["v*"]
@@ -23,6 +27,9 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
+      # OIDC publishing needs npm 11.5.1+; the npm bundled with Node 22 is 10.x.
+      - run: npm install -g npm@latest
+
       - run: npm ci
 
       # A tag that disagrees with package.json would publish a surprising version,
@@ -41,10 +48,10 @@ jobs:
       - run: npm test
       - run: npm run build
 
+      # No NODE_AUTH_TOKEN: the OIDC id-token above is the credential, and npm
+      # attaches provenance automatically for a trusted publisher.
       - name: Publish to npm
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
 
       - name: Create GitHub Release
         env:

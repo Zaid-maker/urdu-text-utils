@@ -191,7 +191,7 @@ git push --follow-tags
 
 The `Release` workflow then verifies the tag matches `package.json`, re-runs typecheck/tests/build, publishes with `--provenance`, and opens a GitHub Release with generated notes.
 
-One-time setup: add an npm **Automation** access token as the `NPM_TOKEN` repository secret (`gh secret set NPM_TOKEN`). Automation tokens bypass 2FA prompts, which classic publish tokens do not.
+Authentication is npm [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) over OIDC — no npm token exists in this repository and none needs to be rotated. npm trusts `Zaid-maker/urdu-text-utils` publishing from `release.yml` specifically, so renaming that workflow file breaks releases until the trusted publisher is updated on npm.
 
 ## License
 
