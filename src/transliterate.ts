@@ -16,58 +16,8 @@
  */
 import { removeDiacritics, normalizeUrdu } from "./normalize.js";
 import { splitWords } from "./stats.js";
+import { ROMAN_VARIANTS, WORD_DICTIONARY } from "./dictionary.js";
 
-/** High-frequency words where the rule layer would produce something wrong or unreadable. */
-const WORD_DICTIONARY: Record<string, string> = {
-  "آپ": "aap",
-  "آپکا": "aapka",
-  "اور": "aur",
-  "ایک": "aik",
-  "احمد": "ahmed",
-  "اچھا": "acha",
-  "بہت": "bohat",
-  "پاکستان": "pakistan",
-  "پانی": "paani",
-  "پر": "par",
-  "پہلا": "pehla",
-  "تم": "tum",
-  "تھا": "tha",
-  "تھی": "thi",
-  "حال": "haal",
-  "خان": "khan",
-  "خوبصورت": "khoobsurat",
-  "دن": "din",
-  "رات": "raat",
-  "زید": "zaid",
-  "سے": "se",
-  "شہر": "shehar",
-  "علی": "ali",
-  "کا": "ka",
-  "کتاب": "kitaab",
-  "کر": "kar",
-  "کرنا": "karna",
-  "کے": "ke",
-  "کی": "ki",
-  "کیا": "kya",
-  "کیسے": "kaisay",
-  "لڑکا": "larka",
-  "لڑکی": "larki",
-  "لیے": "liye",
-  "محمد": "muhammad",
-  "مضمون": "mazmoon",
-  "ملک": "mulk",
-  "میں": "mein",
-  "میرا": "mera",
-  "میری": "meri",
-  "نام": "naam",
-  "نہیں": "nahi",
-  "وہ": "woh",
-  "ہے": "hai",
-  "ہیں": "hain",
-  "ہو": "ho",
-  "ہوں": "hoon",
-  "یہ": "yeh",
-};
 
 /** Consonant + ھ (do-chashmi heh) forms one aspirated sound, so it is matched first. */
 const DIGRAPHS: Record<string, string> = {
@@ -135,39 +85,73 @@ const LETTERS: Record<string, string> = {
   "ۂ": "h",
 };
 
+/** Letters that carry a vowel in the output, used to decide where a schwa is needed. */
+const VOWEL_LETTERS = new Set(["ا", "آ", "و", "ی", "ے", "ؤ", "ئ", "ۓ", "ۂ", "ع"]);
+
 function romanizeWord(word: string): string {
   const dictionary = WORD_DICTIONARY[word];
   if (dictionary) return dictionary;
 
   const chars = [...word];
-  let out = "";
+  const pieces: Array<{ text: string; vowel: boolean }> = [];
+
   for (let i = 0; i < chars.length; i++) {
+    const last = i === chars.length - 1;
     const pair = chars[i]! + (chars[i + 1] ?? "");
     const digraph = DIGRAPHS[pair];
     if (digraph) {
-      out += digraph;
+      pieces.push({ text: digraph, vowel: false });
       i++;
       continue;
     }
+
     const ch = chars[i]!;
+
     if (i === 0 && ch === "ا") {
       // Word-initial alef is a vowel carrier: اسلام -> islam, not aislam.
       const next = chars[1];
       if (next === "و") {
-        out += "o";
+        pieces.push({ text: "o", vowel: true });
         i++;
         continue;
       }
       if (next === "ی") {
-        out += "i";
+        pieces.push({ text: "i", vowel: true });
         i++;
         continue;
       }
-      out += "a";
+      pieces.push({ text: "a", vowel: true });
       continue;
     }
-    out += LETTERS[ch] ?? ch;
+
+    // Word-initially و and ی are consonants, not the vowels they spell elsewhere:
+    // والا -> wala, یار -> yaar.
+    if (i === 0 && ch === "و") {
+      pieces.push({ text: "w", vowel: false });
+      continue;
+    }
+    if (i === 0 && ch === "ی") {
+      pieces.push({ text: "y", vowel: false });
+      continue;
+    }
+
+    // Word-final ہ is the -a ending, not an audible h: کمرہ -> kamra, حصہ -> hasa.
+    if (last && ch === "ہ" && pieces.length > 0) {
+      pieces.push({ text: "a", vowel: true });
+      continue;
+    }
+
+    pieces.push({ text: LETTERS[ch] ?? ch, vowel: VOWEL_LETTERS.has(ch) });
   }
+
+  // Urdu does not write short vowels, so a word starting with two consonants comes
+  // out unpronounceable (رہنے -> "rhne"). One schwa after the first consonant fixes
+  // the common case without cascading guesses through the rest of the word.
+  if (pieces.length > 2 && !pieces[0]!.vowel && !pieces[1]!.vowel) {
+    pieces.splice(1, 0, { text: "a", vowel: true });
+  }
+
+  const out = pieces.map((p) => p.text).join("");
   return out;
 }
 
@@ -194,29 +178,7 @@ const ROMAN_DICTIONARY: Record<string, string> = {};
 for (const [urduWord, roman] of Object.entries(WORD_DICTIONARY)) {
   ROMAN_DICTIONARY[roman] = urduWord;
 }
-Object.assign(ROMAN_DICTIONARY, {
-  hai: "ہے",
-  hay: "ہے",
-  he: "ہے",
-  hein: "ہیں",
-  hoon: "ہوں",
-  hun: "ہوں",
-  ap: "آپ",
-  kaise: "کیسے",
-  kaisa: "کیسا",
-  nam: "نام",
-  naam: "نام",
-  mai: "میں",
-  main: "میں",
-  nahin: "نہیں",
-  kia: "کیا",
-  bahut: "بہت",
-  bhot: "بہت",
-  acha: "اچھا",
-  achha: "اچھا",
-  shukriya: "شکریہ",
-  salam: "سلام",
-});
+Object.assign(ROMAN_DICTIONARY, ROMAN_VARIANTS);
 
 const ROMAN_RULES: Array<[RegExp, string]> = [
   [/^kh/u, "کھ"],
