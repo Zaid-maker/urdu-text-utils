@@ -1,6 +1,6 @@
 {
   "name": "urdu-text-utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Urdu text processing toolkit: normalization, detection, digits, diacritics, collation, search and statistics. Zero dependencies, ESM + CJS.",
   "keywords": [
     "urdu",
