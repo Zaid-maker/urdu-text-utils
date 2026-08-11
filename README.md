@@ -155,7 +155,7 @@ Read this before putting it in front of users.
 
 Urdu script omits short vowels, so the mapping is genuinely ambiguous: `کتب` is `kitab` or `kutub` depending on context and no rule table can decide which. The reverse direction is worse, because Roman Urdu has no standard orthography (`hai` / `hay` / `he` all occur).
 
-These functions work in two layers: a dictionary of ~450 high-frequency words, English loanwords and oblique verb forms, then a rule fallback that handles aspirated digraphs, word-initial `و`/`ی` as consonants, word-final `ہ` as `-a`, and a schwa insertion so unseen words stay pronounceable. Dictionary hits are reliable; rule output is an approximation. Do not build anything irreversible on it. A real lexicon plus a statistical model is planned, not faked here.
+These functions work in two layers: a dictionary of ~650 high-frequency words, English loanwords and oblique verb forms, then a rule fallback that handles aspirated digraphs, word-initial `و`/`ی` as consonants, word-final `ہ` as `-a`, `ی` by position (`کھیل` → `khel`, `پڑھی` → `parhi`, `سڑکیں` → `sarkein`), and a schwa insertion so unseen words stay pronounceable. Dictionary hits are reliable; rule output is an approximation. Do not build anything irreversible on it. A real lexicon plus a statistical model is planned, not faked here.
 
 ```ts
 romanize("آپ کیسے ہیں"); // "aap kaisay hain"

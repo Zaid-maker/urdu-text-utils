@@ -75,6 +75,22 @@ describe("rule fallback", () => {
     expect(romanize("پرندہ")).toMatch(/a$/u);
   });
 
+  it("reads ی by position: e inside a word, i at the end", () => {
+    expect(romanize("کھیل")).toBe("khel");
+    expect(romanize("پڑھی")).toBe("parhi");
+  });
+
+  it("reads final یں as the plural ending", () => {
+    expect(romanize("سڑکیں")).toBe("sarkein");
+    expect(romanize("راتیں")).toBe("ratein");
+  });
+
+  it("transliterates a news sentence with no dictionary gaps left visible", () => {
+    expect(romanize("کراچی میں بارش کے بعد سڑکیں بند ہیں")).toBe(
+      "karachi mein barish ke baad sarkein band hain",
+    );
+  });
+
   it("produces slug-safe output for words it has never seen", () => {
     expect(urduSlug("طوطا مینا کی کہانی")).toMatch(/^[a-z0-9-]+$/u);
   });

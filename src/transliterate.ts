@@ -141,6 +141,20 @@ function romanizeWord(word: string): string {
       continue;
     }
 
+    // Final یں is the plural/oblique ending: سڑکیں -> sarkein, not sarkin.
+    if (ch === "ی" && chars[i + 1] === "ں" && i + 1 === chars.length - 1) {
+      pieces.push({ text: "ein", vowel: true });
+      i++;
+      continue;
+    }
+
+    // ی is "i" at the end of a word (لڑکی -> larki) but "e" inside one
+    // (کھیل -> khel, تیز -> tez).
+    if (ch === "ی" && !last) {
+      pieces.push({ text: "e", vowel: true });
+      continue;
+    }
+
     pieces.push({ text: LETTERS[ch] ?? ch, vowel: VOWEL_LETTERS.has(ch) });
   }
 
