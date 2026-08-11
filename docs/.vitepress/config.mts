@@ -11,16 +11,10 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
 
-  // Build to /public at the repository root rather than docs/.vitepress/dist.
-  // Vercel falls back to a `public` output directory whenever its own resolution
-  // does not land on vercel.json's outputDirectory, and when that happened it
-  // served docs/public — the VitePress static-asset folder — so the site was a
-  // lone favicon with every page 404ing. Emitting here makes the explicit
-  // setting and the fallback name the same directory.
-  // Path is relative to this file in docs/.vitepress/, so it takes two levels to
-  // reach the repository root. One level lands on docs/public — the static-asset
-  // folder — which VitePress would then wipe on every build.
-  outDir: fileURLToPath(new URL("../../public", import.meta.url)),
+  // The site is served from https://zaid-maker.github.io/urdu-text-utils/, so
+  // every asset and link needs the repository name as a prefix. Without this the
+  // pages render but load their CSS and JS from the domain root and 404.
+  base: "/urdu-text-utils/",
 
   head: [
     ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
