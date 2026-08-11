@@ -53,7 +53,7 @@ features:
   - icon: |
       <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.6 13.4H11l-1 8.6L19.4 10H13z"/></svg>
     title: Zero dependencies
-    details: Around 22 kB, pure and synchronous, side-effect free and tree-shakeable. Ships ESM, CJS and its own type declarations. Published with provenance.
+    details: About 11 kB min+gzip, pure and synchronous, side-effect free and tree-shakeable. Ships ESM, CJS and its own type declarations. Published with provenance.
     link: /guide/getting-started
     linkText: Install
 ---

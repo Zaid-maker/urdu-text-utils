@@ -1,5 +1,12 @@
 # urdu-text-utils
 
+[![npm version](https://img.shields.io/npm/v/urdu-text-utils?style=flat-square&color=157f52&label=npm)](https://www.npmjs.com/package/urdu-text-utils)
+[![CI](https://img.shields.io/github/actions/workflow/status/Zaid-maker/urdu-text-utils/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/Zaid-maker/urdu-text-utils/actions/workflows/ci.yml)
+[![minzipped size](https://img.shields.io/bundlejs/size/urdu-text-utils?style=flat-square&label=min%2Bgzip)](https://bundlejs.com/?q=urdu-text-utils)
+[![dependencies](https://img.shields.io/badge/dependencies-0-157f52?style=flat-square)](https://www.npmjs.com/package/urdu-text-utils?activeTab=dependencies)
+[![downloads](https://img.shields.io/npm/dm/urdu-text-utils?style=flat-square)](https://www.npmjs.com/package/urdu-text-utils)
+[![license](https://img.shields.io/npm/l/urdu-text-utils?style=flat-square)](./LICENSE)
+
 Urdu text processing toolkit for JavaScript and TypeScript. Normalization, detection, digits, diacritics, collation, search, statistics and transliteration.
 
 Zero runtime dependencies. ESM + CJS. Ships its own types.
