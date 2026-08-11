@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci",
   "buildCommand": "npm run docs:build",
   "outputDirectory": "docs/.vitepress/dist",
-  "installCommand": "npm ci",
-  "framework": "vitepress",
   "cleanUrls": true,
   "headers": [
     {
