@@ -56,6 +56,28 @@
   margin: 18px 0;
 }
 
+/**
+ * Feature-card icons are inline SVG rather than emoji, so the icon box has to
+ * centre an element instead of a glyph, and the stroke picks up the brand colour
+ * through currentColor.
+ */
+.VPFeature .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vp-c-brand-1);
+}
+
+.VPFeature .icon svg {
+  display: block;
+}
+
+/* Urdu words are quoted inline in the feature text, so the Latin stack needs an
+   Arabic-script fallback appended — otherwise the browser picks whatever it has. */
+.VPFeature .details {
+  font-family: var(--vp-font-family-base), "Noto Naskh Arabic", serif;
+}
+
 /* Wider content column: the API tables have four columns and wrap badly at the default. */
 .VPDoc.has-aside .content-container {
   max-width: 768px;
