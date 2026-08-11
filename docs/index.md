@@ -41,7 +41,7 @@ features:
   - icon: |
       <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 8 21"/><path d="M17 3l-2 18"/><path d="M4 9h16"/><path d="M3 15h16"/></svg>
     title: Both digit systems
-    details: Urdu digits <bdi>۰۱۲۳</bdi> (U+06F0) and Arabic-Indic <bdi>٠١٢٣</bdi> (U+0660) live in different Unicode blocks. Convert either way, parse the Urdu decimal and thousands separators, spell numbers with lakh and crore.
+    details: Urdu digits <bdi>۴۵۶</bdi> (U+06F0) and Arabic-Indic <bdi>٤٥٦</bdi> (U+0660) live in different Unicode blocks — four, five and six are where the two sets visibly diverge. Convert either way, parse the Urdu decimal and thousands separators, spell numbers with lakh and crore.
     link: /guide/numbers
     linkText: Numbers
   - icon: |
