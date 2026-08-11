@@ -1,0 +1,62 @@
+/**
+ * Theme overrides.
+ *
+ * The palette is Pakistan-flag green, which reads as "Urdu tooling" without
+ * needing a logo. Both light and dark values are set explicitly: VitePress
+ * switches on a class, so a single value would be unreadable in one mode.
+ */
+:root {
+  --vp-c-brand-1: #157f52;
+  --vp-c-brand-2: #12704a;
+  --vp-c-brand-3: #0f6140;
+  --vp-c-brand-soft: rgba(21, 127, 82, 0.14);
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #1aa268 30%, #0e6b47);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #1aa26855, #0e6b4744);
+  --vp-home-hero-image-filter: blur(48px);
+}
+
+.dark {
+  --vp-c-brand-1: #45c78e;
+  --vp-c-brand-2: #35b57e;
+  --vp-c-brand-3: #2a9c6b;
+  --vp-c-brand-soft: rgba(69, 199, 142, 0.16);
+
+  --vp-home-hero-name-background: linear-gradient(120deg, #58e0a5 30%, #2a9c6b);
+}
+
+/**
+ * Urdu text.
+ *
+ * Nastaliq slopes downward across a line, so it needs far more leading than a
+ * Latin face and it must never be forced into a monospace stack.
+ */
+.urdu,
+[dir="rtl"] {
+  font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Noto Naskh Arabic", serif;
+  line-height: 2.35;
+}
+
+/* Urdu samples inside prose and code blocks stay legible at reading size. */
+.vp-doc p .urdu,
+.vp-doc li .urdu {
+  font-size: 1.15em;
+}
+
+.urdu-sample {
+  display: block;
+  direction: rtl;
+  text-align: right;
+  font-size: 1.35rem;
+  padding: 18px 22px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg-soft);
+  margin: 18px 0;
+}
+
+/* Wider content column: the API tables have four columns and wrap badly at the default. */
+.VPDoc.has-aside .content-container {
+  max-width: 768px;
+}

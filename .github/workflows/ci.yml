@@ -32,3 +32,9 @@ jobs:
         run: |
           node -e "const u=require('./dist/index.cjs'); if(u.normalizeUrdu('كيا')!=='کیا') throw new Error('cjs bundle broken')"
           node --input-type=module -e "import {normalizeUrdu} from './dist/index.js'; if(normalizeUrdu('كيا')!=='کیا') throw new Error('esm bundle broken')"
+
+      # The docs import the library from source and VitePress fails the build on a
+      # dead link, so this catches both broken examples and stale cross-references.
+      - name: Build docs
+        if: matrix.node == 22
+        run: npm run docs:build

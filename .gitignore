@@ -1,5 +1,8 @@
 node_modules/
 dist/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+.vercel/
 coverage/
 *.log
 .DS_Store

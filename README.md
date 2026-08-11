@@ -4,6 +4,8 @@ Urdu text processing toolkit for JavaScript and TypeScript. Normalization, detec
 
 Zero runtime dependencies. ESM + CJS. Ships its own types.
 
+**[Documentation and live playground →](https://urdu-text-utils.vercel.app)**
+
 ```bash
 npm install urdu-text-utils
 ```
@@ -181,6 +183,18 @@ npm test
 npm run typecheck
 npm run build
 ```
+
+### Docs site
+
+The site is VitePress, in `docs/`. Its playground imports the library from `src/` through a Vite alias, so the examples can never drift from the code.
+
+```bash
+npm run docs:dev     # local server with hot reload
+npm run docs:build   # static output in docs/.vitepress/dist
+npm run docs:preview
+```
+
+CI builds the docs on every push. VitePress fails on dead links, so a renamed page breaks the build rather than shipping a 404.
 
 ## Releasing
 
