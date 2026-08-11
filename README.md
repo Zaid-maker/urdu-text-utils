@@ -190,7 +190,7 @@ The site is VitePress, in `docs/`. Its playground imports the library from `src/
 
 ```bash
 npm run docs:dev     # local server with hot reload
-npm run docs:build   # static output in docs/.vitepress/dist
+npm run docs:build   # static output in /public
 npm run docs:preview
 ```
 

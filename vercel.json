@@ -3,7 +3,7 @@
   "framework": null,
   "installCommand": "npm ci",
   "buildCommand": "npm run docs:build",
-  "outputDirectory": "docs/.vitepress/dist",
+  "outputDirectory": "public",
   "cleanUrls": true,
   "headers": [
     {

@@ -1,6 +1,6 @@
 node_modules/
 dist/
-docs/.vitepress/dist/
+/public/
 docs/.vitepress/cache/
 .vercel/
 coverage/
