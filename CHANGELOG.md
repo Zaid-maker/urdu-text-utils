@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+- Significantly expand transliteration dictionary coverage across pronouns & oblique forms (`مجھے`, `ہمیں`, `انہیں`, `اسے`, `جسے`), everyday verbs and inflections, calendar & weekdays, numbers & ordinals, food, household objects, health, geography, and common Pakistani names.
+- Expanded Roman Urdu variants (`ROMAN_VARIANTS`) for common texting and phonetically ambiguous spellings (`mjhe`, `humein`, `unhein`, `isay`, `chahye`, etc.).
+- Enhanced dictionary normalization and clean token mapping for slug generation and reverse transliteration.
+
 ## 0.1.2
 
 - Dictionary grows to ~650 entries: news and public-life vocabulary (the densest register in Urdu media), technology, education, health, colours, animals, extended family, food and place names.
