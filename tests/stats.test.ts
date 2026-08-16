@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { analyzeUrdu, countSentences, countWords, splitWords } from "../src/stats.js";
+import { analyzeUrdu, countSentences, countWords, splitSentences, splitWords } from "../src/stats.js";
 
 describe("countWords", () => {
   it("counts words", () => {
@@ -18,15 +18,40 @@ describe("countWords", () => {
   });
 });
 
-describe("countSentences", () => {
+describe("countSentences & splitSentences", () => {
   it("splits on the Urdu full stop and question mark", () => {
     expect(countSentences("یہ پہلا جملہ ہے۔ یہ دوسرا ہے۔")).toBe(2);
     expect(countSentences("آپ کیسے ہیں؟ میں ٹھیک ہوں۔")).toBe(2);
+    expect(splitSentences("یہ پہلا جملہ ہے۔ یہ دوسرا ہے۔")).toEqual([
+      "یہ پہلا جملہ ہے",
+      "یہ دوسرا ہے",
+    ]);
   });
 
   it("does not invent a sentence from a trailing terminator", () => {
     expect(countSentences("ایک جملہ۔")).toBe(1);
     expect(countSentences("")).toBe(0);
+    expect(splitSentences("")).toEqual([]);
+  });
+
+  it("preserves terminators when requested", () => {
+    const text = "کیا آپ خیریت سے ہیں؟ جی ہاں، میں ٹھیک ہوں۔";
+    expect(splitSentences(text, { preserveTerminators: true })).toEqual([
+      "کیا آپ خیریت سے ہیں؟",
+      "جی ہاں، میں ٹھیک ہوں۔",
+    ]);
+  });
+
+  it("protects abbreviations and titles from false splits", () => {
+    const text = "ڈاکٹر. علامہ اقبال ہمارے قومی شاعر ہیں۔ وہ سیالکوٹ میں پیدا ہوئے۔";
+    const sentences = splitSentences(text);
+    expect(sentences.length).toBe(2);
+    expect(sentences[0]).toBe("ڈاکٹر. علامہ اقبال ہمارے قومی شاعر ہیں");
+  });
+
+  it("protects numeric decimals from false splits", () => {
+    const text = "پائی کی قیمت 3.14 ہے۔ یہ ایک مستقل عدد ہے۔";
+    expect(splitSentences(text).length).toBe(2);
   });
 });
 

@@ -20,16 +20,98 @@ export function splitWords(input: string): string[] {
     .filter((w) => w.length > 0);
 }
 
-/** Sentences, split on ۔ ؟ ! . and ellipsis. */
-export function countSentences(input: string): number {
-  return splitSentences(input).length;
+export interface SplitSentenceOptions {
+  /** If true, the sentence-ending punctuation (۔ ؟ ! . etc.) is preserved with each sentence. Default `false`. */
+  preserveTerminators?: boolean;
 }
 
-export function splitSentences(input: string): string[] {
+/** Common Urdu abbreviations and honorifics that should not cause false sentence splits. */
+const ABBREVIATIONS = [
+  "ڈاکٹر",
+  "پروفیسر",
+  "انجینئر",
+  "ایڈووکیٹ",
+  "جناب",
+  "صاحب",
+  "صاحبہ",
+  "محترم",
+  "محترمہ",
+  "مولانا",
+  "مفتی",
+  "علامہ",
+  "بیگم",
+  "وغیرہ",
+  "رحمتہ",
+  "رضی",
+  "تعالی",
+  "تعالیٰ",
+  "علیہ",
+  "السلام",
+  "صلی",
+  "وسلم",
+];
+
+const ABBREV_PATTERN = new RegExp(`(?:${ABBREVIATIONS.join("|")})[.۔]`, "gu");
+
+/**
+ * Sentences count, split on Urdu and standard terminators (۔ ؟ ! . …).
+ * Protects common titles, abbreviations, and numeric decimals from false splits.
+ */
+export function countSentences(input: string, options?: SplitSentenceOptions): number {
+  return splitSentences(input, options).length;
+}
+
+/**
+ * Split text into sentences using Urdu punctuation rules.
+ *
+ * Handles Urdu full stop `۔`, Arabic question mark `؟`, exclamation `!`,
+ * ASCII `.`, `?`, `!`, and ellipses `…`, while protecting abbreviations and numbers.
+ *
+ * @param input - Input text.
+ * @param options - Options controlling termination preservation.
+ *
+ * @example
+ * splitSentences("پاکستان ایک خوبصورت ملک ہے۔ اس کی تاریخ پرانی ہے۔")
+ * // ["پاکستان ایک خوبصورت ملک ہے", "اس کی تاریخ پرانی ہے"]
+ */
+export function splitSentences(input: string, options: SplitSentenceOptions = {}): string[] {
   if (!input) return [];
-  return input
+
+  const { preserveTerminators = false } = options;
+
+  // Placeholder for protected dots
+  const PROTECTED_DOT = "\uE000";
+  const PROTECTED_URDU_FULL_STOP = "\uE001";
+
+  let sanitized = input
+    // Protect decimal numbers (1.5, 3.14, ۱٫۵)
+    .replace(/(\d)\.(\d)/gu, `$1${PROTECTED_DOT}$2`)
+    // Protect abbreviations followed by dot or Urdu full stop
+    .replace(ABBREV_PATTERN, (match) => {
+      return match.replace(/\./g, PROTECTED_DOT).replace(/۔/g, PROTECTED_URDU_FULL_STOP);
+    });
+
+  if (preserveTerminators) {
+    // Split keeping delimiter
+    const matches = sanitized.match(/[^۔؟?!.…]+[۔؟?!.…]+|[^۔؟?!.…]+$/gu) ?? [];
+    return matches
+      .map((s) =>
+        s
+          .replace(new RegExp(PROTECTED_DOT, "gu"), ".")
+          .replace(new RegExp(PROTECTED_URDU_FULL_STOP, "gu"), "۔")
+          .trim(),
+      )
+      .filter((s) => s.length > 0);
+  }
+
+  return sanitized
     .split(SENTENCE_SPLIT_RE)
-    .map((s) => s.trim())
+    .map((s) =>
+      s
+        .replace(new RegExp(PROTECTED_DOT, "gu"), ".")
+        .replace(new RegExp(PROTECTED_URDU_FULL_STOP, "gu"), "۔")
+        .trim(),
+    )
     .filter((s) => s.length > 0);
 }
 

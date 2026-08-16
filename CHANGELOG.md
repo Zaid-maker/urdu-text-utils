@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+- Add Urdu stop words module (`URDU_STOP_WORDS`, `isStopWord`, `filterStopWords`, `removeStopWords`) with a curated set of 130+ canonical functional words.
+- Enhance sentence segmentation in `splitSentences` and `countSentences` with abbreviation & honorific protection (e.g. `ڈاکٹر.`, `پروفیسر.`, `صاحب.`), numeric decimal protection, and optional `preserveTerminators` option.
+
 ## 0.1.3
 
 - Significantly expand transliteration dictionary coverage across pronouns & oblique forms (`مجھے`, `ہمیں`, `انہیں`, `اسے`, `جسے`), everyday verbs and inflections, calendar & weekdays, numbers & ordinals, food, household objects, health, geography, and common Pakistani names.

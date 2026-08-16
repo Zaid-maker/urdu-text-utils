@@ -76,14 +76,30 @@ hasUrduSpecificLetters("لڑکی"); // true  — ڑ does not exist in Arabic
 hasUrduSpecificLetters("كتاب مدرسة"); // false
 ```
 
-## Word and sentence counting
+## Word and sentence tokenization
 
 ```ts
 countWords("پاکستان ایک خوبصورت ملک ہے"); // 5
 countWords("آپ کیسے ہیں؟"); // 3 — attached punctuation is not a word
 countSentences("یہ پہلا جملہ ہے۔ یہ دوسرا ہے۔"); // 2
 splitWords(text); // string[]
-splitSentences(text); // string[]
+splitSentences(text); // string[] — protects abbreviations like ڈاکٹر. and decimals
+splitSentences(text, { preserveTerminators: true }); // preserves ending punctuation
+```
+
+## Stop words
+
+```ts
+import { isStopWord, filterStopWords, removeStopWords, URDU_STOP_WORDS } from "urdu-text-utils";
+
+isStopWord("اور"); // true
+isStopWord("کتاب"); // false
+
+filterStopWords(["یہ", "ایک", "بہترین", "کتاب", "ہے"]);
+// ["بہترین", "کتاب"]
+
+removeStopWords("پاکستان ایک خوبصورت ملک ہے");
+// "پاکستان خوبصورت ملک"
 ```
 
 ## Urdu numbers

@@ -24,7 +24,15 @@ export {
   splitSentences,
   analyzeUrdu,
   type UrduStats,
+  type SplitSentenceOptions,
 } from "./stats.js";
+
+export {
+  URDU_STOP_WORDS,
+  isStopWord,
+  filterStopWords,
+  removeStopWords,
+} from "./stopwords.js";
 
 export { sortUrdu, compareUrdu, type SortOptions } from "./collate.js";
 

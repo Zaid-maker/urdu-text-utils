@@ -66,15 +66,18 @@ Parses Urdu or Arabic-Indic digits, including `٫` decimal and `٬` thousands se
 
 Spells a whole number using the South Asian scale (ہزار, لاکھ, کروڑ). Throws `TypeError` on a non-integer. Returns `string`.
 
-## Statistics
+## Statistics & Tokenization
 
-### `countWords(input)` · `countSentences(input)`
+### `countWords(input)` · `countSentences(input, options?)`
 
-Return `number`. Split on Urdu punctuation as well as ASCII.
+Return `number`. Split on Urdu punctuation as well as ASCII, while protecting abbreviations and numbers.
 
-### `splitWords(input)` · `splitSentences(input)`
+### `splitWords(input)` · `splitSentences(input, options?)`
 
 Return `string[]`.
+
+`splitSentences` accepts `options`:
+- `preserveTerminators` (`boolean`, default `false`): preserves sentence-ending punctuation (۔ ؟ ! . …) with each sentence.
 
 ### `analyzeUrdu(input)`
 
@@ -92,6 +95,39 @@ Returns `UrduStats`:
 | `digits` | `number` |
 | `averageWordsPerSentence` | `number` |
 | `readingTimeMinutes` | `number` |
+
+## Stop words
+
+### `isStopWord(word, customStopWords?)`
+
+Checks if a word is in the Urdu stop words dictionary (or a custom list). Returns `boolean`.
+
+```ts
+isStopWord("اور"); // true
+isStopWord("کتاب"); // false
+```
+
+### `filterStopWords(words, customStopWords?)`
+
+Filters stop words out of an array of tokens. Returns `string[]`.
+
+```ts
+filterStopWords(["یہ", "ایک", "بہترین", "کتاب", "ہے"]);
+// ["بہترین", "کتاب"]
+```
+
+### `removeStopWords(text, customStopWords?)`
+
+Removes stop words from an Urdu text string. Returns `string`.
+
+```ts
+removeStopWords("پاکستان ایک خوبصورت ملک ہے");
+// "پاکستان خوبصورت ملک"
+```
+
+### `URDU_STOP_WORDS`
+
+Canonical `Set<string>` containing high-frequency Urdu functional words, pronouns, postpositions, auxiliaries, and conjunctions.
 
 ## Sorting
 
