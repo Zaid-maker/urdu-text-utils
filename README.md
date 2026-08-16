@@ -7,7 +7,7 @@
 [![downloads](https://img.shields.io/npm/dm/urdu-text-utils?style=flat-square)](https://www.npmjs.com/package/urdu-text-utils)
 [![license](https://img.shields.io/npm/l/urdu-text-utils?style=flat-square)](./LICENSE)
 
-Urdu text processing toolkit for JavaScript and TypeScript. Normalization, detection, digits, diacritics, collation, search, statistics and transliteration.
+Urdu NLP and text processing toolkit for JavaScript and TypeScript. Unicode normalization, Roman Urdu transliteration, stop words, script detection, digits conversion, diacritics (aerab / harakat) removal, alphabetical collation, fuzzy search, and text statistics.
 
 Zero runtime dependencies. ESM + CJS. Ships its own types.
 
@@ -20,8 +20,14 @@ npm install urdu-text-utils
 ```ts
 import {
   normalizeUrdu,
+  romanize,
+  romanToUrdu,
+  urduSlug,
+  isStopWord,
+  removeStopWords,
   isUrdu,
   countWords,
+  splitSentences,
   convertNumbers,
   removeDiacritics,
   sortUrdu,
