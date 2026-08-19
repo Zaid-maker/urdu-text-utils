@@ -2,14 +2,18 @@ import { defineConfig } from "vitepress";
 import { fileURLToPath, URL } from "node:url";
 
 const description =
-  "Urdu text processing toolkit for JavaScript and TypeScript: normalization, detection, digits, diacritics, collation, search and statistics. Zero dependencies.";
+  "Urdu text processing toolkit for JavaScript and TypeScript: normalization, Roman Urdu transliteration, stop words, detection, digits, diacritics, collation, search and statistics. Zero dependencies.";
 
 export default defineConfig({
   title: "urdu-text-utils",
+  titleTemplate: ":title | Urdu Text Processing Toolkit for JavaScript & TypeScript",
   description,
   lang: "en-US",
   cleanUrls: true,
   lastUpdated: true,
+  sitemap: {
+    hostname: "https://zaid-maker.github.io/urdu-text-utils/",
+  },
 
   // The site is served from https://zaid-maker.github.io/urdu-text-utils/, so
   // every asset and link needs the repository name as a prefix. Without this the
@@ -18,6 +22,7 @@ export default defineConfig({
 
   head: [
     ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
+    ["link", { rel: "canonical", href: "https://zaid-maker.github.io/urdu-text-utils/" }],
     // Nastaliq is how Urdu is actually set. Loaded with display=swap so the page
     // never blocks on it, and applied only to Urdu text via the .urdu class.
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
@@ -29,10 +34,34 @@ export default defineConfig({
         href: "https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600&display=swap",
       },
     ],
-    ["meta", { property: "og:title", content: "urdu-text-utils" }],
+    ["meta", { name: "keywords", content: "urdu text processing toolkit javascript, urdu text processing, urdu nlp javascript, urdu typescript, urdu text utils, roman urdu transliteration, urdu stopwords, urdu normalization, urdu sorting, urdu search, urdu digits" }],
+    ["meta", { property: "og:title", content: "urdu-text-utils — Urdu Text Processing Toolkit for JavaScript & TypeScript" }],
     ["meta", { property: "og:description", content: description }],
     ["meta", { property: "og:type", content: "website" }],
-    ["meta", { name: "twitter:card", content: "summary" }],
+    ["meta", { property: "og:url", content: "https://zaid-maker.github.io/urdu-text-utils/" }],
+    ["meta", { property: "og:site_name", content: "urdu-text-utils" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    ["meta", { name: "twitter:title", content: "urdu-text-utils — Urdu Text Processing Toolkit" }],
+    ["meta", { name: "twitter:description", content: description }],
+    [
+      "script",
+      { type: "application/ld+json" },
+      JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        name: "urdu-text-utils",
+        description: "Urdu text processing toolkit for JavaScript and TypeScript",
+        programmingLanguage: ["JavaScript", "TypeScript"],
+        codeRepository: "https://github.com/Zaid-maker/urdu-text-utils",
+        license: "https://opensource.org/licenses/MIT",
+        author: {
+          "@type": "Person",
+          name: "Zaid-maker",
+          url: "https://github.com/Zaid-maker",
+        },
+        keywords: "urdu, urdu text processing toolkit, javascript, typescript, nlp, roman urdu transliteration, urdu normalization",
+      }),
+    ],
   ],
 
   vite: {
@@ -52,7 +81,7 @@ export default defineConfig({
       { text: "API", link: "/api/" },
       { text: "Playground", link: "/playground" },
       {
-        text: "0.1.2",
+        text: "0.1.4",
         items: [
           { text: "Changelog", link: "https://github.com/Zaid-maker/urdu-text-utils/blob/main/CHANGELOG.md" },
           { text: "npm", link: "https://www.npmjs.com/package/urdu-text-utils" },

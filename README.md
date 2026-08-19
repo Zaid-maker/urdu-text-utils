@@ -1,4 +1,4 @@
-# urdu-text-utils
+# urdu-text-utils — Urdu Text Processing Toolkit for JavaScript & TypeScript
 
 [![npm version](https://img.shields.io/npm/v/urdu-text-utils?style=flat-square&color=157f52&label=npm)](https://www.npmjs.com/package/urdu-text-utils)
 [![CI](https://img.shields.io/github/actions/workflow/status/Zaid-maker/urdu-text-utils/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/Zaid-maker/urdu-text-utils/actions/workflows/ci.yml)
@@ -7,9 +7,9 @@
 [![downloads](https://img.shields.io/npm/dm/urdu-text-utils?style=flat-square)](https://www.npmjs.com/package/urdu-text-utils)
 [![license](https://img.shields.io/npm/l/urdu-text-utils?style=flat-square)](./LICENSE)
 
-Urdu NLP and text processing toolkit for JavaScript and TypeScript. Unicode normalization, Roman Urdu transliteration, stop words, script detection, digits conversion, diacritics (aerab / harakat) removal, alphabetical collation, fuzzy search, and text statistics.
+A complete, lightweight **Urdu text processing toolkit for JavaScript and TypeScript** (Node.js, Deno, Bun, and browsers). Zero runtime dependencies. Provides Unicode normalization, Roman Urdu transliteration, Urdu stop words, script detection, Urdu digit conversion, diacritics (aerab / harakat) removal, alphabetical collation / sorting, fuzzy search, and text statistics.
 
-Zero runtime dependencies. ESM + CJS. Ships its own types.
+Zero runtime dependencies. ESM + CJS. Fully typed.
 
 **[Documentation and live playground →](https://zaid-maker.github.io/urdu-text-utils/)**
 

@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: urdu-text-utils
-  text: Urdu text, handled properly
-  tagline: Normalize, detect, search, sort and analyze Urdu in JavaScript and TypeScript. Zero dependencies, ESM + CJS, fully typed.
+  text: The Urdu Text Processing Toolkit for JavaScript & TypeScript
+  tagline: A lightweight, zero-dependency Urdu NLP and text processing library. Unicode normalization, Roman Urdu transliteration, stop words, digits, diacritics, collation, search and stats.
   actions:
     - theme: brand
       text: Get started
