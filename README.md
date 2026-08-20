@@ -1,6 +1,8 @@
 # urdu-text-utils — Urdu Text Processing Toolkit for JavaScript & TypeScript
 
 [![npm version](https://img.shields.io/npm/v/urdu-text-utils?style=flat-square&color=157f52&label=npm)](https://www.npmjs.com/package/urdu-text-utils)
+[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/urdu-text-utils/badge?style=flat-square)](https://www.jsdelivr.com/package/npm/urdu-text-utils)
+[![unpkg](https://img.shields.io/badge/unpkg-urdu--text--utils-blue?style=flat-square)](https://unpkg.com/urdu-text-utils/)
 [![CI](https://img.shields.io/github/actions/workflow/status/Zaid-maker/urdu-text-utils/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/Zaid-maker/urdu-text-utils/actions/workflows/ci.yml)
 [![minzipped size](https://img.shields.io/bundlejs/size/urdu-text-utils?style=flat-square&label=min%2Bgzip)](https://bundlejs.com/?q=urdu-text-utils)
 [![dependencies](https://img.shields.io/badge/dependencies-0-157f52?style=flat-square)](https://www.npmjs.com/package/urdu-text-utils?activeTab=dependencies)
