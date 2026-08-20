@@ -56,9 +56,12 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "jsdelivr": "./dist/index.iife.js",
+  "unpkg": "./dist/index.iife.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "browser": "./dist/index.iife.js",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }

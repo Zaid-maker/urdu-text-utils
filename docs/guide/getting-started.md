@@ -20,6 +20,17 @@ yarn add urdu-text-utils
 bun add urdu-text-utils
 ```
 
+```html [CDN (Script)]
+<!-- Exposes global window.UrduTextUtils -->
+<script src="https://cdn.jsdelivr.net/npm/urdu-text-utils/dist/index.iife.js"></script>
+```
+
+```html [CDN (ESM)]
+<script type="module">
+  import { normalizeUrdu } from "https://cdn.jsdelivr.net/npm/urdu-text-utils/+esm";
+</script>
+```
+
 :::
 
 Node 18 or newer. No runtime dependencies.

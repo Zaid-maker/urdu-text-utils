@@ -17,6 +17,30 @@ Zero runtime dependencies. ESM + CJS. Fully typed.
 npm install urdu-text-utils
 ```
 
+### CDN (Browser / Vanilla JS)
+
+You can use `urdu-text-utils` directly in the browser without any bundler or build step via **jsDelivr** or **unpkg**:
+
+```html
+<!-- jsDelivr (global UrduTextUtils) -->
+<script src="https://cdn.jsdelivr.net/npm/urdu-text-utils/dist/index.iife.js"></script>
+
+<script>
+  const { normalizeUrdu, romanize, isStopWord, searchUrdu } = window.UrduTextUtils;
+  console.log(normalizeUrdu("كيا حال ہے")); // "کیا حال ہے"
+</script>
+```
+
+Or as an ES Module:
+
+```html
+<script type="module">
+  import { normalizeUrdu, romanize } from "https://cdn.jsdelivr.net/npm/urdu-text-utils/+esm";
+  console.log(normalizeUrdu("كيا حال ہے"));
+</script>
+```
+
+
 ```ts
 import {
   normalizeUrdu,

@@ -2,6 +2,7 @@
 
 ## 0.1.5
 
+- Add dedicated IIFE browser bundle (`dist/index.iife.js`) exposing `window.UrduTextUtils` for seamless jsDelivr and unpkg CDN usage without a bundler.
 - Expand transliteration dictionary to 1,700+ entries across classical/poetic register, commerce & digital terminology, law & governance, geography, and rich verbal inflections.
 - Expand `ROMAN_VARIANTS` with popular Roman Urdu texting and chat conventions (`kidhr`, `thek`, `sahi`, `behtareen`, `mashaallah`, `jazakallah`, etc.).
 - Add automated sitemap generation, OpenGraph metadata, and JSON-LD structured data for docs.
