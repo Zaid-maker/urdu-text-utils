@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.7
+
+- Add Urdu date & time formatting module (`formatUrduDate`, `timeAgoUrdu`, `getUrduMonthName`, `getUrduWeekdayName`).
+- Add pattern token replacement (`YYYY`, `MMMM`, `DD`, `dddd`, `hh:mm A`) with automatic Urdu numerals and day period indicators (`صبح`, `دوپہر`, `شام`, `رات`).
+- Add localized natural relative time formatting for past and future dates (*"ابھی"*, *"۵ منٹ پہلے"*, *"۳ گھنٹے پہلے"*, *"کل"*, *"پرسوں"*, *"۲ ہفتے بعد"*).
+- Add canonical constants `URDU_MONTHS_GREGORIAN`, `URDU_MONTHS_HIJRI`, and `URDU_WEEKDAYS`.
+
 ## 0.1.6
 
 - Add dedicated minified IIFE browser bundle (`dist/index.iife.js`) exposing `window.UrduTextUtils` for seamless jsDelivr and unpkg CDN usage without a bundler.

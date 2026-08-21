@@ -187,6 +187,44 @@ URL slug from an Urdu title.
 
 `preserveUrdu: true` is lossless and stable across versions. See [the caveats](/guide/transliteration#which-mode-for-permanent-urls).
 
+## Date & Time
+
+### `formatUrduDate(date, pattern?, options?)`
+
+Formats any `Date`, string timestamp, or numeric timestamp into an Urdu formatted string.
+
+```ts
+formatUrduDate(new Date(2026, 7, 22), "DD MMMM YYYY");
+// "۲۲ اگست ۲۰۲۶"
+
+formatUrduDate(new Date(2026, 7, 22, 14, 30), "dddd، D MMMM YYYY، hh:mm A");
+// "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰ دوپہر"
+```
+
+| Option | Type | Default |
+| --- | --- | --- |
+| `digits` | `"urdu" \| "english"` | `"urdu"` |
+| `calendar` | `"gregorian" \| "hijri"` | `"gregorian"` |
+
+### `timeAgoUrdu(date, relativeTo?, options?)`
+
+Returns localized relative time in Urdu (e.g. *"ابھی"*, *"۵ منٹ پہلے"*, *"۳ گھنٹے پہلے"*, *"کل"*, *"پرسوں"*, *"۲ ہفتے بعد"*).
+
+```ts
+timeAgoUrdu(Date.now() - 5 * 60 * 1000); // "۵ منٹ پہلے"
+timeAgoUrdu(Date.now() + 10 * 60 * 1000); // "۱۰ منٹ بعد"
+```
+
+### `getUrduMonthName(monthIndex, calendar?)` · `getUrduWeekdayName(dayIndex)`
+
+Returns month name or weekday name in Urdu.
+
+### Constants
+
+- `URDU_MONTHS_GREGORIAN`: Array of 12 Gregorian month names in Urdu (`جنوری` to `دسمبر`).
+- `URDU_MONTHS_HIJRI`: Array of 12 Islamic (Hijri) month names in Urdu (`محرم` to `ذی الحجہ`).
+- `URDU_WEEKDAYS`: Array of 7 day names in Urdu (`اتوار` to `ہفتہ`).
+
 ## Types
 
 ```ts
@@ -195,9 +233,13 @@ import type {
   IsUrduOptions,
   DigitStyle,
   UrduStats,
+  SplitSentenceOptions,
   SortOptions,
   SearchOptions,
   SearchResult,
   SlugOptions,
+  FormatUrduDateOptions,
+  TimeAgoOptions,
 } from "urdu-text-utils";
 ```
+

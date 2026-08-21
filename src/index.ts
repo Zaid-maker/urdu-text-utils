@@ -51,3 +51,15 @@ export {
   urduSlug,
   type SlugOptions,
 } from "./transliterate.js";
+
+export {
+  formatUrduDate,
+  timeAgoUrdu,
+  getUrduMonthName,
+  getUrduWeekdayName,
+  URDU_MONTHS_GREGORIAN,
+  URDU_MONTHS_HIJRI,
+  URDU_WEEKDAYS,
+  type FormatUrduDateOptions,
+  type TimeAgoOptions,
+} from "./date.js";

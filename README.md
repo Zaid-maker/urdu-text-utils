@@ -51,6 +51,8 @@ import {
   urduSlug,
   isStopWord,
   removeStopWords,
+  formatUrduDate,
+  timeAgoUrdu,
   isUrdu,
   countWords,
   splitSentences,
@@ -147,6 +149,27 @@ toArabicIndicDigits("123"); // "١٢٣"
 parseUrduNumber("۱٬۲۳۴"); // 1234 — handles ٬ and ٫
 parseUrduNumber("۳٫۱۴"); // 3.14
 numberToUrduWords(100000); // "ایک لاکھ" — South Asian scale, @experimental
+```
+
+## Urdu dates & relative time
+
+```ts
+import { formatUrduDate, timeAgoUrdu } from "urdu-text-utils";
+
+// Format date with Urdu month and numerals
+formatUrduDate(new Date(), "DD MMMM YYYY");
+// "۲۲ اگست ۲۰۲۶"
+
+// Date with weekday and 12-hour period
+formatUrduDate(new Date(), "dddd، D MMMM YYYY، hh:mm A");
+// "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰ دوپہر"
+
+// Natural relative time (time ago)
+timeAgoUrdu(Date.now() - 5 * 60 * 1000);   // "۵ منٹ پہلے"
+timeAgoUrdu(Date.now() - 3 * 3600 * 1000); // "۳ گھنٹے پہلے"
+timeAgoUrdu(Date.now() - 86400 * 1000);    // "کل"
+timeAgoUrdu(Date.now() - 2 * 86400 * 1000);// "پرسوں"
+timeAgoUrdu(Date.now() + 10 * 60 * 1000);  // "۱۰ منٹ بعد"
 ```
 
 ## Diacritics
