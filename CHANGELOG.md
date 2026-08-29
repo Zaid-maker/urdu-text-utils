@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.8
+
+- Fix jsDelivr monthly hit badge in README to use shields.io SVG endpoint.
+- Update CDN documentation and package metadata.
+
 ## 0.1.7
 
 - Add Urdu date & time formatting module (`formatUrduDate`, `timeAgoUrdu`, `getUrduMonthName`, `getUrduWeekdayName`).
