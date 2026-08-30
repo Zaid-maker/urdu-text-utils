@@ -9,7 +9,8 @@ name: Release
 # file is renamed; update the trusted publisher on npm first if it ever moves.
 on:
   push:
-    tags: ["v*"]
+    # Matches stable tags like v1.2.3 but NOT pre-release tags like v1.2.3-beta.1
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
 
 permissions:
   contents: write # create the GitHub Release
