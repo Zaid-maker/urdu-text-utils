@@ -105,6 +105,7 @@ export default defineConfig({
           { text: "Stemming", link: "/guide/stemming" },
           { text: "Date & Time", link: "/guide/date-time" },
           { text: "Transliteration", link: "/guide/transliteration" },
+          { text: "Use Cases & Recipes", link: "/guide/use-cases" },
         ],
       },
       {
