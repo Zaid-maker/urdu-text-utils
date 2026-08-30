@@ -225,6 +225,53 @@ Returns month name or weekday name in Urdu.
 - `URDU_MONTHS_HIJRI`: Array of 12 Islamic (Hijri) month names in Urdu (`محرم` to `ذی الحجہ`).
 - `URDU_WEEKDAYS`: Array of 7 day names in Urdu (`اتوار` to `ہفتہ`).
 
+## Stemmer
+
+### `stemUrdu(word, options?)`
+
+Reduces an Urdu word to its morphological root/stem by stripping prefixes, suffixes, plurals, and tense markers with morphological restoration rules.
+
+```ts
+stemUrdu("کتابیں");   // "کتاب"
+stemUrdu("لڑکیاں");   // "لڑکی" (restores final ی)
+stemUrdu("دعاؤں");    // "دعا"
+stemUrdu("بےوقوف");   // "وقوف"
+stemUrdu("نااہل");    // "اہل"
+stemUrdu("دکاندار");  // "دکان"
+```
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `stripPrefixes` | `boolean` | `true` | Whether to strip prefixes (e.g. بے-, نا-) |
+| `stripSuffixes` | `boolean` | `true` | Whether to strip suffixes (e.g. -وں, -یں) |
+| `minStemLength` | `number` | `2` | Minimum character length of the remaining stem |
+| `customPrefixes` | `string[]` | — | Custom prefixes list |
+| `customSuffixes` | `string[]` | — | Custom suffixes list |
+| `exceptions` | `Record<string, string>` | — | Word-to-stem overrides |
+
+### `stemUrduText(text, options?)`
+
+Stems all words within a block of text, preserving layout, punctuation, and whitespace.
+
+```ts
+stemUrduText("طلباء کتابیں پڑھتے ہیں اور کہانیاں سنتے ہیں۔");
+// "طلباء کتاب پڑھ ہیں اور کہانی سن ہیں۔"
+```
+
+### `getAffixes(word, options?)`
+
+Breaks a word into `{ prefix, stem, suffix }`.
+
+```ts
+getAffixes("بےوقوف"); // { prefix: "بے", stem: "وقوف", suffix: undefined }
+getAffixes("کتابیں"); // { prefix: undefined, stem: "کتاب", suffix: "یں" }
+```
+
+### Constants
+
+- `URDU_PREFIXES`: Canonical list of Urdu prefixes (`غیر`, `خود`, `اہل`, `بے`, `نا`, `لا`, `بد`, `کم`, `ان`, `ہم`, `با`, `پُر`).
+- `URDU_SUFFIXES`: Canonical list of Urdu suffixes and inflections.
+
 ## Types
 
 ```ts
@@ -240,6 +287,7 @@ import type {
   SlugOptions,
   FormatUrduDateOptions,
   TimeAgoOptions,
+  StemmerOptions,
+  AffixBreakdown,
 } from "urdu-text-utils";
 ```
-

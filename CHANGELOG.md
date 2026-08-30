@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.9
+
+- Add rule-based Urdu Stemmer module (`stemUrdu`, `stemUrduText`, `getAffixes`).
+- Add morphological restorations for feminine plurals (*لڑکیاں* → *لڑکی*), hamza plurals (*دعاؤں* → *دعا*), and Arabic/sound plurals (*تعلیمات* → *تعلیم*).
+- Add canonical prefix and suffix stripping with short root protection and exception handling.
+- Add canonical constants `URDU_PREFIXES` and `URDU_SUFFIXES`.
+
 ## 0.1.8
 
 - Fix jsDelivr monthly hit badge in README to use shields.io SVG endpoint.

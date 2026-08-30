@@ -63,3 +63,13 @@ export {
   type FormatUrduDateOptions,
   type TimeAgoOptions,
 } from "./date.js";
+
+export {
+  stemUrdu,
+  stemUrduText,
+  getAffixes,
+  URDU_PREFIXES,
+  URDU_SUFFIXES,
+  type StemmerOptions,
+  type AffixBreakdown,
+} from "./stemmer.js";

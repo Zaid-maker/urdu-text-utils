@@ -101,6 +101,7 @@ export default defineConfig({
           { text: "Search", link: "/guide/search" },
           { text: "Sorting", link: "/guide/sorting" },
           { text: "Statistics", link: "/guide/statistics" },
+          { text: "Stemming", link: "/guide/stemming" },
           { text: "Date & Time", link: "/guide/date-time" },
           { text: "Transliteration", link: "/guide/transliteration" },
         ],

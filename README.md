@@ -53,6 +53,8 @@ import {
   removeStopWords,
   formatUrduDate,
   timeAgoUrdu,
+  stemUrdu,
+  stemUrduText,
   isUrdu,
   countWords,
   splitSentences,
@@ -170,6 +172,31 @@ timeAgoUrdu(Date.now() - 3 * 3600 * 1000); // "۳ گھنٹے پہلے"
 timeAgoUrdu(Date.now() - 86400 * 1000);    // "کل"
 timeAgoUrdu(Date.now() - 2 * 86400 * 1000);// "پرسوں"
 timeAgoUrdu(Date.now() + 10 * 60 * 1000);  // "۱۰ منٹ بعد"
+```
+
+## Urdu stemming
+
+Rule-based stemmer and affix stripper with morphological vowel/letter restorations:
+
+```ts
+import { stemUrdu, stemUrduText } from "urdu-text-utils";
+
+// Plurals & morphological restoration
+stemUrdu("کتابیں");   // "کتاب"
+stemUrdu("لڑکیاں");   // "لڑکی" (restores final ی)
+stemUrdu("کہانیاں");  // "کہانی"
+stemUrdu("دعاؤں");    // "دعا"
+stemUrdu("خوشبوئیں"); // "خوشبو"
+
+// Prefixes & derivational suffixes
+stemUrdu("بےوقوف");   // "وقوف"
+stemUrdu("نااہل");    // "اہل"
+stemUrdu("دکاندار");  // "دکان"
+stemUrdu("مددگار");   // "مدد"
+
+// Stems full text while preserving layout & punctuation
+stemUrduText("طلباء کتابیں پڑھتے ہیں اور کہانیاں سنتے ہیں۔");
+// "طلباء کتاب پڑھ ہیں اور کہانی سن ہیں۔"
 ```
 
 ## Diacritics
