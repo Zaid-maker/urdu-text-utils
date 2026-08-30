@@ -81,8 +81,9 @@ export default defineConfig({
       { text: "API", link: "/api/" },
       { text: "Playground", link: "/playground" },
       {
-        text: "0.1.4",
+        text: "0.1.9",
         items: [
+          { text: "v0.1.10-alpha.0 (pre-release)", link: "https://github.com/Zaid-maker/urdu-text-utils/releases/tag/v0.1.10-alpha.0" },
           { text: "Changelog", link: "https://github.com/Zaid-maker/urdu-text-utils/blob/main/CHANGELOG.md" },
           { text: "npm", link: "https://www.npmjs.com/package/urdu-text-utils" },
         ],
