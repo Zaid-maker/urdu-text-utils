@@ -49,9 +49,9 @@ jobs:
       - run: npm test
       - run: npm run build
 
-      # No NODE_AUTH_TOKEN: the OIDC id-token above is the credential, and npm
-      # attaches provenance automatically for a trusted publisher.
       - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public
 
       - name: Extract release notes from CHANGELOG.md
