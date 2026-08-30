@@ -72,10 +72,8 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "Resolved npm dist-tag: $TAG"
 
-      # Publish with the derived dist-tag.
+      # Publish with the derived dist-tag and OIDC provenance.
       - name: Publish pre-release to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public --tag ${{ steps.dist_tag.outputs.tag }}
 
       # Extract the matching version block from CHANGELOG.md.
