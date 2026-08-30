@@ -1,16 +1,11 @@
 name: Release
 
-# Publishing is driven by tags: push a `v1.2.3` tag and this workflow publishes
-# that exact version to npm with a provenance attestation, then opens a GitHub
-# Release. Nothing publishes on an ordinary push to main.
-#
-# Authentication is npm Trusted Publishing (OIDC) — there is no npm token in this
-# repo. npm trusts this exact repo + workflow filename, so the trust breaks if this
-# file is renamed; update the trusted publisher on npm first if it ever moves.
+# Handles both stable (v1.2.3) and pre-release (v1.2.3-alpha.1) tags.
+# Authentication is npm Trusted Publishing (OIDC) via release.yml.
 on:
   push:
-    # Matches stable tags like v1.2.3 but NOT pre-release tags like v1.2.3-beta.1
-    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+    # Matches any version tag: v1.2.3, v1.2.3-alpha.1, v1.2.3-beta.2, v1.2.3-rc.1
+    tags: ["v*.*.*"]
 
 permissions:
   contents: write # create the GitHub Release
@@ -49,18 +44,51 @@ jobs:
       - run: npm test
       - run: npm run build
 
+      # Derive the npm dist-tag from the version:
+      #   v1.2.3           → no tag (latest)
+      #   v1.2.3-alpha.1   → --tag alpha
+      #   v1.2.3-beta.2    → --tag beta
+      #   v1.2.3-rc.1      → --tag next
+      - name: Derive npm dist-tag
+        id: dist_tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if echo "$VERSION" | grep -qP '-'; then
+            # Pre-release: extract the identifier before the dot-separated number
+            PRERELEASE_ID=$(echo "$VERSION" | grep -oP '(?<=-)[a-zA-Z]+')
+            case "$PRERELEASE_ID" in
+              alpha)  TAG="alpha" ;;
+              beta)   TAG="beta" ;;
+              rc)     TAG="next" ;;
+              *)      TAG="next" ;;
+            esac
+          else
+            TAG=""
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Resolved npm dist-tag: ${TAG:-latest}"
+
       # No NODE_AUTH_TOKEN: the OIDC id-token above is the credential, and npm
       # attaches provenance automatically for a trusted publisher.
       - name: Publish to npm
-        run: npm publish --access public
+        run: |
+          if [ -n "${{ steps.dist_tag.outputs.tag }}" ]; then
+            npm publish --access public --tag ${{ steps.dist_tag.outputs.tag }}
+          else
+            npm publish --access public
+          fi
 
       - name: Extract release notes from CHANGELOG.md
         id: changelog
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          # Extract the block between "## $VERSION" and the next "## " heading
           NOTES=$(awk "/^## ${VERSION}$/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md)
-          # Write to a temp file to safely handle multiline content
+          if [ -z "$NOTES" ]; then
+            NOTES="Pre-release \`${GITHUB_REF_NAME}\`. Install with:
+          \`\`\`
+          npm install urdu-text-utils@${{ steps.dist_tag.outputs.tag || 'latest' }}
+          \`\`\`"
+          fi
           echo "$NOTES" > /tmp/release_notes.md
           echo "Release notes extracted for v${VERSION}"
           cat /tmp/release_notes.md
@@ -69,7 +97,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          FLAGS=""
+          # Mark pre-releases as pre-release on GitHub
+          if echo "$GITHUB_REF_NAME" | grep -q '-'; then
+            FLAGS="--prerelease"
+          fi
           gh release create "$GITHUB_REF_NAME" \
             --title "$GITHUB_REF_NAME" \
             --notes-file /tmp/release_notes.md \
-            --verify-tag
+            --verify-tag \
+            $FLAGS
