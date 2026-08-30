@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.10
+
+- Expand transliteration `ROMAN_VARIANTS` with 200+ new entries covering common verb conjugations, nouns, food, body parts, nature, religion, and modern vocabulary.
+- Add real-time npm download stats (weekly/monthly) to docs homepage.
+- Add Use Cases & Recipes guide page with real-world integration examples: search autocomplete, CMS processing, form validation, URL slugs, sorting, text analysis, date formatting, stop words, and number conversion.
+- Merge `release.yml` and `prerelease.yml` into a single workflow that handles both stable and pre-release tags, fixing npm Trusted Publishing which only allows one workflow per publisher.
+- Add `.freebuff/` to `.gitignore`.
+
 ## 0.1.9
 
 - Add rule-based Urdu Stemmer module (`stemUrdu`, `stemUrduText`, `getAffixes`).
