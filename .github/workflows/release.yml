@@ -53,7 +53,22 @@ jobs:
       - name: Publish to npm
         run: npm publish --access public
 
+      - name: Extract release notes from CHANGELOG.md
+        id: changelog
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          # Extract the block between "## $VERSION" and the next "## " heading
+          NOTES=$(awk "/^## ${VERSION}$/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md)
+          # Write to a temp file to safely handle multiline content
+          echo "$NOTES" > /tmp/release_notes.md
+          echo "Release notes extracted for v${VERSION}"
+          cat /tmp/release_notes.md
+
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file /tmp/release_notes.md \
+            --verify-tag
