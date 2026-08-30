@@ -16,6 +16,10 @@ hero:
       text: GitHub
       link: https://github.com/Zaid-maker/urdu-text-utils
 
+---
+
+<DownloadStats />
+
 # VitePress renders a string icon with v-html, so inline SVG works and themes
 # itself through currentColor. Emoji were the alternative, but the digits icon
 # has no emoji and rendered as a missing-glyph box.
