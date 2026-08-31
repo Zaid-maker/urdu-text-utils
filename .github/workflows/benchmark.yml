@@ -55,12 +55,22 @@ jobs:
       - name: Post benchmark summary
         run: cat /tmp/bench-report.md >> "$GITHUB_STEP_SUMMARY"
 
-      # On release tags, add results to release notes
+      # On release tags, wait for release to exist then add results to release notes
       - name: Update release notes with benchmarks
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Wait up to 5 minutes for the release to be created by the release workflow
+          for i in $(seq 1 30); do
+            if gh release view "${{ github.ref_name }}" &>/dev/null; then
+              echo "Release found!"
+              break
+            fi
+            echo "Waiting for release to be created... (attempt $i/30)"
+            sleep 10
+          done
+
           # Read existing release notes
           EXISTING=$(gh release view "${{ github.ref_name }}" --json body -q .body 2>/dev/null || echo "")
 
