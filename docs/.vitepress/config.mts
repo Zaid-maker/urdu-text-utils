@@ -106,6 +106,7 @@ export default defineConfig({
           { text: "Date & Time", link: "/guide/date-time" },
           { text: "Transliteration", link: "/guide/transliteration" },
           { text: "Use Cases & Recipes", link: "/guide/use-cases" },
+          { text: "Performance", link: "/guide/performance" },
         ],
       },
       {
