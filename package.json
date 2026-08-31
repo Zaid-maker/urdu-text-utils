@@ -1,6 +1,6 @@
 {
   "name": "urdu-text-utils",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "Comprehensive Urdu NLP & text processing toolkit: normalization, Roman Urdu transliteration, stop words, script detection, digits, diacritics (aerab), sorting, search, and statistics. Zero dependencies, ESM + CJS.",
   "keywords": [
     "urdu",

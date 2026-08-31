@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- Add automated performance benchmarks workflow that runs on every push to main and release tags.
+- Add Performance Benchmarks documentation page with real-world benchmark results for all major functions.
+- Benchmark script now supports `--json` output for automation and programmatic access.
+- Add automated benchmark results to GitHub Release notes on new releases.
+
 ## 0.1.10
 
 - Expand transliteration `ROMAN_VARIANTS` with 200+ new entries covering common verb conjugations, nouns, food, body parts, nature, religion, and modern vocabulary.
