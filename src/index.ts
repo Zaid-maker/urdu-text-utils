@@ -73,3 +73,10 @@ export {
   type StemmerOptions,
   type AffixBreakdown,
 } from "./stemmer.js";
+
+export {
+  transliterateNameToEnglish,
+  transliterateNameToUrdu,
+  extractNameParts,
+  type NameTransliterationOptions,
+} from "./names.js";
