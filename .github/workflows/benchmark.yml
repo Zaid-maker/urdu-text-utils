@@ -1,0 +1,80 @@
+name: Benchmark
+
+# Runs on every push to main and on release tags to track performance
+on:
+  push:
+    branches: [main]
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Run benchmarks in JSON mode
+      - name: Run benchmarks
+        id: bench
+        run: |
+          RESULT=$(npx tsx bench.mjs --json)
+          echo "$RESULT" > /tmp/bench-results.json
+          echo "results<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$RESULT" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      # Generate markdown table from results
+      - name: Generate benchmark report
+        run: |
+          node -e "
+          const fs = require('fs');
+          const data = JSON.parse(fs.readFileSync('/tmp/bench-results.json', 'utf8'));
+
+          let md = '## Benchmark Results\n\n';
+          md += \`Run on \${new Date(data.timestamp).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n\n\`;
+          md += '| Function | Ops/sec | Time/op |\n';
+          md += '|----------|--------:|--------:|\n';
+
+          for (const r of data.results) {
+            md += \`| \${r.name} | \${r.opsPerSec.toLocaleString()} | \${r.perOp} ms |\n\`;
+          }
+
+          fs.writeFileSync('/tmp/bench-report.md', md);
+          console.log(md);
+          "
+
+      # Post results as job summary
+      - name: Post benchmark summary
+        run: cat /tmp/bench-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      # On release tags, add results to release notes
+      - name: Update release notes with benchmarks
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Read existing release notes
+          EXISTING=$(gh release view "${{ github.ref_name }}" --json body -q .body 2>/dev/null || echo "")
+
+          # Read benchmark report
+          BENCH=$(cat /tmp/bench-report.md)
+
+          # Combine notes
+          {
+            echo "$EXISTING"
+            echo ""
+            echo "---"
+            echo ""
+            echo "$BENCH"
+          } > /tmp/final-notes.md
+
+          # Update release
+          gh release edit "${{ github.ref_name }}" --notes-file /tmp/final-notes.md
