@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { ARABIC_WORD_RE } from "../src/chars.js";
 import { ROMAN_VARIANTS, WORD_DICTIONARY } from "../src/dictionary.js";
 import { normalizeUrdu } from "../src/normalize.js";
 import { romanToUrdu, romanize, urduSlug } from "../src/transliterate.js";
@@ -31,6 +32,24 @@ describe("dictionary integrity", () => {
       expect(normalizeUrdu(urduWord)).toBe(urduWord);
     }
   });
+
+  it("keys and reverse values are pure Arabic script (plus ZWNJ/ZWJ)", () => {
+    for (const [urduWord] of entries) {
+      expect(urduWord, `WORD_DICTIONARY key ${JSON.stringify(urduWord)}`).toMatch(ARABIC_WORD_RE);
+    }
+    for (const [roman, urduWord] of Object.entries(ROMAN_VARIANTS)) {
+      expect(urduWord, `ROMAN_VARIANTS value for ${roman}`).toMatch(ARABIC_WORD_RE);
+    }
+  });
+
+  it("keys and reverse values have no leading or trailing whitespace", () => {
+    for (const [urduWord] of entries) {
+      expect(urduWord.trim(), `WORD_DICTIONARY key ${JSON.stringify(urduWord)}`).toBe(urduWord);
+    }
+    for (const [roman, urduWord] of Object.entries(ROMAN_VARIANTS)) {
+      expect(urduWord.trim(), `ROMAN_VARIANTS value for ${roman}`).toBe(urduWord);
+    }
+  });
 });
 
 describe("dictionary-backed transliteration", () => {
@@ -50,6 +69,13 @@ describe("dictionary-backed transliteration", () => {
     expect(romanToUrdu("school")).toBe("سکول");
     expect(romanToUrdu("main school ja raha hoon")).toBe("میں سکول جا رہا ہوں");
     expect(romanize("کمپیوٹر")).toBe("computer");
+  });
+
+  it("spells the oblique possessive اپنی in both directions", () => {
+    // The key was previously stored in Devanagari (अपनी), so romanize("اپنی")
+    // missed the dictionary and romanToUrdu("apni") emitted foreign script.
+    expect(romanize("اپنی")).toBe("apni");
+    expect(romanToUrdu("apni")).toBe("اپنی");
   });
 
   it("resolves alternate Roman spellings to one Urdu word", () => {

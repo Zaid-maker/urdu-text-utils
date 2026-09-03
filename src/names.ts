@@ -15,7 +15,7 @@ import { removeDiacritics, normalizeUrdu } from "./normalize.js";
 // ============================================================================
 
 /** Common Urdu first names mapped to their standard English spellings. */
-const URDU_FIRST_NAMES: Record<string, string> = {
+export const URDU_FIRST_NAMES: Record<string, string> = {
   // Male names
   "محمد": "Muhammad",
   "احمد": "Ahmed",
@@ -32,7 +32,6 @@ const URDU_FIRST_NAMES: Record<string, string> = {
   "حسن": "Hasan",
   "زید": "Zaid",
   "حمزہ": "Hamza",
-  "عہد": "Omer",
   "سلمان": "Salman",
   "فرحان": "Farhan",
   "ادنان": "Adnan",
@@ -41,11 +40,11 @@ const URDU_FIRST_NAMES: Record<string, string> = {
   "جاوید": "Javed",
   "عرفان": "Irfan",
   "کاشف": "Kashif",
-  "نذیم": "Nadeem",
+  "ندیم": "Nadeem",
   "یاسر": "Yasir",
   "رضوان": "Rizwan",
   "فیصل": "Faisal",
-  "خلید": "Khalid",
+  "خالد": "Khalid",
   "راشد": "Rashid",
   "شاہد": "Shahid",
   "سعید": "Saeed",
@@ -58,17 +57,17 @@ const URDU_FIRST_NAMES: Record<string, string> = {
   "عارف": "Arif",
   "نعمان": "Noman",
   "ثاقب": "Saqib",
-  "ادیل": "Adeel",
+  "عدیل": "Adeel",
   "عمران": "Imran",
   "فواد": "Fawad",
-  "اسف": "Asif",
-  "شعبیب": "Shoaib",
+  "آصف": "Asif",
+  "شعیب": "Shoaib",
   "زاہد": "Zahid",
   "عامر": "Amer",
   "مجید": "Majid",
-  "ثرفراز": "Sarfraz",
+  "سرفراز": "Sarfraz",
   "حمید": "Hamid",
-  "نظر": "Nazir",
+  "نظیر": "Nazir",
   "قیصر": "Qaiser",
   "لطیف": "Latif",
   "تنویر": "Tanveer",
@@ -80,14 +79,18 @@ const URDU_FIRST_NAMES: Record<string, string> = {
   "سلطان": "Sultan",
   "نصیر": "Nasir",
   "حبیب": "Habib",
-  "مسعود": "Maqsood",
+  "مقصود": "Maqsood",
+  "مسعود": "Masood",
   "سہیل": "Sohail",
   "اشرف": "Ashraf",
   "مبارک": "Mubarak",
   "فہد": "Fahad",
   "اظہر": "Azhar",
   "وکیل": "Wakeel",
-  "روف": "Rauf",
+  "رؤف": "Rauf",
+  "دانیال": "Daniyal",
+  "ذیشان": "Zeeshan",
+  "مصطفی": "Mustafa",
 
   // Female names
   "فاطمہ": "Fatima",
@@ -99,76 +102,81 @@ const URDU_FIRST_NAMES: Record<string, string> = {
   "سارا": "Sara",
   "ادیہ": "Adia",
   "نور": "Noor",
-  "ہرا": "Hira",
-  "عclave": "Aqsa",
-  "محام": "Maham",
+  "حرا": "Hira",
+  "اقصی": "Aqsa",
+  "ماہم": "Maham",
   "ایمان": "Iman",
-  "لیbla": "Laiba",
+  "لائبہ": "Laiba",
   "ہانیہ": "Hania",
   "رمشہ": "Rimsha",
-  "میمو": "Memo",
+  "میمونہ": "Memoona",
   "ثنا": "Sana",
-  "حنیہ": "Hina",
+  "حنا": "Hina",
   "اقرا": "Iqra",
-  "فiza": "Fizza",
-  "سیدرہ": "Sidra",
-  "رضا": "Rida",
+  "فیزا": "Fiza",
+  "فضہ": "Fizza",
+  "سدرہ": "Sidra",
+  "ردا": "Rida",
   "ندا": "Nida",
   "مومینہ": "Momina",
   "ثوبیہ": "Sobia",
-  "نیلہ": "Naila",
-  "بشرا": "Bushra",
-  "رکشنا": "Rukhsana",
+  "نائلہ": "Naila",
+  "بشری": "Bushra",
+  "رخسانہ": "Rukhsana",
   "شازیہ": "Shazia",
-  "نہید": "Naheed",
+  "ناہید": "Naheed",
   "پروین": "Parveen",
   "فرزانہ": "Farzana",
-  " nazia": "Nazia",
+  "نازیہ": "Nazia",
   "صبیحہ": "Sabiha",
   "رباب": "Rubab",
-  "صیمہ": "Saima",
-  "محرین": "Mehreen",
-  "امبرین": "Ambreen",
+  "صائمہ": "Saima",
+  "مہرین": "Mehreen",
+  "عنبرین": "Ambreen",
   "کائنات": "Kainat",
   "طاہرہ": "Tahira",
-  "ثمریہ": "Samia",
-  "سلمیٰ": "Salma",
+  "سمیعہ": "Samia",
+  "سامیہ": "Samiya",
+  "سلمی": "Salma",
   "روزینہ": "Rozina",
   "مریم": "Maryam",
-  "ربیعہ": "Rabia",
+  "رابعہ": "Rabia",
   "تسلیم": "Tasleem",
   "اسماء": "Asma",
-  "اطراف": "Iram",
+  "ارم": "Iram",
   "ناز": "Naaz",
-  "فرخ": "Farah",
+  "فرح": "Farah",
   "نادیہ": "Nadia",
   "سیما": "Seema",
   "ہما": "Huma",
-  "نذیحت": "Nuzhat",
-  "عظمیٰ": "Uzma",
-  "کران": "Kiran",
+  "نزہت": "Nuzhat",
+  "عظمی": "Uzma",
+  "کرن": "Kiran",
   "سمیرا": "Sumaira",
   "فرخندہ": "Farkhanda",
-  "تਸنیم": "Tasneem",
+  "تسنیم": "Tasneem",
   "زبیدہ": "Zubaida",
+  "جویریہ": "Javeria",
+  "مہوش": "Mehwish",
+  "عالیہ": "Alia",
 };
 
 /** Common Urdu family/last names mapped to their standard English spellings. */
-const URDU_FAMILY_NAMES: Record<string, string> = {
+export const URDU_FAMILY_NAMES: Record<string, string> = {
   "خان": "Khan",
   "شاہ": "Shah",
   "چوہدری": "Chaudhry",
   "ملک": "Malik",
   "شیخ": "Sheikh",
-  "قوریشی": "Qureshi",
+  "قریشی": "Qureshi",
   "سید": "Syed",
   "نیازی": "Niazi",
-  "جدوں": "Jadoon",
+  "جدون": "Jadoon",
   "سواتی": "Swati",
   "کھٹک": "Khattak",
   "یوسفزئی": "Yusufzai",
-  "خوسہ": "Khosa",
-  "تھلپور": "Talpur",
+  "کھوسہ": "Khosa",
+  "تالپور": "Talpur",
   "جونیجو": "Junejo",
   "بھٹی": "Bhatti",
   "راجپوت": "Rajput",
@@ -191,7 +199,7 @@ const URDU_FAMILY_NAMES: Record<string, string> = {
 };
 
 /** Honorific titles used in Urdu names. */
-const HONORIFICS: Record<string, string> = {
+export const HONORIFICS: Record<string, string> = {
   "جناب": "Janab",
   "صاحب": "Sahib",
   "استاد": "Ustad",
@@ -205,7 +213,7 @@ const HONORIFICS: Record<string, string> = {
 };
 
 /** Name prefixes that are kept in both languages. */
-const NAME_PREFIXES: Record<string, string> = {
+export const NAME_PREFIXES: Record<string, string> = {
   "سید": "Syed",
   "شیخ": "Sheikh",
   "چوہدری": "Chowdhury",
@@ -214,6 +222,41 @@ const NAME_PREFIXES: Record<string, string> = {
   "خان": "Khan",
   "بیگم": "Begum",
   "صاحب": "Sahib",
+};
+
+/**
+ * English → Urdu lookup derived from the forward name tables above.
+ *
+ * Built rather than hand-maintained so the two directions can never drift: a
+ * canonical English spelling maps back to exactly the Urdu word it came from.
+ * Alternate spellings that are not forward-table values are pinned separately.
+ */
+const ENGLISH_TO_URDU = new Map<string, string>();
+for (const table of [HONORIFICS, URDU_FIRST_NAMES, URDU_FAMILY_NAMES, NAME_PREFIXES]) {
+  for (const [urduWord, englishWord] of Object.entries(table)) {
+    ENGLISH_TO_URDU.set(englishWord.toLowerCase(), urduWord);
+  }
+}
+
+/**
+ * Alternate English spellings of names already in the forward tables
+ * (e.g. `Omar` for عمر, canonically spelled `Umar` in English).
+ */
+const ENGLISH_NAME_ALIASES: Record<string, string> = {
+  hassan: "حسن", // vs. canonical Hasan
+  omar: "عمر", // vs. canonical Umar
+  omer: "عمر", // vs. canonical Umar
+  yaqoob: "یعقوب", // vs. canonical Yaquob
+  jameel: "جمیل", // vs. canonical Jamil
+  majeed: "مجید", // vs. canonical Majid
+  amna: "آمنہ", // vs. canonical Amina
+  gilani: "گیلانی", // vs. canonical Gillani
+  sahab: "صاحب", // vs. canonical Sahib
+  doctor: "ڈاکٹر", // vs. canonical Dr.
+  professor: "پروفیسر", // vs. canonical Prof.
+  engineer: "انجینئر", // vs. canonical Eng.
+  advocate: "ایڈووکیٹ", // vs. canonical Adv.
+  retd: "ریٹائرڈ", // vs. canonical Retd.
 };
 
 // ============================================================================
@@ -418,246 +461,20 @@ export function transliterateNameToUrdu(englishName: string): string {
   if (!englishName) return "";
 
   const words = englishName.split(/\s+/).filter((w) => w.length > 0);
-  const result: string[] = [];
-
-  for (const word of words) {
-    const lower = word.toLowerCase();
-
-    // Check if it's a known honorific
-    const honorificEntry = Object.entries(HONORIFICS).find(
-      ([, eng]) => eng.toLowerCase() === lower,
-    );
-    if (honorificEntry) {
-      result.push(honorificEntry[0]);
-      continue;
-    }
-
-    // Check if it's a known first name
-    const firstNameEntry = Object.entries(URDU_FIRST_NAMES).find(
-      ([, eng]) => eng.toLowerCase() === lower,
-    );
-    if (firstNameEntry) {
-      result.push(firstNameEntry[0]);
-      continue;
-    }
-
-    // Check if it's a known family name
-    const familyNameEntry = Object.entries(URDU_FAMILY_NAMES).find(
-      ([, eng]) => eng.toLowerCase() === lower,
-    );
-    if (familyNameEntry) {
-      result.push(familyNameEntry[0]);
-      continue;
-    }
-
-    // Check if it's a known prefix
-    const prefixEntry = Object.entries(NAME_PREFIXES).find(
-      ([, eng]) => eng.toLowerCase() === lower,
-    );
-    if (prefixEntry) {
-      result.push(prefixEntry[0]);
-      continue;
-    }
-
-    // Rule-based fallback
-    result.push(reverseTransliterateName(word));
-  }
-
-  return result.join(" ");
+  // Every canonical English spelling resolves through the derived dictionary, so
+  // a word only falls through when it is an alternate spelling or an unknown name.
+  return words.map((word) => reverseTransliterateName(word)).join(" ");
 }
 
 /**
- * Rule-based reverse transliteration for name words.
+ * Reverse name lookup: the derived English → Urdu dictionary first, then the
+ * pinned alternate spellings, then the word unchanged. Reverse transliteration
+ * is deliberately not rule-based — Roman Urdu carries too little information to
+ * guess reliably.
  */
 function reverseTransliterateName(englishName: string): string {
   const lower = englishName.toLowerCase();
-
-  // Common English to Urdu mappings for names
-  const REVERSE_MAP: Record<string, string> = {
-    muhammad: "محمد",
-    ahmed: "احمد",
-    ali: "علی",
-    umar: "عمر",
-    usman: "عثمان",
-    yusuf: "یوسف",
-    ibrahim: "ابراہیم",
-    ismail: "اسماعیل",
-    hassan: "حسن",
-    hussain: "حسین",
-    zaid: "زید",
-    hamza: "حمزہ",
-    omar: "عمر",
-    salman: "سلمان",
-    farhan: "فرحان",
-    adnan: "ادنان",
-    bilal: "بلال",
-    tariq: "طارق",
-    javed: "جاوید",
-    irfan: "عرفان",
-    kashif: "کاشف",
-    nadeem: "نذیم",
-    yasir: "یاسر",
-    rizwan: "رضوان",
-    faisal: "فیصل",
-    khalid: "خلید",
-    rashid: "راشد",
-    shahid: "شاہد",
-    saeed: "سعید",
-    naeem: "نعیم",
-    waseem: "وسیم",
-    rafiq: "رفیق",
-    jamil: "جمیل",
-    zubair: "زبیر",
-    tahir: "طاہر",
-    arif: "عارف",
-    noman: "نعمان",
-    saqib: "ثاقب",
-    adeel: "ادیل",
-    imran: "عمران",
-    fawad: "فواد",
-    asif: "اسف",
-    shoaib: "شعبیب",
-    zahid: "زاہد",
-    amer: "عامر",
-    majid: "مجید",
-    sarfraz: "ثرفراز",
-    hamid: "حمید",
-    nazir: "نظر",
-    qaiser: "قیصر",
-    latif: "لطیف",
-    tanveer: "تنویر",
-    suleman: "سلیمان",
-    iftikhar: "افتخار",
-    shabbir: "شبیر",
-    sajid: "ساجد",
-    mansoor: "منصور",
-    yaqoob: "یعقوب",
-    sultan: "سلطان",
-    jameel: "جمیل",
-    nasir: "نصیر",
-    habib: "حبیب",
-    maqsood: "مسعود",
-    sohail: "سہیل",
-    ashraf: "اشرف",
-    mubarak: "مبارک",
-    fahad: "فہد",
-    azhar: "اظہر",
-    wakeel: "وکیل",
-    rauf: "روف",
-    majeed: "مجید",
-    fatima: "فاطمہ",
-    ayesha: "عائشہ",
-    khadija: "خدیجہ",
-    zainab: "زینب",
-    amina: "آمنہ",
-    sara: "سارا",
-    adia: "ادیہ",
-    noor: "نور",
-    hira: "ہرا",
-    aqsa: "عclave",
-    maham: "محام",
-    iman: "ایمان",
-    laiba: "لیbla",
-    amna: "آمنہ",
-    hania: "ہانیہ",
-    rimsha: "رمشہ",
-    memo: "میمو",
-    sana: "ثنا",
-    hina: "حنیہ",
-    iqra: "اقرا",
-    fizza: "فiza",
-    sidra: "سیدرہ",
-    rida: "رضا",
-    nida: "ندا",
-    momina: "مومینہ",
-    sobia: "ثوبیہ",
-    naila: "نیلہ",
-    bushra: "بشرا",
-    rukhsana: "رکشنا",
-    shazia: "شازیہ",
-    naheed: "نہید",
-    parveen: "پروین",
-    farzana: "فرزانہ",
-    nazia: " nazia",
-    sabiha: "صبیحہ",
-    rubab: "رباب",
-    saima: "صیمہ",
-    mehreen: "محرین",
-    ambreen: "امبرین",
-    kainat: "کائنات",
-    tahira: "طاہرہ",
-    samia: "ثمریہ",
-    salma: "سلمیٰ",
-    rozina: "روزینہ",
-    maryam: "مریم",
-    rabia: "ربیعہ",
-    tasleem: "تسلیم",
-    asma: "اسماء",
-    iram: "اطراف",
-    naaz: "ناز",
-    farah: "فرخ",
-    nadia: "نادیہ",
-    seema: "سیما",
-    huma: "ہما",
-    nuzhat: "نذیحت",
-    uzma: "عظمیٰ",
-    kiran: "کران",
-    sumaira: "سمیرا",
-    farkhanda: "فرخندہ",
-    tasneem: "تਸنیم",
-    zubaida: "زبیدہ",
-    khan: "خان",
-    shah: "شاہ",
-    chaudhry: "چوہدری",
-    malik: "ملک",
-    sheikh: "شیخ",
-    qureshi: "قوریشی",
-    syed: "سید",
-    niazi: "نیازی",
-    jadoon: "جدوں",
-    swati: "سواتی",
-    khattak: "کھٹک",
-    yusufzai: "یوسفزئی",
-    khosa: "خوسہ",
-    talpur: "تھلپور",
-    junejo: "جونیجو",
-    bhatti: "بھٹی",
-    rajput: "راجپوت",
-    soomro: "سومرو",
-    dahar: "دہار",
-    gillani: "گیلانی",
-    gilani: "گیلانی",
-    tiwanas: "ٹواناس",
-    tiwana: "ٹوانہ",
-    doltani: "دولتانی",
-    daltani: "دالتانی",
-    gurchani: "گورچانی",
-    rind: "رند",
-    bugti: "بگٹی",
-    marri: "مری",
-    bizenjo: "بزینجو",
-    mengal: "مینگل",
-    zardari: "زرداری",
-    bhutto: "بھٹو",
-    sharif: "شریف",
-    janab: "جناب",
-    sahib: "صاحب",
-    sahab: "صاحب",
-    ustad: "استاد",
-    hakim: "حکیم",
-    doctor: "ڈاکٹر",
-    professor: "پروفیسر",
-    engineer: "انجینئر",
-    advocate: "ایڈووکیٹ",
-    retd: "ریٹائرڈ",
-    shaheed: "شہید",
-  };
-
-  const urdu = REVERSE_MAP[lower];
-  if (urdu) return urdu;
-
-  // Fallback: return the original (unknown names)
-  return englishName;
+  return ENGLISH_TO_URDU.get(lower) ?? ENGLISH_NAME_ALIASES[lower] ?? englishName;
 }
 
 /**

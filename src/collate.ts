@@ -1,75 +1,33 @@
 import { foldUrdu } from "./normalize.js";
+import { URDU_LETTERS } from "./chars.js";
 
 /**
  * Urdu alphabetical order (حروف تہجی).
  *
  * `Intl.Collator("ur")` is not usable here: in most runtimes the `ur` locale
  * falls back to root Arabic collation, which orders ک/گ/ٹ/ڈ/ڑ/ں/ے by codepoint
- * instead of by their place in the Urdu alphabet. So the order is spelled out.
+ * instead of by their place in the Urdu alphabet. So the order comes from the
+ * shared letter inventory in {@link URDU_LETTERS} (chars.ts), which lists the
+ * alphabet in collation order.
  *
- * Variant letters (ؤ, ئ, ۂ) are given the weight of their base letter plus a
- * tiebreaker, so `پاؤں` sorts next to `پاوں` rather than at the end of the list.
+ * Hamza variants (ؤ, ئ, ۂ, ۓ) carry {@link UrduLetter.variantOf}: they get the
+ * weight of their base letter plus a tiebreaker, so `پاؤں` sorts next to `پاوں`
+ * rather than at the end of the list.
  */
-const ALPHABET = [
-  "ا",
-  "آ",
-  "ب",
-  "پ",
-  "ت",
-  "ٹ",
-  "ث",
-  "ج",
-  "چ",
-  "ح",
-  "خ",
-  "د",
-  "ڈ",
-  "ذ",
-  "ر",
-  "ڑ",
-  "ز",
-  "ژ",
-  "س",
-  "ش",
-  "ص",
-  "ض",
-  "ط",
-  "ظ",
-  "ع",
-  "غ",
-  "ف",
-  "ق",
-  "ک",
-  "گ",
-  "ل",
-  "م",
-  "ن",
-  "ں",
-  "و",
-  "ہ",
-  "ھ",
-  "ء",
-  "ی",
-  "ے",
-];
 
-/** Letters that share a primary weight with a base letter, plus their secondary weight. */
-const VARIANTS: Record<string, [base: string, secondary: number]> = {
-  "ؤ": ["و", 1], // ؤ waw with hamza
-  "ئ": ["ی", 1], // ئ yeh with hamza
-  "ۂ": ["ہ", 1], // ۂ heh goal with hamza
-  "ۓ": ["ے", 1], // ۓ bari ye with hamza
-};
+/** Letters with their own primary weight; hamza variants collate with their base. */
+const PRIMARY_LETTERS = URDU_LETTERS.filter((letter) => letter.variantOf === undefined);
 
 const WEIGHTS = new Map<string, [number, number]>();
-ALPHABET.forEach((ch, index) => WEIGHTS.set(ch, [(index + 1) * 10, 0]));
-for (const [ch, [base, secondary]] of Object.entries(VARIANTS)) {
-  const baseWeight = WEIGHTS.get(base);
-  if (baseWeight) WEIGHTS.set(ch, [baseWeight[0], secondary]);
+PRIMARY_LETTERS.forEach((letter, index) => WEIGHTS.set(letter.ch, [(index + 1) * 10, 0]));
+for (const letter of URDU_LETTERS) {
+  if (letter.variantOf === undefined) continue;
+  const baseWeight = WEIGHTS.get(letter.variantOf);
+  if (baseWeight) WEIGHTS.set(letter.ch, [baseWeight[0], 1]);
 }
 
 /** Non-alphabet characters sort after every Urdu letter, ordered by codepoint. */
-const NON_LETTER_BASE = (ALPHABET.length + 1) * 10;
+const NON_LETTER_BASE = (PRIMARY_LETTERS.length + 1) * 10;
 
 function weightsOf(text: string): number[] {
   const out: number[] = [];

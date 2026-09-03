@@ -16,6 +16,7 @@
  */
 import { removeDiacritics, normalizeUrdu } from "./normalize.js";
 import { splitWords } from "./stats.js";
+import { URDU_LETTERS } from "./chars.js";
 import { ROMAN_VARIANTS, WORD_DICTIONARY } from "./dictionary.js";
 
 
@@ -38,55 +39,15 @@ const DIGRAPHS: Record<string, string> = {
   "رھ": "rh",
 };
 
-const LETTERS: Record<string, string> = {
-  "ا": "a",
-  "آ": "aa",
-  "ب": "b",
-  "پ": "p",
-  "ت": "t",
-  "ٹ": "t",
-  "ث": "s",
-  "ج": "j",
-  "چ": "ch",
-  "ح": "h",
-  "خ": "kh",
-  "د": "d",
-  "ڈ": "d",
-  "ذ": "z",
-  "ر": "r",
-  "ڑ": "r",
-  "ز": "z",
-  "ژ": "zh",
-  "س": "s",
-  "ش": "sh",
-  "ص": "s",
-  "ض": "z",
-  "ط": "t",
-  "ظ": "z",
-  "ع": "a",
-  "غ": "gh",
-  "ف": "f",
-  "ق": "q",
-  "ک": "k",
-  "گ": "g",
-  "ل": "l",
-  "م": "m",
-  "ن": "n",
-  "ں": "n",
-  "و": "o",
-  "ہ": "h",
-  "ھ": "h",
-  "ء": "",
-  "ی": "i",
-  "ئ": "i",
-  "ے": "e",
-  "ۓ": "e",
-  "ؤ": "o",
-  "ۂ": "h",
-};
-
-/** Letters that carry a vowel in the output, used to decide where a schwa is needed. */
-const VOWEL_LETTERS = new Set(["ا", "آ", "و", "ی", "ے", "ؤ", "ئ", "ۓ", "ۂ", "ع"]);
+// Default per-letter roman values and vowel flags come from the shared letter
+// inventory in chars.ts (URDU_LETTERS), so the rule fallback can never disagree
+// with collation or normalization about what counts as an Urdu letter.
+const LETTERS: Record<string, string> = {};
+const VOWEL_LETTERS = new Set<string>();
+for (const { ch, roman, vowel } of URDU_LETTERS) {
+  LETTERS[ch] = roman;
+  if (vowel) VOWEL_LETTERS.add(ch);
+}
 
 function romanizeWord(word: string): string {
   const dictionary = WORD_DICTIONARY[word];

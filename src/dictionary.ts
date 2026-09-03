@@ -61,7 +61,7 @@ export const WORD_DICTIONARY: Record<string, string> = {
   "جنہوں": "jinhon",
   "انہوں": "unhon",
   "اپنا": "apna",
-  "अपनी": "apni",
+  "اپنی": "apni",
   "اپنے": "apnay",
   "خود": "khud",
   "کون": "kaun",

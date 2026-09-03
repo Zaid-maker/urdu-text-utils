@@ -5,52 +5,29 @@ import {
   INVISIBLE_RE,
   TATWEEL_RE,
   URDU_DIGITS,
+  URDU_LETTERS,
   ZWNJ_RE,
 } from "./chars.js";
 import type { DigitStyle } from "./numbers.js";
 
 /**
- * Arabic-script characters that Urdu writes with a different codepoint.
+ * Arabic-script spellings that Urdu writes with a different letter.
  *
  * The direction matters and is a common source of bugs: Urdu uses
  * ہ (U+06C1 heh goal) and ی (U+06CC farsi yeh), NOT the Arabic
  * ه (U+0647) and ي (U+064A). Text pasted from Arabic keyboards,
  * Windows-1256 conversions or older CMSes carries the Arabic forms,
  * which then fail every naive `===` comparison.
+ *
+ * The alias lists live on the canonical letters in chars.ts (URDU_LETTERS) and
+ * are inverted here, so the fold set and the letter inventory can never drift.
  */
-const URDU_YEH = "ی"; // ی farsi yeh
-const URDU_KEHEH = "ک"; // ک keheh
-const URDU_HEH_GOAL = "ہ"; // ہ heh goal
-const ALEF = "ا"; // ا
-const WAW = "و"; // و
-
-const LETTER_MAP: Record<string, string> = {
-  // yeh family -> ی. Note ے (U+06D2 bari ye) is a distinct letter and is preserved.
-  "ي": URDU_YEH, // ي arabic yeh
-  "ى": URDU_YEH, // ى alef maksura
-  "ۍ": URDU_YEH, // ۍ yeh with tail
-  "ې": URDU_YEH, // ې pashto e
-  "ؠ": URDU_YEH, // ؠ kashmiri yeh
-  // kaf family -> ک
-  "ك": URDU_KEHEH, // ك arabic kaf
-  "ڪ": URDU_KEHEH, // ڪ swash kaf
-  // heh family -> ہ. ھ (U+06BE do-chashmi heh) is a distinct letter and is preserved.
-  "ه": URDU_HEH_GOAL, // ه arabic heh
-  "ۀ": URDU_HEH_GOAL, // ۀ heh with yeh above
-  "ة": URDU_HEH_GOAL, // ة teh marbuta
-  "ۃ": URDU_HEH_GOAL, // ۃ teh marbuta goal
-  "ە": URDU_HEH_GOAL, // ە ae
-  // alef family -> ا. آ (U+0622 alef madda) is a real Urdu letter and is preserved.
-  "أ": ALEF, // أ alef with hamza above
-  "إ": ALEF, // إ alef with hamza below
-  "ٱ": ALEF, // ٱ alef wasla
-  "ٲ": ALEF, // ٲ alef with wavy hamza above
-  "ٳ": ALEF, // ٳ alef with wavy hamza below
-  // waw family -> و. ؤ (U+0624) is preserved: it carries hamza meaningfully in Urdu.
-  "ۋ": WAW, // ۋ ve
-  "ۆ": WAW, // ۆ oe
-  "ۇ": WAW, // ۇ u
-};
+const LETTER_MAP: Record<string, string> = {};
+for (const { ch, aliases } of URDU_LETTERS) {
+  for (const alias of aliases ?? []) {
+    LETTER_MAP[alias] = ch;
+  }
+}
 
 const digitTargets: Record<DigitStyle, string> = {
   urdu: URDU_DIGITS,
