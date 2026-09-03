@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.1
+
+- Add Urdu name transliteration with part extraction (`transliterateNameToEnglish`, `transliterateNameToUrdu`, `extractNameParts`), covering honorifics, family names, and prefixes.
+- Fix corrupted dictionary keys that silently degraded transliteration: foreign-script lookalikes (`अपनी`→`اپنی`), mixed Latin/Urdu garbage (`عclave`, `لیbla`, `فiza`, ` nazia`), and Gurmukhi/Devanagari impostors in the word and name tables.
+- Correct ~30 Pakistani name spellings verified against Urdu name references (e.g. `بشرا`→`بشری` Bushra, `رکشنا`→`رخسانہ` Rukhsana, `سیدرہ`→`سدرہ` Sidra, `قوریشی`→`قریشی` Qureshi) and add common missing names (Daniyal, Zeeshan, Mustafa, Javeria, Mehwish, Alia, Memoona, Samiya).
+- Derive the English→Urdu name lookup from the forward name tables so both directions can never drift; alternate Roman spellings (`Omar`, `Hassan`, …) remain supported via a small alias list.
+- Centralize the Urdu letter inventory in a single `URDU_LETTERS` table shared by normalization, collation, and transliteration instead of three hand-maintained maps.
+- Add data-integrity tests that fail CI on foreign-script keys, stray whitespace, or name spellings that no longer round-trip in both directions.
+
 ## 0.2.0
 
 - Add automated performance benchmarks workflow that runs on every push to main and release tags.
