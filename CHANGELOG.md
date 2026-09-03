@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+- Smoke-test the release tarball before and after publish
+- Add one-command release script
+
+
 ## 0.2.1
 
 - Add Urdu name transliteration with part extraction (`transliterateNameToEnglish`, `transliterateNameToUrdu`, `extractNameParts`), covering honorifics, family names, and prefixes.
