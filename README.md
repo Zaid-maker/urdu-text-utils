@@ -303,14 +303,15 @@ CI builds the docs on every push. VitePress fails on dead links, so a renamed pa
 
 ## Releasing
 
-Publishing is automated and tag-driven. CI runs tests on Node 18/20/22 for every push and PR; nothing reaches npm until a version tag exists.
+Publishing is automated and tag-driven. CI runs tests on Node 18/20/22 for every push and PR; nothing reaches npm until a version tag exists. Commit the feature work first, then release with a single command:
 
 ```bash
-npm version patch   # or minor / major — commits and tags
-git push --follow-tags
+npm run release -- patch   # or minor, major, or an explicit 0.3.0
 ```
 
-The `Release` workflow then verifies the tag matches `package.json`, re-runs typecheck/tests/build, publishes with `--provenance`, and opens a GitHub Release with generated notes.
+The script bumps `package.json` and the lockfile, writes a CHANGELOG section from the commits since the last tag, commits `chore: release vX.Y.Z`, and pushes the annotated `vX.Y.Z` tag. Useful options: `--yes` skips the confirmation prompt, `--no-push` bumps/commits/tags locally only, `--dry-run` previews the whole plan without changing anything, and `--notes "line one\nline two"` overrides the auto-generated changelog section.
+
+The `Release` workflow then verifies the tag matches `package.json`, packs and smoke-tests the tarball, publishes with `--provenance`, re-installs the published version from the registry to verify it, and opens a GitHub Release with the changelog notes. The manual equivalent of the script is `npm version patch` plus editing `CHANGELOG.md` and pushing `--follow-tags` by hand.
 
 Authentication is npm [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) over OIDC — no npm token exists in this repository and none needs to be rotated. npm trusts `Zaid-maker/urdu-text-utils` publishing from `release.yml` specifically, so renaming that workflow file breaks releases until the trusted publisher is updated on npm.
 
