@@ -44,6 +44,16 @@ jobs:
       - run: npm test
       - run: npm run build
 
+      # Pack the exact tarball that npm publish will upload and install it into a
+      # clean consumer: a stale build, missing dist file, or broken export fails
+      # here — before the version ever reaches the registry.
+      - name: Pack and smoke-test the release tarball
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          mkdir -p /tmp/urdu-pack
+          npm pack --pack-destination /tmp/urdu-pack >/dev/null
+          node smoke-package.mjs "/tmp/urdu-pack/urdu-text-utils-$VERSION.tgz"
+
       # Derive the npm dist-tag from the version:
       #   v1.2.3           → no tag (latest)
       #   v1.2.3-alpha.1   → --tag alpha
@@ -77,6 +87,25 @@ jobs:
           else
             npm publish --access public
           fi
+
+      # npm can take a few minutes to index a fresh publish, so poll for the
+      # version, then install it from the registry and re-run the same consumer
+      # checks against exactly what users will fetch.
+      - name: Verify the published package on the registry
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          PUBLISHED=""
+          for i in $(seq 1 20); do
+            PUBLISHED="$(npm view "urdu-text-utils@$VERSION" version 2>/dev/null || true)"
+            [ "$PUBLISHED" = "$VERSION" ] && break
+            echo "waiting for urdu-text-utils@$VERSION on the registry (attempt $i/20)..."
+            sleep 15
+          done
+          if [ "$PUBLISHED" != "$VERSION" ]; then
+            echo "urdu-text-utils@$VERSION never became visible on the registry" >&2
+            exit 1
+          fi
+          node smoke-package.mjs "urdu-text-utils@$VERSION"
 
       - name: Extract release notes from CHANGELOG.md
         id: changelog
