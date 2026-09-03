@@ -278,7 +278,17 @@ For permanent URLs prefer `preserveUrdu: true` (percent-encoded but readable and
 
 ## Notes on scope
 
-Every function is pure, synchronous and side-effect free. Nothing here does word segmentation of run-together text, stemming, POS tagging or spell correction; those need a lexicon and are out of scope for this version.
+Every function is pure, synchronous and side-effect free. Nothing here does word segmentation of run-together text, POS tagging or spell correction; those need a lexicon and are out of scope for this version.
+
+## Complementary libraries
+
+Urdu tooling is a small ecosystem, and these independent projects cover parts of the pipeline this library deliberately does not:
+
+- [UrduMagic](https://github.com/asad7coder/urdumagic) — offline, whole-site English ⇄ Urdu ⇄ Roman Urdu translation with RTL switching and SSR/Next.js helpers, powered by a 10,000+ entry dictionary.
+- [Urduify](https://github.com/zohaibadnan137/urduify) — Roman Urdu ⇄ Urdu translator built on a 16,000-pair word dictionary.
+- [Roman Urdu → Urdu Transliterator](https://github.com/spyhunk/romanUrdu2UrduTranslitration) — fast browser/API Roman-Urdu → Urdu conversion with longest-match matching (MIT).
+
+urdu-text-utils owns the text-processing layer (normalization, search, sorting, numbers, dates); pair it with one of the above when you need whole-site translation, a broader lexicon, or Roman-Urdu → Urdu conversion tuned for real-time input.
 
 ## Development
 
