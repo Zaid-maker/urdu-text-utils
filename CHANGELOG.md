@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3
+
+- Add Complementary libraries section
+- Keep the UMD build out of bundler ESM resolution
+
+
 ## 0.2.2
 
 - Smoke-test the release tarball before and after publish
