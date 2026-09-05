@@ -92,6 +92,29 @@ try {
   );
 
   // -------------------------------------------------------------------------
+  // 2b. exports-map sanity — every condition target must exist, and no
+  //     bundler-facing condition (browser/import/...) may point at a UMD/IIFE
+  //     build: importing an IIFE as ESM yields no named exports (webpack's
+  //     "browser" condition used to route to dist/index.iife.js, silently
+  //     breaking every named import in CRA/Vite/webpack consumers)
+  // -------------------------------------------------------------------------
+  const entry = installedPkg.exports?.["."] ?? {};
+  for (const [cond, target] of Object.entries(entry)) {
+    assert(
+      typeof target === "string" && existsSync(path.join(pkgDir, target)),
+      `exports["."].${cond} target exists (${target})`,
+    );
+  }
+  for (const [cond, target] of Object.entries(entry)) {
+    if (cond === "types" || cond === "require") continue; // d.ts / CJS are not ESM
+    const src = readFileSync(path.join(pkgDir, target), "utf8");
+    assert(
+      /\bexport\s*\{/.test(src),
+      `exports["."].${cond} (${target}) is real ESM with named exports`,
+    );
+  }
+
+  // -------------------------------------------------------------------------
   // 3. Expected API surface — parity with the locally built dist when present,
   //    otherwise a baseline of representative exports
   // -------------------------------------------------------------------------

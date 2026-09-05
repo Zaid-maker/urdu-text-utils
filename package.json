@@ -61,7 +61,6 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "browser": "./dist/index.iife.js",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
