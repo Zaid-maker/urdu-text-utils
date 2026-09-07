@@ -38,3 +38,48 @@ jobs:
       - name: Build docs
         if: matrix.node == 22
         run: npm run docs:build
+
+  # The PHP port consumes tables and fixtures generated from the TypeScript
+  # source. Regenerating both and failing on any diff catches committed drift
+  # (a table edit that forgot to run the generators), then the PHPUnit suite
+  # proves the port still matches the freshly generated fixtures.
+  php-parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: shivammathur/setup-php@v4
+        with:
+          php-version: "8.3"
+          coverage: none
+          # mbstring is required by PHPUnit; intl exercises the true-NFKC path
+          # (locally the generated presentation-form fallback is what runs).
+          extensions: mbstring, intl
+
+      - run: npm ci
+      # The fixture generator runs the real TS implementation from dist.
+      - run: npm run build
+
+      - name: Check PHP tables and fixtures are in sync with the TS source
+        run: |
+          node scripts/generate-php-tables.mjs
+          node scripts/generate-php-fixtures.mjs
+          if [ -n "$(git status --porcelain -- php/)" ]; then
+            echo "php/data or php/tests/fixtures drifted from the TypeScript source."
+            echo "Regenerate from the repo root and commit the result:"
+            echo "  node scripts/generate-php-tables.mjs"
+            echo "  node scripts/generate-php-fixtures.mjs"
+            git diff --stat -- php/
+            exit 1
+          fi
+
+      - name: Run the PHP parity suite
+        working-directory: php
+        run: |
+          composer install --no-interaction --prefer-dist
+          vendor/bin/phpunit
