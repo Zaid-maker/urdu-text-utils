@@ -1,0 +1,465 @@
+[
+ {
+  "fn": "romanize",
+  "args": [
+   "آپ کیسے ہیں"
+  ],
+  "options": {},
+  "expected": "aap kaisay hain"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "آپ کیسے ہیں"
+  ],
+  "options": {
+   "capitalize": true
+  },
+  "expected": "Aap kaisay hain"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "میرا دوست بہت اچھا انسان ہے"
+  ],
+  "options": {},
+  "expected": "mera dost bohat acha insan hai"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "سائنسدان"
+  ],
+  "options": {},
+  "expected": "sciencedan"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "بھائی"
+  ],
+  "options": {},
+  "expected": "bhai"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "چھوٹا"
+  ],
+  "options": {},
+  "expected": "chhota"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "مُحَمَّد"
+  ],
+  "options": {},
+  "expected": "muhammad"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "محمد"
+  ],
+  "options": {},
+  "expected": "muhammad"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "میں پاکستان کا رہنے والا ہوں"
+  ],
+  "options": {},
+  "expected": "mein pakistan ka rehne wala hoon"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "یہ کتاب بہت اچھی ہے"
+  ],
+  "options": {},
+  "expected": "yeh kitaab bohat achi hai"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "وہ سکول جا رہا ہے"
+  ],
+  "options": {},
+  "expected": "woh school ja raha hai"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "کرکٹ"
+  ],
+  "options": {},
+  "expected": "karkt"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "ویسا"
+  ],
+  "options": {},
+  "expected": "wesa"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "یاد"
+  ],
+  "options": {},
+  "expected": "yaad"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "پرندہ"
+  ],
+  "options": {},
+  "expected": "parinda"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "کھیل"
+  ],
+  "options": {},
+  "expected": "khel"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "پڑھی"
+  ],
+  "options": {},
+  "expected": "parhi"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "سڑکیں"
+  ],
+  "options": {},
+  "expected": "sarkein"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "راتیں"
+  ],
+  "options": {},
+  "expected": "ratein"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "کراچی میں بارش کے بعد سڑکیں بند ہیں"
+  ],
+  "options": {},
+  "expected": "karachi mein barish ke baad sarkein band hain"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "مضمون 2"
+  ],
+  "options": {},
+  "expected": "mazmoon 2"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "اسرار"
+  ],
+  "options": {},
+  "expected": "asrar"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "اذکار"
+  ],
+  "options": {},
+  "expected": "azkar"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "پہلا\nدوسرا"
+  ],
+  "options": {},
+  "expected": "pehla dosra"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "طوطا مینا کی کہانی"
+  ],
+  "options": {},
+  "expected": "tota maina ki kahani"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "mera naam zaid hai"
+  ],
+  "options": {},
+  "expected": "میرا نام زید ہے"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "Mera Naam"
+  ],
+  "options": {},
+  "expected": "میرا نام"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "hai"
+  ],
+  "options": {},
+  "expected": "ہے"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "hay"
+  ],
+  "options": {},
+  "expected": "ہے"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "aap"
+  ],
+  "options": {},
+  "expected": "آپ"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "ap"
+  ],
+  "options": {},
+  "expected": "آپ"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "mera naam, zaid hai!"
+  ],
+  "options": {},
+  "expected": "میرا نآم, زید ہی!"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "mera  naam"
+  ],
+  "options": {},
+  "expected": "میرا  نام"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "bohot"
+  ],
+  "options": {},
+  "expected": "بہت"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "bahut"
+  ],
+  "options": {},
+  "expected": "بہت"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "bhot"
+  ],
+  "options": {},
+  "expected": "بہت"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "kaise"
+  ],
+  "options": {},
+  "expected": "کیسے"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "kaisay"
+  ],
+  "options": {},
+  "expected": "کیسے"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "chhota"
+  ],
+  "options": {},
+  "expected": "چھوٹا"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "aam"
+  ],
+  "options": {},
+  "expected": "آم"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "Pakistan"
+  ],
+  "options": {},
+  "expected": "پاکستان"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "ilm"
+  ],
+  "options": {},
+  "expected": "علم"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "school"
+  ],
+  "options": {},
+  "expected": "سکول"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   "main school ja raha hoon"
+  ],
+  "options": {},
+  "expected": "میں سکول جا رہا ہوں"
+ },
+ {
+  "fn": "romanToUrdu",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "میرا پہلا مضمون"
+  ],
+  "options": {},
+  "expected": "mera-pehla-mazmoon"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "آپ کیسے ہیں؟"
+  ],
+  "options": {},
+  "expected": "aap-kaisay-hain"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "میرا پہلا مضمون"
+  ],
+  "options": {
+   "preserveUrdu": true
+  },
+  "expected": "میرا-پہلا-مضمون"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "میرا پہلا مضمون"
+  ],
+  "options": {
+   "separator": "_"
+  },
+  "expected": "mera_pehla_mazmoon"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "میرا پہلا مضمون"
+  ],
+  "options": {
+   "maxLength": 12
+  },
+  "expected": "mera-pehla"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "مضمون 2 اور 3"
+  ],
+  "options": {},
+  "expected": "mazmoon-2-aur-3"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "میرا پہلا مضمون"
+  ],
+  "options": {
+   "maxLength": 7
+  },
+  "expected": "mera"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "میرا پہلا مضمون بہت لمبا ہے"
+  ],
+  "options": {
+   "preserveUrdu": true,
+   "maxLength": 8
+  },
+  "expected": "میرا"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   "میرا پہلا مضمون!"
+  ],
+  "options": {
+   "preserveUrdu": true
+  },
+  "expected": "میرا-پہلا-مضمون"
+ },
+ {
+  "fn": "urduSlug",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ }
+]

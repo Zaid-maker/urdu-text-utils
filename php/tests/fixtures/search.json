@@ -1,0 +1,362 @@
+[
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "محمد",
+   [
+    "مُحَمَّد علی",
+    "احمد",
+    "محمد خان"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   {
+    "item": "مُحَمَّد علی",
+    "score": 0.9
+   },
+   {
+    "item": "محمد خان",
+    "score": 0.9
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "كتاب",
+   [
+    "کتاب",
+    "قلم"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   {
+    "item": "کتاب",
+    "score": 1
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "قلم",
+   [
+    "کتاب"
+   ]
+  ],
+  "options": {},
+  "expected": []
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "",
+   [
+    "کتاب"
+   ]
+  ],
+  "options": {},
+  "expected": []
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "محمد",
+   [
+    "محمد خان",
+    "محمد"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   {
+    "item": "محمد",
+    "score": 1
+   },
+   {
+    "item": "محمد خان",
+    "score": 0.9
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "محمد",
+   [
+    "محمد خان",
+    "محمد"
+   ]
+  ],
+  "options": {
+   "limit": 1
+  },
+  "expected": [
+   {
+    "item": "محمد",
+    "score": 1
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "کتاب",
+   [
+    "کتابیں",
+    "کتاب",
+    "میز پر کتاب"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   {
+    "item": "کتاب",
+    "score": 1
+   },
+   {
+    "item": "کتابیں",
+    "score": 0.9
+   },
+   {
+    "item": "میز پر کتاب",
+    "score": 0.8
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "محمد",
+   [
+    "محمد خان",
+    "محمد"
+   ]
+  ],
+  "options": {
+   "sortByScore": false
+  },
+  "expected": [
+   {
+    "item": "محمد خان",
+    "score": 0.9
+   },
+   {
+    "item": "محمد",
+    "score": 1
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "محمد خان",
+   [
+    "محمد خان صاحب",
+    "احمد خان"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   {
+    "item": "محمد خان صاحب",
+    "score": 0.9
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "پاکستاں",
+   [
+    "پاکستان"
+   ]
+  ],
+  "options": {},
+  "expected": []
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "پاکستاں",
+   [
+    "پاکستان"
+   ]
+  ],
+  "options": {
+   "fuzzy": true
+  },
+  "expected": [
+   {
+    "item": "پاکستان",
+    "score": 0.7
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "پاکستان پاکستان",
+   [
+    "پاکستان"
+   ]
+  ],
+  "options": {
+   "fuzzy": true,
+   "maxDistance": 2
+  },
+  "expected": [
+   {
+    "item": "پاکستان",
+    "score": 0.7
+   }
+  ]
+ },
+ {
+  "fn": "searchUrduRanked",
+  "args": [
+   "محمد خان",
+   [
+    "محمد خان صاحب"
+   ]
+  ],
+  "options": {
+   "fuzzy": true
+  },
+  "expected": [
+   {
+    "item": "محمد خان صاحب",
+    "score": 0.9
+   }
+  ]
+ },
+ {
+  "fn": "editDistance",
+  "args": [
+   "کتاب",
+   "کتاب"
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "editDistance",
+  "args": [
+   "کتاب",
+   "کتب"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "editDistance",
+  "args": [
+   "کتاب",
+   "پاکستان",
+   1
+  ],
+  "options": {},
+  "expected": 2
+ },
+ {
+  "fn": "editDistance",
+  "args": [
+   "",
+   ""
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "editDistance",
+  "args": [
+   "",
+   "کتاب"
+  ],
+  "options": {},
+  "expected": 4
+ },
+ {
+  "fn": "editDistance",
+  "args": [
+   "کتاب",
+   ""
+  ],
+  "options": {},
+  "expected": 4
+ },
+ {
+  "fn": "editDistance",
+  "args": [
+   "کتاب",
+   "کتبا"
+  ],
+  "options": {},
+  "expected": 2
+ },
+ {
+  "fn": "highlightUrdu",
+  "args": [
+   "مُحَمَّد علی",
+   "محمد"
+  ],
+  "options": {},
+  "expected": "<mark>مُحَمَّد</mark> علی"
+ },
+ {
+  "fn": "highlightUrdu",
+  "args": [
+   "محمد اور محمد",
+   "محمد"
+  ],
+  "options": {},
+  "expected": "<mark>محمد</mark> اور <mark>محمد</mark>"
+ },
+ {
+  "fn": "highlightUrdu",
+  "args": [
+   "احمد",
+   "محمد"
+  ],
+  "options": {},
+  "expected": "احمد"
+ },
+ {
+  "fn": "highlightUrdu",
+  "args": [
+   "محمد خان صاحب",
+   "محمد خان"
+  ],
+  "options": {},
+  "expected": "<mark>محمد خان</mark> صاحب"
+ },
+ {
+  "fn": "highlightUrdu",
+  "args": [
+   "محمد علی",
+   "مُحَمَّد"
+  ],
+  "options": {},
+  "expected": "<mark>محمد</mark> علی"
+ },
+ {
+  "fn": "highlightUrdu",
+  "args": [
+   "مُحَمَّد",
+   "احمد"
+  ],
+  "options": {},
+  "expected": "مُحَمَّد"
+ },
+ {
+  "fn": "highlightUrdu",
+  "args": [
+   "احمد",
+   ""
+  ],
+  "options": {},
+  "expected": "احمد"
+ }
+]

@@ -1,0 +1,289 @@
+[
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "گل",
+   "آم"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "ٹماٹر",
+   "تربوز"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "گھر",
+   "کتاب"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "ماں",
+   "مان"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "مُحَمَّد",
+   "احمد"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "كتاب",
+   "کتاب"
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "کتابیں",
+   "کتاب"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "پاوں",
+   "پاؤں"
+  ],
+  "options": {},
+  "expected": -1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "ابوبکر",
+   "ابو بکر"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "اردو",
+   "اردو"
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "",
+   ""
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "گھر",
+   "2 گھر"
+  ],
+  "options": {},
+  "expected": -1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "ا",
+   "آ"
+  ],
+  "options": {},
+  "expected": -1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "آم",
+   "بادام"
+  ],
+  "options": {},
+  "expected": -1
+ },
+ {
+  "fn": "compareUrdu",
+  "args": [
+   "شریف",
+   "صدیق"
+  ],
+  "options": {},
+  "expected": -1
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "گل",
+    "آم",
+    "بادام"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "آم",
+   "بادام",
+   "گل"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "ٹماٹر",
+    "تربوز",
+    "پپیتا"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "پپیتا",
+   "تربوز",
+   "ٹماٹر"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "گھر",
+    "کتاب"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "کتاب",
+   "گھر"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "ماں",
+    "مان"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "مان",
+   "ماں"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "مُحَمَّد",
+    "احمد"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "احمد",
+   "مُحَمَّد"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "کتابیں",
+    "کتاب"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "کتاب",
+   "کتابیں"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "پاوں",
+    "پاؤں",
+    "پاک"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "پاک",
+   "پاوں",
+   "پاؤں"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "ابوبکر",
+    "ابو بکر"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "ابو بکر",
+   "ابوبکر"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "گھر",
+    "2 گھر",
+    "آم",
+    "10 کتابیں"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "آم",
+   "گھر",
+   "10 کتابیں",
+   "2 گھر"
+  ]
+ },
+ {
+  "fn": "sortUrdu",
+  "args": [
+   [
+    "آم",
+    "بادام"
+   ]
+  ],
+  "options": {
+   "descending": true
+  },
+  "expected": [
+   "بادام",
+   "آم"
+  ]
+ }
+]

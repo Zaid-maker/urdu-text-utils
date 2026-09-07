@@ -1,0 +1,398 @@
+[
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "كيا حال ہے"
+  ],
+  "options": {},
+  "expected": "کیا حال ہے"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ه"
+  ],
+  "options": {},
+  "expected": "ہ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ہ"
+  ],
+  "options": {},
+  "expected": "ہ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "آ"
+  ],
+  "options": {
+   "stripDiacritics": true
+  },
+  "expected": "آ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ھ"
+  ],
+  "options": {},
+  "expected": "ھ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ے"
+  ],
+  "options": {},
+  "expected": "ے"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ؤ"
+  ],
+  "options": {},
+  "expected": "ؤ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ۃ"
+  ],
+  "options": {},
+  "expected": "ہ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "پاکـسـتان"
+  ],
+  "options": {},
+  "expected": "پاکستان"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "​‌‍﻿پاکستان‎‏"
+  ],
+  "options": {},
+  "expected": "‌پاکستان"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "  کیا   حال  "
+  ],
+  "options": {},
+  "expected": "کیا حال"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "  کیا   حال  "
+  ],
+  "options": {
+   "collapseWhitespace": false
+  },
+  "expected": "  کیا   حال  "
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "مُحَمَّد"
+  ],
+  "options": {},
+  "expected": "مُحَمَّد"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "مُحَمَّد"
+  ],
+  "options": {
+   "stripDiacritics": true
+  },
+  "expected": "محمد"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "سال 2024"
+  ],
+  "options": {
+   "digits": "urdu"
+  },
+  "expected": "سال ۲۰۲۴"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "سال ۲۰۲۴"
+  ],
+  "options": {
+   "digits": "english"
+  },
+  "expected": "سال 2024"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "سال 2024"
+  ],
+  "options": {
+   "digits": "arabic"
+  },
+  "expected": "سال ٢٠٢٤"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "سال 2024"
+  ],
+  "options": {},
+  "expected": "سال 2024"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "کیا?"
+  ],
+  "options": {
+   "urduPunctuation": true
+  },
+  "expected": "کیا؟"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "کیا?؛,"
+  ],
+  "options": {
+   "urduPunctuation": true
+  },
+  "expected": "کیا؟؛،"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ﻻ"
+  ],
+  "options": {},
+  "expected": "لا"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ﮐ"
+  ],
+  "options": {},
+  "expected": "ک"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "ﮐ"
+  ],
+  "options": {
+   "compatibility": false
+  },
+  "expected": "ﮐ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "جزاک‌اللہ"
+  ],
+  "options": {},
+  "expected": "جزاک‌اللہ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "جزاک‌اللہ"
+  ],
+  "options": {
+   "stripZwnj": true
+  },
+  "expected": "جزاکاللہ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "کیا\tحال\nہے"
+  ],
+  "options": {},
+  "expected": "کیا حال ہے"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "اقصیٰ"
+  ],
+  "options": {},
+  "expected": "اقصیٰ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "مصطفیٰ"
+  ],
+  "options": {},
+  "expected": "مصطفیٰ"
+ },
+ {
+  "fn": "normalizeUrdu",
+  "args": [
+   "کتاب"
+  ],
+  "options": {},
+  "expected": "کتاب"
+ },
+ {
+  "fn": "removeDiacritics",
+  "args": [
+   "مُحَمَّد"
+  ],
+  "options": {},
+  "expected": "محمد"
+ },
+ {
+  "fn": "removeDiacritics",
+  "args": [
+   "ہے۔"
+  ],
+  "options": {},
+  "expected": "ہے۔"
+ },
+ {
+  "fn": "removeDiacritics",
+  "args": [
+   "ۓ"
+  ],
+  "options": {},
+  "expected": "ۓ"
+ },
+ {
+  "fn": "removeDiacritics",
+  "args": [
+   "اقصیٰ"
+  ],
+  "options": {},
+  "expected": "اقصی"
+ },
+ {
+  "fn": "removeDiacritics",
+  "args": [
+   "مصطفیٰ"
+  ],
+  "options": {},
+  "expected": "مصطفی"
+ },
+ {
+  "fn": "removeDiacritics",
+  "args": [
+   "کتاب"
+  ],
+  "options": {},
+  "expected": "کتاب"
+ },
+ {
+  "fn": "removeDiacritics",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "مُحَمَّد"
+  ],
+  "options": {},
+  "expected": "محمد"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "محمد"
+  ],
+  "options": {},
+  "expected": "محمد"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "كيا"
+  ],
+  "options": {},
+  "expected": "کیا"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "کیا"
+  ],
+  "options": {},
+  "expected": "کیا"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "ه"
+  ],
+  "options": {},
+  "expected": "ہ"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "ہ"
+  ],
+  "options": {},
+  "expected": "ہ"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "جزاک‌اللہ"
+  ],
+  "options": {},
+  "expected": "جزاکاللہ"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "کیا   حال"
+  ],
+  "options": {},
+  "expected": "کیا حال"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "كتاب"
+  ],
+  "options": {},
+  "expected": "کتاب"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   "کتاب"
+  ],
+  "options": {},
+  "expected": "کتاب"
+ },
+ {
+  "fn": "foldUrdu",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ }
+]

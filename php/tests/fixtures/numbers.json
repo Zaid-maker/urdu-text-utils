@@ -1,0 +1,338 @@
+[
+ {
+  "fn": "toUrduDigits",
+  "args": [
+   "12345"
+  ],
+  "options": {},
+  "expected": "۱۲۳۴۵"
+ },
+ {
+  "fn": "toUrduDigits",
+  "args": [
+   "0987654321"
+  ],
+  "options": {},
+  "expected": "۰۹۸۷۶۵۴۳۲۱"
+ },
+ {
+  "fn": "convertNumbers",
+  "args": [
+   "۱۲۳۴۵",
+   "english"
+  ],
+  "options": {},
+  "expected": "12345"
+ },
+ {
+  "fn": "convertNumbers",
+  "args": [
+   "۰۹۸۷۶۵۴۳۲۱",
+   "english"
+  ],
+  "options": {},
+  "expected": "0987654321"
+ },
+ {
+  "fn": "convertNumbers",
+  "args": [
+   "١٢٣",
+   "english"
+  ],
+  "options": {},
+  "expected": "123"
+ },
+ {
+  "fn": "convertNumbers",
+  "args": [
+   "١٢٣",
+   "urdu"
+  ],
+  "options": {},
+  "expected": "۱۲۳"
+ },
+ {
+  "fn": "convertNumbers",
+  "args": [
+   "123",
+   "arabic"
+  ],
+  "options": {},
+  "expected": "١٢٣"
+ },
+ {
+  "fn": "convertNumbers",
+  "args": [
+   "۱۲۳",
+   "arabic"
+  ],
+  "options": {},
+  "expected": "١٢٣"
+ },
+ {
+  "fn": "convertNumbers",
+  "args": [
+   "سال 2024ء",
+   "urdu"
+  ],
+  "options": {},
+  "expected": "سال ۲۰۲۴ء"
+ },
+ {
+  "fn": "convertNumbers",
+  "args": [
+   "31-12-2024",
+   "urdu"
+  ],
+  "options": {},
+  "expected": "۳۱-۱۲-۲۰۲۴"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "۱۲۳۴۵"
+  ],
+  "options": {},
+  "expected": 12345
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "1,234"
+  ],
+  "options": {},
+  "expected": 1234
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "1,234.5"
+  ],
+  "options": {},
+  "expected": 1234.5
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "-۱۲۳"
+  ],
+  "options": {},
+  "expected": -123
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "+۳٫۵"
+  ],
+  "options": {},
+  "expected": 3.5
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   ".5"
+  ],
+  "options": {},
+  "expected": 0.5
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   " ۱۲۳ "
+  ],
+  "options": {},
+  "expected": 123
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "12abc"
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "1.2.3"
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "پاکستان"
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "۱۲۳٬۴۵۶٫۷۸"
+  ],
+  "options": {},
+  "expected": 123456.78
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   0
+  ],
+  "options": {},
+  "expected": "صفر"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   5
+  ],
+  "options": {},
+  "expected": "پانچ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   15
+  ],
+  "options": {},
+  "expected": "پندرہ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   21
+  ],
+  "options": {},
+  "expected": "بیس ایک"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   25
+  ],
+  "options": {},
+  "expected": "بیس پانچ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   90
+  ],
+  "options": {},
+  "expected": "نوے"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   100
+  ],
+  "options": {},
+  "expected": "ایک سو"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   200
+  ],
+  "options": {},
+  "expected": "دو سو"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   1000
+  ],
+  "options": {},
+  "expected": "ایک ہزار"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   1005
+  ],
+  "options": {},
+  "expected": "ایک ہزار پانچ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   1234
+  ],
+  "options": {},
+  "expected": "ایک ہزار دو سو تیس چار"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   100000
+  ],
+  "options": {},
+  "expected": "ایک لاکھ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   1000000
+  ],
+  "options": {},
+  "expected": "دس لاکھ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   1234567
+  ],
+  "options": {},
+  "expected": "بارہ لاکھ تیس چار ہزار پانچ سو ساٹھ سات"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   10000000
+  ],
+  "options": {},
+  "expected": "ایک کروڑ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   100000000
+  ],
+  "options": {},
+  "expected": "دس کروڑ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   -5
+  ],
+  "options": {},
+  "expected": "منفی پانچ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   "INF"
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   "NAN"
+  ],
+  "options": {},
+  "expected": ""
+ }
+]
