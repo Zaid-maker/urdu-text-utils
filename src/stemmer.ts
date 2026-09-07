@@ -289,8 +289,11 @@ function applyPrefixStripping(
  * getAffixes("کتابیں")
  * // { stem: "کتاب", suffix: "یں" }
  *
+ * getAffixes("غیرملکیوں")
+ * // { prefix: "غیر", stem: "ملکی", suffix: "یوں" }
+ *
  * getAffixes("نااہلی")
- * // { prefix: "نا", stem: "اہل", suffix: "ی" }
+ * // { prefix: "نا", stem: "اہلی" }
  */
 export function getAffixes(
   input: string,
