@@ -257,3 +257,37 @@ describe("name dictionary data integrity", () => {
     expect(transliterateNameToUrdu("Prof.")).toBe("پروفیسر");
   });
 });
+
+describe("name options and fallback", () => {
+  it("lowercases output when preserveCase is false", () => {
+    expect(transliterateNameToEnglish("محمد علی", { preserveCase: false })).toBe("muhammad ali");
+  });
+
+  it("drops every honorific when includeHonorifics is false", () => {
+    expect(
+      transliterateNameToEnglish("جناب ڈاکٹر محمد علی صاحب", { includeHonorifics: false }),
+    ).toBe("Muhammad Ali");
+  });
+
+  it("passes unknown English names through unchanged", () => {
+    expect(transliterateNameToUrdu("Zafar")).toBe("Zafar");
+  });
+
+  it("keeps name-prefix words in both directions", () => {
+    expect(transliterateNameToEnglish("میاں محمد")).toBe("Mian Muhammad");
+    expect(transliterateNameToUrdu("Mian")).toBe("میاں");
+  });
+
+  it("keeps unknown Urdu names ASCII-clean via the rule fallback", () => {
+    expect(transliterateNameToEnglish("ظفر")).toMatch(/^[A-Za-z]+$/u);
+  });
+});
+
+describe("extractNameParts suffixes", () => {
+  it("recognises بیگم as a suffix", () => {
+    const parts = extractNameParts("بیگم فاطمہ خان");
+    expect(parts.firstName).toBe("فاطمہ");
+    expect(parts.familyName).toBe("خان");
+    expect(parts.suffix).toBe("بیگم");
+  });
+});

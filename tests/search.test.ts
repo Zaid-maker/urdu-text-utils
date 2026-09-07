@@ -67,4 +67,44 @@ describe("highlightUrdu", () => {
   it("matches across a space", () => {
     expect(highlightUrdu("محمد خان صاحب", "محمد خان")).toBe("<mark>محمد خان</mark> صاحب");
   });
+
+  it("matches a diacritized query against plain text", () => {
+    expect(highlightUrdu("محمد علی", "مُحَمَّد")).toBe("<mark>محمد</mark> علی");
+  });
+
+  it("leaves text unchanged when nothing matches", () => {
+    expect(highlightUrdu("مُحَمَّد", "احمد")).toBe("مُحَمَّد");
+  });
+});
+
+describe("searchUrduRanked scoring", () => {
+  it("scores exact, prefix and substring matches in order", () => {
+    const ranked = searchUrduRanked("کتاب", ["کتابیں", "کتاب", "میز پر کتاب"]);
+    expect(ranked.map((r) => r.item)).toEqual(["کتاب", "کتابیں", "میز پر کتاب"]);
+    expect(ranked[0]!.score).toBe(1);
+    expect(ranked[1]!.score).toBe(0.9);
+    expect(ranked[2]!.score).toBe(0.8);
+  });
+
+  it("keeps input order when sortByScore is false", () => {
+    const ranked = searchUrduRanked("محمد", ["محمد خان", "محمد"], { sortByScore: false });
+    expect(ranked.map((r) => r.item)).toEqual(["محمد خان", "محمد"]);
+    expect(ranked[0]!.score).toBeLessThan(ranked[1]!.score);
+  });
+
+  it("matches a multi-word query inside a longer string", () => {
+    expect(searchUrdu("محمد خان", ["محمد خان صاحب", "احمد خان"])).toEqual(["محمد خان صاحب"]);
+  });
+});
+
+describe("editDistance edge cases", () => {
+  it("handles empty strings", () => {
+    expect(editDistance("", "")).toBe(0);
+    expect(editDistance("", "کتاب")).toBe(4);
+    expect(editDistance("کتاب", "")).toBe(4);
+  });
+
+  it("is symmetric", () => {
+    expect(editDistance("کتاب", "کتبا")).toBe(editDistance("کتبا", "کتاب"));
+  });
 });

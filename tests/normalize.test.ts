@@ -71,5 +71,43 @@ describe("foldUrdu", () => {
   it("gives one key for spellings a reader would call identical", () => {
     expect(foldUrdu("مُحَمَّد")).toBe(foldUrdu("محمد"));
     expect(foldUrdu("كيا")).toBe(foldUrdu("کیا"));
+    expect(foldUrdu("ه")).toBe(foldUrdu("ہ")); // Arabic heh folds to heh goal
+  });
+
+  it("strips ZWNJ and collapses whitespace", () => {
+    expect(foldUrdu("جزاک‌اللہ")).toBe("جزاکاللہ");
+    expect(foldUrdu("کیا   حال")).toBe(foldUrdu("کیا حال"));
+  });
+});
+
+describe("normalizeUrdu option combinations", () => {
+  it("keeps ZWNJ by default and strips it on request", () => {
+    const withZwnj = "جزاک‌اللہ";
+    expect(normalizeUrdu(withZwnj)).toBe(withZwnj);
+    expect(normalizeUrdu(withZwnj, { stripZwnj: true })).toBe("جزاکاللہ");
+  });
+
+  it("rewrites digits to Arabic-Indic on request", () => {
+    expect(normalizeUrdu("سال 2024", { digits: "arabic" })).toBe("سال ٢٠٢٤");
+  });
+
+  it("maps punctuation and digits together", () => {
+    expect(normalizeUrdu("کیا? 3", { urduPunctuation: true, digits: "urdu" })).toBe("کیا؟ ۳");
+  });
+
+  it("can skip NFKC compatibility folding", () => {
+    expect(normalizeUrdu("ﮐ")).toBe("ک"); // presentation-form kaf (U+FB90)
+    expect(normalizeUrdu("ﮐ", { compatibility: false })).toBe("ﮐ");
+  });
+
+  it("collapses newlines and tabs like any other whitespace", () => {
+    expect(normalizeUrdu("کیا\tحال\nہے")).toBe("کیا حال ہے");
+  });
+});
+
+describe("removeDiacritics edge cases", () => {
+  it("strips the superscript alef", () => {
+    expect(removeDiacritics("اقصیٰ")).toBe("اقصی");
+    expect(removeDiacritics("مصطفیٰ")).toBe("مصطفی");
   });
 });

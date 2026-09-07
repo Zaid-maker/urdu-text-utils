@@ -91,4 +91,18 @@ describe("removeStopWords", () => {
     const text = "آم میٹھا پھل ہے";
     expect(removeStopWords(text, ["میٹھا"])).toBe("آم پھل ہے");
   });
+
+  it("drops terminators along with stop words", () => {
+    expect(removeStopWords("یہ ایک اچھی کتاب ہے۔")).toBe("اچھی کتاب");
+  });
+});
+
+describe("custom stop word normalization", () => {
+  it("normalizes entries from a plain array", () => {
+    expect(isStopWord("اور", ["اور "])).toBe(true);
+  });
+
+  it("filters with a custom Set", () => {
+    expect(filterStopWords(["آم", "سیب", "کیلا"], new Set(["سیب", "کیلا"]))).toEqual(["آم"]);
+  });
 });

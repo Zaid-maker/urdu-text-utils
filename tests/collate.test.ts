@@ -37,4 +37,41 @@ describe("sortUrdu", () => {
   it("orders a prefix before a longer word", () => {
     expect(sortUrdu(["کتابیں", "کتاب"])).toEqual(["کتاب", "کتابیں"]);
   });
+
+  it("collates hamza variants next to their base letter", () => {
+    // پاؤں (waw + hamza) sorts right after پاوں, not at the end of the list.
+    expect(sortUrdu(["پاوں", "پاؤں", "پاک"])).toEqual(["پاک", "پاوں", "پاؤں"]);
+  });
+
+  it("sorts a space before the following letter", () => {
+    expect(sortUrdu(["ابوبکر", "ابو بکر"])).toEqual(["ابو بکر", "ابوبکر"]);
+    expect(compareUrdu("ابو بکر", "ابوبکر")).toBeLessThan(0);
+  });
+
+  it("compares equal for identical and folded-identical strings", () => {
+    expect(compareUrdu("اردو", "اردو")).toBe(0);
+    expect(compareUrdu("كتاب", "کتاب")).toBe(0); // Arabic vs Urdu kaf
+    expect(compareUrdu("", "")).toBe(0);
+  });
+
+  it("sorts non-letter content after every Urdu letter", () => {
+    expect(sortUrdu(["گھر", "2 گھر", "آم", "10 کتابیں"])).toEqual([
+      "آم",
+      "گھر",
+      "10 کتابیں",
+      "2 گھر",
+    ]);
+  });
+
+  it("orders ا before آ", () => {
+    expect(compareUrdu("ا", "آ")).toBeLessThan(0);
+  });
+
+  it("sorts objects descending via getText", () => {
+    const rows = [{ name: "گل" }, { name: "آم" }];
+    expect(sortUrdu(rows, { descending: true, getText: (r) => r.name })).toEqual([
+      { name: "گل" },
+      { name: "آم" },
+    ]);
+  });
 });

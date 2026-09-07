@@ -53,6 +53,32 @@ describe("countSentences & splitSentences", () => {
     const text = "پائی کی قیمت 3.14 ہے۔ یہ ایک مستقل عدد ہے۔";
     expect(splitSentences(text).length).toBe(2);
   });
+
+  it("protects decimals written with Urdu digits and ٫", () => {
+    expect(splitSentences("پائی کی قیمت ۳٫۱۴ ہے۔ یہ ایک عدد ہے۔")).toEqual([
+      "پائی کی قیمت ۳٫۱۴ ہے",
+      "یہ ایک عدد ہے",
+    ]);
+  });
+
+  it("splits on exclamation and ellipsis", () => {
+    expect(countSentences("واہ! کیا بات ہے۔")).toBe(2);
+    expect(countSentences("رکو… چلو۔")).toBe(2);
+  });
+
+  it("splits on ASCII terminators too", () => {
+    expect(splitSentences("کیا حال ہے? ٹھیک ہوں.")).toEqual(["کیا حال ہے", "ٹھیک ہوں"]);
+    expect(splitSentences("کیا حال ہے? ٹھیک ہوں.", { preserveTerminators: true })).toEqual([
+      "کیا حال ہے?",
+      "ٹھیک ہوں.",
+    ]);
+  });
+});
+
+describe("splitWords punctuation", () => {
+  it("splits on Urdu punctuation", () => {
+    expect(splitWords("کیا، حال؛ ہے؟")).toEqual(["کیا", "حال", "ہے"]);
+  });
 });
 
 describe("analyzeUrdu", () => {
@@ -84,5 +110,16 @@ describe("analyzeUrdu", () => {
   it("survives empty input", () => {
     const stats = analyzeUrdu("");
     expect(stats).toMatchObject({ characters: 0, words: 0, sentences: 0, urduPercentage: 0 });
+  });
+
+  it("counts paragraphs split by blank lines", () => {
+    const stats = analyzeUrdu("پہلا پیراگراف۔\n\nدوسرا پیراگراف۔\n\nتیسرا۔");
+    expect(stats.paragraphs).toBe(3);
+  });
+
+  it("counts characters without spaces and reports reading time", () => {
+    const stats = analyzeUrdu("پاکستان ایک خوبصورت ملک ہے۔ اس کی آبادی بہت زیادہ ہے۔");
+    expect(stats.charactersNoSpaces).toBe(43);
+    expect(stats.readingTimeMinutes).toBe(0.1);
   });
 });

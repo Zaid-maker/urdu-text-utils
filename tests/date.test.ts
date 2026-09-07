@@ -39,6 +39,13 @@ describe("URDU_MONTHS & URDU_WEEKDAYS constants", () => {
     expect(getUrduWeekdayName(0)).toBe("اتوار");
     expect(getUrduWeekdayName(5)).toBe("جمعہ");
   });
+
+  it("wraps indices beyond the array bounds", () => {
+    expect(getUrduMonthName(12)).toBe("جنوری");
+    expect(getUrduMonthName(-1)).toBe("دسمبر");
+    expect(getUrduWeekdayName(7)).toBe("اتوار");
+    expect(getUrduWeekdayName(-1)).toBe("ہفتہ");
+  });
 });
 
 describe("formatUrduDate", () => {
@@ -77,6 +84,19 @@ describe("formatUrduDate", () => {
     const d = new Date(2026, 7, 22, 5, 7, 9);
     expect(formatUrduDate(d, "HH:mm:ss")).toBe("۰۵:۰۷:۰۹");
     expect(formatUrduDate(d, "H:m:s")).toBe("۵:۷:۹");
+  });
+
+  it("formats the two-digit year token and unpadded month tokens", () => {
+    expect(formatUrduDate(new Date(2026, 7, 22), "YY")).toBe("۲۶");
+    expect(formatUrduDate(new Date(2026, 7, 5), "M/MM")).toBe("۸/۰۸");
+  });
+
+  it("uses English digits everywhere in the pattern", () => {
+    expect(
+      formatUrduDate(new Date(2026, 7, 22, 14, 30), "dddd D MMMM YYYY hh:mm", {
+        digits: "english",
+      }),
+    ).toBe("ہفتہ 22 اگست 2026 02:30");
   });
 
   it("supports Hijri calendar option for month token", () => {
@@ -171,5 +191,16 @@ describe("timeAgoUrdu", () => {
 
   it("returns empty string for invalid inputs", () => {
     expect(timeAgoUrdu("invalid", baseTime)).toBe("");
+  });
+
+  it("treats exactly 45 seconds as one minute", () => {
+    const fortyFiveSecs = new Date(baseTime - 45 * 1000);
+    expect(timeAgoUrdu(fortyFiveSecs, baseTime)).toBe("ایک منٹ پہلے");
+  });
+
+  it("handles future singular units and addSuffix false", () => {
+    const inOneMin = new Date(baseTime + 60 * 1000);
+    expect(timeAgoUrdu(inOneMin, baseTime)).toBe("ایک منٹ بعد");
+    expect(timeAgoUrdu(inOneMin, baseTime, { addSuffix: false })).toBe("ایک منٹ");
   });
 });

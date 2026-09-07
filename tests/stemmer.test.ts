@@ -124,6 +124,45 @@ describe("getAffixes", () => {
   it("returns empty stem for empty input", () => {
     expect(getAffixes("")).toEqual({ stem: "" });
   });
+
+  it("respects stripPrefixes and stripSuffixes toggles", () => {
+    expect(getAffixes("بےوقوف", { stripPrefixes: false })).toEqual({ stem: "بےوقوف" });
+  });
+
+  it("returns an empty stem for non-string input", () => {
+    expect(getAffixes(123 as unknown as string)).toEqual({ stem: "" });
+  });
+});
+
+describe("stemUrdu - Options", () => {
+  it("honours minStemLength", () => {
+    // After prefix stripping, اہلی (4 chars) is too short for minStemLength 5.
+    expect(stemUrdu("نااہلی", { minStemLength: 5 })).toBe("نااہلی");
+  });
+
+  it("accepts custom prefix and suffix lists", () => {
+    expect(stemUrdu("کتابیں", { customSuffixes: [] })).toBe("کتابیں");
+    expect(stemUrdu("کتابیں", { customSuffixes: ["یں"] })).toBe("کتاب");
+    expect(stemUrdu("بےوقوف", { customPrefixes: [] })).toBe("بےوقوف");
+  });
+
+  it("trims and normalizes before stemming", () => {
+    expect(stemUrdu("  کتابیں  ")).toBe("کتاب");
+    expect(stemUrdu("لڑکِیاں")).toBe("لڑکی"); // diacritics are ignored
+  });
+
+  it("protects irreducible words from prefix stripping", () => {
+    expect(stemUrdu("بے")).toBe("بے");
+    expect(stemUrdu("نام")).toBe("نام");
+  });
+});
+
+describe("stemUrduText mixed content", () => {
+  it("leaves Latin words untouched", () => {
+    expect(stemUrduText("میں کتابیں پڑھتا ہوں اور I read books")).toBe(
+      "میں کتاب پڑھ ہوں اور I read books",
+    );
+  });
 });
 
 describe("stemUrdu - Options", () => {

@@ -54,4 +54,29 @@ describe("URDU_LETTERS inventory", () => {
       expect(letter.roman.length, `${letter.ch} → ${JSON.stringify(letter.roman)}`).toBeGreaterThan(0);
     }
   });
+
+  it("lists the alphabet in exact order at both ends", () => {
+    const order = URDU_LETTERS.map((letter) => letter.ch);
+    expect(order.slice(0, 8)).toEqual(["ا", "آ", "ب", "پ", "ت", "ٹ", "ث", "ج"]);
+    expect(order.slice(-4)).toEqual(["ی", "ئ", "ے", "ۓ"]);
+  });
+
+  it("marks exactly the expected letters as vowels", () => {
+    const vowels = URDU_LETTERS.filter((letter) => letter.vowel).map((letter) => letter.ch);
+    expect(vowels).toEqual(["ا", "آ", "ع", "و", "ؤ", "ۂ", "ی", "ئ", "ے", "ۓ"]);
+  });
+
+  it("keeps roman values as lowercase ASCII", () => {
+    for (const letter of URDU_LETTERS) {
+      if (letter.ch === "ء") continue;
+      expect(letter.roman, `roman for ${letter.ch}`).toMatch(/^[a-z]+$/u);
+    }
+  });
+
+  it("sorts each hamza variant immediately after its base letter", () => {
+    const order = URDU_LETTERS.map((letter) => letter.ch);
+    expect(order.indexOf("ؤ")).toBe(order.indexOf("و") + 1);
+    expect(order.indexOf("ئ")).toBe(order.indexOf("ی") + 1);
+    expect(order.indexOf("ۓ")).toBe(order.indexOf("ے") + 1);
+  });
 });
