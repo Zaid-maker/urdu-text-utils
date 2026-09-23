@@ -2,10 +2,11 @@
  * Regenerate php/data/tables.json from the canonical TypeScript sources.
  *
  * The TS library is the single source of truth for Urdu tables (letter
- * inventory, dictionary, variants, stop words). This script compiles chars.ts,
- * dictionary.ts, stopwords.ts and stats.ts to throwaway ESM modules and
- * serializes their exports to one JSON file that the PHP port consumes — so
- * the two languages can never drift.
+ * inventory, dictionary, variants, stop words, stemmer affixes, date names).
+ * This script compiles chars.ts, dictionary.ts, stopwords.ts, stats.ts,
+ * stemmer.ts and date.ts to throwaway ESM modules and serializes their
+ * exports to one JSON file that the PHP port consumes — so the two languages
+ * can never drift.
  *
  * Usage: node scripts/generate-php-tables.mjs
  */
@@ -22,7 +23,14 @@ const phpData = join(root, "php", "data");
 rmSync(tmp, { recursive: true, force: true });
 mkdirSync(tmp, { recursive: true });
 await build({
-  entry: ["src/chars.ts", "src/dictionary.ts", "src/stopwords.ts", "src/stats.ts"],
+  entry: [
+    "src/chars.ts",
+    "src/dictionary.ts",
+    "src/stopwords.ts",
+    "src/stats.ts",
+    "src/stemmer.ts",
+    "src/date.ts",
+  ],
   format: ["esm"],
   dts: false,
   outDir: tmp,
@@ -35,6 +43,8 @@ const chars = await import(pathToFileURL(join(tmp, "chars.js")).href);
 const dict = await import(pathToFileURL(join(tmp, "dictionary.js")).href);
 const stop = await import(pathToFileURL(join(tmp, "stopwords.js")).href);
 const stats = await import(pathToFileURL(join(tmp, "stats.js")).href);
+const stem = await import(pathToFileURL(join(tmp, "stemmer.js")).href);
+const date = await import(pathToFileURL(join(tmp, "date.js")).href);
 
 const source = (re) => re.source;
 
@@ -81,6 +91,18 @@ const tables = {
   stopWords: [...stop.URDU_STOP_WORDS],
   /** Titles/honorifics whose dot must not end a sentence (src/stats.ts). */
   sentenceAbbreviations: [...stats.SENTENCE_ABBREVIATIONS],
+  /** src/stemmer.ts affix tables. */
+  stemmer: {
+    prefixes: [...stem.URDU_PREFIXES],
+    suffixes: [...stem.URDU_SUFFIXES],
+    protectedWords: [...stem.PROTECTED_WORDS],
+  },
+  /** src/date.ts name tables. */
+  date: {
+    monthsGregorian: [...date.URDU_MONTHS_GREGORIAN],
+    monthsHijri: [...date.URDU_MONTHS_HIJRI],
+    weekdays: [...date.URDU_WEEKDAYS],
+  },
   /** Presentation forms whose NFKC decomposition differs (fallback when ext-intl is absent). */
   presentation: presentation,
 };

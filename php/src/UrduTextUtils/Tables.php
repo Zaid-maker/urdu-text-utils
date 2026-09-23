@@ -66,6 +66,18 @@ final class Tables
         return self::data()['sentenceAbbreviations'];
     }
 
+    /** Stemmer affix tables: prefixes, suffixes, protectedWords (generated from src/stemmer.ts). */
+    public static function stemmer(): array
+    {
+        return self::data()['stemmer'];
+    }
+
+    /** Date name tables: monthsGregorian, monthsHijri, weekdays (generated from src/date.ts). */
+    public static function date(): array
+    {
+        return self::data()['date'];
+    }
+
     /**
      * Compile a named JS RegExp into PCRE (with /u), converting \uXXXX and
      * \u{...} escapes to PCRE's \x{...} form.

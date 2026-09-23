@@ -71,6 +71,7 @@ export {
   getAffixes,
   URDU_PREFIXES,
   URDU_SUFFIXES,
+  PROTECTED_WORDS,
   type StemmerOptions,
   type AffixBreakdown,
 } from "./stemmer.js";

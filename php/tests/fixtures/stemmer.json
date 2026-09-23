@@ -1,0 +1,816 @@
+[
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کتابیں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "کتاب",
+   "suffix": "یں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کتابوں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "کتاب",
+   "suffix": "وں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "شہروں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "شہر",
+   "suffix": "وں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "خبریں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "خبر",
+   "suffix": "یں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "تصویریں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "تصویر",
+   "suffix": "یں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "لوگوں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "لوگ",
+   "suffix": "وں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "لڑکیاں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "لڑکی",
+   "suffix": "یاں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "لڑکیوں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "لڑکی",
+   "suffix": "یوں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کہانیاں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "کہانی",
+   "suffix": "یاں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "روٹیاں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "روٹی",
+   "suffix": "یاں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "گاڑیاں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "گاڑی",
+   "suffix": "یاں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "صدیوں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "صدی",
+   "suffix": "یوں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "تبدیلیاں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "تبدیلی",
+   "suffix": "یاں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "خوبصورتیاں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "خوبصورتی",
+   "suffix": "یاں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "دعائیں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "دعا",
+   "suffix": "ئیں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "دعاؤں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "دعا",
+   "suffix": "ؤں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ہوائیں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "ہوا",
+   "suffix": "ئیں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ہواؤں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "ہوا",
+   "suffix": "ؤں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "فضائیں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "فضا",
+   "suffix": "ئیں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "خوشبوئیں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "خوشبو",
+   "suffix": "ئیں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "خوشبوؤں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "خوشبو",
+   "suffix": "ؤں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "تعلیمات"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "تعلیم",
+   "suffix": "ات"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "احساسات"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "احساس",
+   "suffix": "ات"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "معلومات"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "معلوم",
+   "suffix": "ات"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کاغذات"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "کاغذ",
+   "suffix": "ات"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "بےوقوف"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "بے",
+   "stem": "وقوف"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "بےشک"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "بے",
+   "stem": "شک"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "نااہل"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "نا",
+   "stem": "اہل"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ناکام"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "نا",
+   "stem": "کام"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "غیرملکی"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "غیر",
+   "stem": "ملکی"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "لاجواب"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "لا",
+   "stem": "جواب"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ہمسفر"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "ہم",
+   "stem": "سفر"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ہمدرد"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "ہم",
+   "stem": "درد"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "بدنام"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "بد",
+   "stem": "نام"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کمزور"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "کم",
+   "stem": "زور"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "دکاندار"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "دکان",
+   "suffix": "دار"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "وفاداری"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "وفا",
+   "suffix": "داری"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "مددگار"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "مدد",
+   "suffix": "گار"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "خوفناک"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "خوف",
+   "suffix": "ناک"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ضرورتمند"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "ضرورت",
+   "suffix": "مند"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "امیدوار"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "امید",
+   "suffix": "وار"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "انسانیت"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "انسان",
+   "suffix": "یت"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "پاگل پن"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "پاگل",
+   "suffix": "پن"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "پڑھتا"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "پڑھ",
+   "suffix": "تا"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "پڑھتی"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "پڑھ",
+   "suffix": "تی"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "پڑھتے"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "پڑھ",
+   "suffix": "تے"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کھاتے"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "کھا",
+   "suffix": "تے"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "پڑھیںگے"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "پڑھ",
+   "suffix": "یںگے"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "پڑھینگے"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "پڑھ",
+   "suffix": "ینگے"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ہم"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "ہم"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "باغ"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "باغ"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "نام"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "نام"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ہوا"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "ہوا"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "دل"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "دل"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "سر"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "سر"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "رات"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "رات"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "بات"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "بات"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ہے"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "ہے"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "ہیں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "ہیں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "بے"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "بے"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "  کتابیں  "
+  ],
+  "options": {},
+  "expected": {
+   "stem": "کتاب",
+   "suffix": "یں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "لڑکِیاں"
+  ],
+  "options": {},
+  "expected": {
+   "stem": "لڑکی",
+   "suffix": "یاں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "غیرملکیوں"
+  ],
+  "options": {},
+  "expected": {
+   "prefix": "غیر",
+   "stem": "ملکی",
+   "suffix": "یوں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "نااہلی"
+  ],
+  "options": {
+   "minStemLength": 5
+  },
+  "expected": {
+   "stem": "نااہلی"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کتابیں"
+  ],
+  "options": {
+   "customSuffixes": []
+  },
+  "expected": {
+   "stem": "کتابیں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کتابیں"
+  ],
+  "options": {
+   "customSuffixes": [
+    "یں"
+   ]
+  },
+  "expected": {
+   "stem": "کتاب",
+   "suffix": "یں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "بےوقوف"
+  ],
+  "options": {
+   "customPrefixes": []
+  },
+  "expected": {
+   "stem": "بےوقوف"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "بےوقوف"
+  ],
+  "options": {
+   "stripPrefixes": false
+  },
+  "expected": {
+   "stem": "بےوقوف"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "کتابیں"
+  ],
+  "options": {
+   "stripSuffixes": false
+  },
+  "expected": {
+   "stem": "کتابیں"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   "خصوصی"
+  ],
+  "options": {
+   "exceptions": {
+    "خصوصی": "خاص"
+   }
+  },
+  "expected": {
+   "stem": "خاص"
+  }
+ },
+ {
+  "fn": "getAffixes",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": {
+   "stem": ""
+  }
+ },
+ {
+  "fn": "stemUrduText",
+  "args": [
+   "طلباء کتابیں پڑھتے ہیں اور کہانیاں سنتے ہیں۔"
+  ],
+  "options": {},
+  "expected": "طلباء کتاب پڑھ ہیں اور کہانی سن ہیں۔"
+ },
+ {
+  "fn": "stemUrduText",
+  "args": [
+   "میں کتابیں پڑھتا ہوں اور I read books"
+  ],
+  "options": {},
+  "expected": "میں کتاب پڑھ ہوں اور I read books"
+ },
+ {
+  "fn": "stemUrduText",
+  "args": [
+   "مضمون 2 اور 3 کتابیں!"
+  ],
+  "options": {},
+  "expected": "مضمون 2 اور 3 کتاب!"
+ },
+ {
+  "fn": "stemUrduText",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ }
+]

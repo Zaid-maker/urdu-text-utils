@@ -1,0 +1,688 @@
+[
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   0
+  ],
+  "options": {},
+  "expected": "جنوری"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   0,
+   "hijri"
+  ],
+  "options": {},
+  "expected": "محرم"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   7
+  ],
+  "options": {},
+  "expected": "اگست"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   7,
+   "hijri"
+  ],
+  "options": {},
+  "expected": "شعبان"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   8
+  ],
+  "options": {},
+  "expected": "ستمبر"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   8,
+   "hijri"
+  ],
+  "options": {},
+  "expected": "رمضان المبارک"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   11
+  ],
+  "options": {},
+  "expected": "دسمبر"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   11,
+   "hijri"
+  ],
+  "options": {},
+  "expected": "ذی الحجہ"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   12
+  ],
+  "options": {},
+  "expected": "جنوری"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   12,
+   "hijri"
+  ],
+  "options": {},
+  "expected": "محرم"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   -1
+  ],
+  "options": {},
+  "expected": "دسمبر"
+ },
+ {
+  "fn": "getUrduMonthName",
+  "args": [
+   -1,
+   "hijri"
+  ],
+  "options": {},
+  "expected": "ذی الحجہ"
+ },
+ {
+  "fn": "getUrduWeekdayName",
+  "args": [
+   0
+  ],
+  "options": {},
+  "expected": "اتوار"
+ },
+ {
+  "fn": "getUrduWeekdayName",
+  "args": [
+   5
+  ],
+  "options": {},
+  "expected": "جمعہ"
+ },
+ {
+  "fn": "getUrduWeekdayName",
+  "args": [
+   6
+  ],
+  "options": {},
+  "expected": "ہفتہ"
+ },
+ {
+  "fn": "getUrduWeekdayName",
+  "args": [
+   7
+  ],
+  "options": {},
+  "expected": "اتوار"
+ },
+ {
+  "fn": "getUrduWeekdayName",
+  "args": [
+   -1
+  ],
+  "options": {},
+  "expected": "ہفتہ"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 10
+   }
+  ],
+  "options": {},
+  "expected": "۲۲ اگست ۲۰۲۶"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 0,
+    "d": 15
+   }
+  ],
+  "options": {},
+  "expected": "۱۵ جنوری ۲۰۲۶"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22
+   },
+   "DD MMMM YYYY"
+  ],
+  "options": {
+   "digits": "english"
+  },
+  "expected": "22 اگست 2026"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 14,
+    "mm": 30,
+    "ss": 45
+   },
+   "dddd، D MMMM YYYY، hh:mm A"
+  ],
+  "options": {},
+  "expected": "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰ دوپہر"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 9
+   },
+   "hh:mm A"
+  ],
+  "options": {},
+  "expected": "۰۹:۰۰ صبح"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 13
+   },
+   "hh:mm A"
+  ],
+  "options": {},
+  "expected": "۰۱:۰۰ دوپہر"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 18
+   },
+   "hh:mm A"
+  ],
+  "options": {},
+  "expected": "۰۶:۰۰ شام"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 23
+   },
+   "hh:mm A"
+  ],
+  "options": {},
+  "expected": "۱۱:۰۰ رات"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 5,
+    "mm": 7,
+    "ss": 9
+   },
+   "HH:mm:ss"
+  ],
+  "options": {},
+  "expected": "۰۵:۰۷:۰۹"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 5,
+    "mm": 7,
+    "ss": 9
+   },
+   "H:m:s"
+  ],
+  "options": {},
+  "expected": "۵:۷:۹"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22
+   },
+   "YY"
+  ],
+  "options": {},
+  "expected": "۲۶"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 5
+   },
+   "M/MM"
+  ],
+  "options": {},
+  "expected": "۸/۰۸"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22,
+    "hh": 14,
+    "mm": 30
+   },
+   "dddd D MMMM YYYY hh:mm"
+  ],
+  "options": {
+   "digits": "english"
+  },
+  "expected": "ہفتہ 22 اگست 2026 02:30"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 8,
+    "d": 1
+   },
+   "MMMM"
+  ],
+  "options": {
+   "calendar": "hijri"
+  },
+  "expected": "رمضان المبارک"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22
+   },
+   "DD [MMMM] YYYY"
+  ],
+  "options": {},
+  "expected": "۲۲ [اگست] ۲۰۲۶"
+ },
+ {
+  "fn": "formatUrduDate",
+  "args": [
+   {
+    "y": 2026,
+    "m": 7,
+    "d": 22
+   },
+   "سال YYYY، مہینہ MMMM"
+  ],
+  "options": {},
+  "expected": "سال ۲۰۲۶، مہینہ اگست"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -20
+   }
+  ],
+  "options": {},
+  "expected": "ابھی"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -60
+   }
+  ],
+  "options": {},
+  "expected": "ایک منٹ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -300
+   }
+  ],
+  "options": {},
+  "expected": "۵ منٹ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -300
+   }
+  ],
+  "options": {
+   "digits": "english"
+  },
+  "expected": "5 منٹ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -3600
+   }
+  ],
+  "options": {},
+  "expected": "ایک گھنٹہ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -10800
+   }
+  ],
+  "options": {},
+  "expected": "۳ گھنٹے پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -86400
+   }
+  ],
+  "options": {},
+  "expected": "کل"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -172800
+   }
+  ],
+  "options": {},
+  "expected": "پرسوں"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -345600
+   }
+  ],
+  "options": {},
+  "expected": "۴ دن پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -604800
+   }
+  ],
+  "options": {},
+  "expected": "ایک ہفتہ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -1209600
+   }
+  ],
+  "options": {},
+  "expected": "۲ ہفتے پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -2592000
+   }
+  ],
+  "options": {},
+  "expected": "ایک ماہ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -15552000
+   }
+  ],
+  "options": {},
+  "expected": "۶ ماہ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -31536000
+   }
+  ],
+  "options": {},
+  "expected": "ایک سال پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -94608000
+   }
+  ],
+  "options": {},
+  "expected": "۳ سال پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": 10
+   }
+  ],
+  "options": {},
+  "expected": "چند لمحے بعد"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": 300
+   }
+  ],
+  "options": {},
+  "expected": "۵ منٹ بعد"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": 7200
+   }
+  ],
+  "options": {},
+  "expected": "۲ گھنٹے بعد"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": 1209600
+   }
+  ],
+  "options": {},
+  "expected": "۲ ہفتے بعد"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -300
+   }
+  ],
+  "options": {
+   "addSuffix": false
+  },
+  "expected": "۵ منٹ"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -7200
+   }
+  ],
+  "options": {
+   "addSuffix": false
+  },
+  "expected": "۲ گھنٹے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": 60
+   }
+  ],
+  "options": {},
+  "expected": "ایک منٹ بعد"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": 60
+   }
+  ],
+  "options": {
+   "addSuffix": false
+  },
+  "expected": "ایک منٹ"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -45
+   }
+  ],
+  "options": {},
+  "expected": "ایک منٹ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -2700
+   }
+  ],
+  "options": {},
+  "expected": "۴۵ منٹ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -79200
+   }
+  ],
+  "options": {},
+  "expected": "۲۲ گھنٹے پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -691200
+   }
+  ],
+  "options": {},
+  "expected": "ایک ہفتہ پہلے"
+ },
+ {
+  "fn": "timeAgoUrdu",
+  "args": [
+   {
+    "baseSec": 1787400000,
+    "offsetSeconds": -28512000
+   }
+  ],
+  "options": {},
+  "expected": "ایک سال پہلے"
+ }
+]
