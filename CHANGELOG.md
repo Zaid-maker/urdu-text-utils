@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- Publish the PHP port to Packagist. A root composer.json (Packagist reads repo-root manifests only) exposes php/src/UrduTextUtils via PSR-4 autoload, with export-ignore rules in .gitattributes for a clean dist archive. The new Packagist workflow runs on the same version tags as the npm Release: a PHP 8.1-8.3 matrix re-verifies table sync, strict manifest validation and the 536-test parity suite, then notifies packagist.org's update API so every tag publishes to both registries. v0.3.1 is the first version indexed on Packagist (composer require urdu-text-utils/urdu-text-utils).
+
+
 ## 0.3.0
 
 - Complete the PHP port (stages 0.2-0.4): add Detect.php, StopWords.php, Words.php sentence/statistics APIs, Stemmer.php, Date.php and Names.php with full fixture parity against the TypeScript source
