@@ -26,7 +26,7 @@ export interface SplitSentenceOptions {
 }
 
 /** Common Urdu abbreviations and honorifics that should not cause false sentence splits. */
-const ABBREVIATIONS = [
+export const SENTENCE_ABBREVIATIONS = [
   "ڈاکٹر",
   "پروفیسر",
   "انجینئر",
@@ -51,7 +51,7 @@ const ABBREVIATIONS = [
   "وسلم",
 ];
 
-const ABBREV_PATTERN = new RegExp(`(?:${ABBREVIATIONS.join("|")})[.۔]`, "gu");
+const ABBREV_PATTERN = new RegExp(`(?:${SENTENCE_ABBREVIATIONS.join("|")})[.۔]`, "gu");
 
 /**
  * Sentences count, split on Urdu and standard terminators (۔ ؟ ! . …).

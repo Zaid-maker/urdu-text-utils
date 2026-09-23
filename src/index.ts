@@ -23,6 +23,7 @@ export {
   splitWords,
   splitSentences,
   analyzeUrdu,
+  SENTENCE_ABBREVIATIONS,
   type UrduStats,
   type SplitSentenceOptions,
 } from "./stats.js";
@@ -70,6 +71,7 @@ export {
   getAffixes,
   URDU_PREFIXES,
   URDU_SUFFIXES,
+  PROTECTED_WORDS,
   type StemmerOptions,
   type AffixBreakdown,
 } from "./stemmer.js";
@@ -78,5 +80,10 @@ export {
   transliterateNameToEnglish,
   transliterateNameToUrdu,
   extractNameParts,
+  URDU_FIRST_NAMES,
+  URDU_FAMILY_NAMES,
+  HONORIFICS,
+  NAME_PREFIXES,
+  ENGLISH_NAME_ALIASES,
   type NameTransliterationOptions,
 } from "./names.js";

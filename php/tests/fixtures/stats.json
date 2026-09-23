@@ -1,0 +1,431 @@
+[
+ {
+  "fn": "splitWords",
+  "args": [
+   "پاکستان ایک خوبصورت ملک ہے"
+  ],
+  "options": {},
+  "expected": [
+   "پاکستان",
+   "ایک",
+   "خوبصورت",
+   "ملک",
+   "ہے"
+  ]
+ },
+ {
+  "fn": "splitWords",
+  "args": [
+   "کیا، حال؛ ہے؟"
+  ],
+  "options": {},
+  "expected": [
+   "کیا",
+   "حال",
+   "ہے"
+  ]
+ },
+ {
+  "fn": "splitWords",
+  "args": [
+   "   "
+  ],
+  "options": {},
+  "expected": []
+ },
+ {
+  "fn": "splitWords",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": []
+ },
+ {
+  "fn": "splitWords",
+  "args": [
+   "مضمون 2 اور 3"
+  ],
+  "options": {},
+  "expected": [
+   "مضمون",
+   "2",
+   "اور",
+   "3"
+  ]
+ },
+ {
+  "fn": "countWords",
+  "args": [
+   "پاکستان ایک خوبصورت ملک ہے"
+  ],
+  "options": {},
+  "expected": 5
+ },
+ {
+  "fn": "countWords",
+  "args": [
+   "پاکستان ایک خوبصورت ملک ہے۔"
+  ],
+  "options": {},
+  "expected": 5
+ },
+ {
+  "fn": "countWords",
+  "args": [
+   "آپ کیسے ہیں؟"
+  ],
+  "options": {},
+  "expected": 3
+ },
+ {
+  "fn": "countWords",
+  "args": [
+   "  کیا \n\n حال  "
+  ],
+  "options": {},
+  "expected": 2
+ },
+ {
+  "fn": "countWords",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "یہ پہلا جملہ ہے۔ یہ دوسرا ہے۔"
+  ],
+  "options": {},
+  "expected": [
+   "یہ پہلا جملہ ہے",
+   "یہ دوسرا ہے"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "آپ کیسے ہیں؟ میں ٹھیک ہوں۔"
+  ],
+  "options": {},
+  "expected": [
+   "آپ کیسے ہیں",
+   "میں ٹھیک ہوں"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "ایک جملہ۔"
+  ],
+  "options": {},
+  "expected": [
+   "ایک جملہ"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": []
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "کیا آپ خیریت سے ہیں؟ جی ہاں، میں ٹھیک ہوں۔"
+  ],
+  "options": {
+   "preserveTerminators": true
+  },
+  "expected": [
+   "کیا آپ خیریت سے ہیں؟",
+   "جی ہاں، میں ٹھیک ہوں۔"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "ڈاکٹر. علامہ اقبال ہمارے قومی شاعر ہیں۔ وہ سیالکوٹ میں پیدا ہوئے۔"
+  ],
+  "options": {},
+  "expected": [
+   "ڈاکٹر. علامہ اقبال ہمارے قومی شاعر ہیں",
+   "وہ سیالکوٹ میں پیدا ہوئے"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "پائی کی قیمت 3.14 ہے۔ یہ ایک مستقل عدد ہے۔"
+  ],
+  "options": {},
+  "expected": [
+   "پائی کی قیمت 3.14 ہے",
+   "یہ ایک مستقل عدد ہے"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "پائی کی قیمت ۳٫۱۴ ہے۔ یہ ایک عدد ہے۔"
+  ],
+  "options": {},
+  "expected": [
+   "پائی کی قیمت ۳٫۱۴ ہے",
+   "یہ ایک عدد ہے"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "واہ! کیا بات ہے۔"
+  ],
+  "options": {},
+  "expected": [
+   "واہ",
+   "کیا بات ہے"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "رکو… چلو۔"
+  ],
+  "options": {},
+  "expected": [
+   "رکو",
+   "چلو"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "کیا حال ہے? ٹھیک ہوں."
+  ],
+  "options": {},
+  "expected": [
+   "کیا حال ہے",
+   "ٹھیک ہوں"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "کیا حال ہے? ٹھیک ہوں."
+  ],
+  "options": {
+   "preserveTerminators": true
+  },
+  "expected": [
+   "کیا حال ہے?",
+   "ٹھیک ہوں."
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "مولانا علی علیہ السلام فرماتے ہیں۔ یہ ایک مثال ہے۔"
+  ],
+  "options": {},
+  "expected": [
+   "مولانا علی علیہ السلام فرماتے ہیں",
+   "یہ ایک مثال ہے"
+  ]
+ },
+ {
+  "fn": "splitSentences",
+  "args": [
+   "مضمون 2.5 اور 3.75 ہیں۔"
+  ],
+  "options": {},
+  "expected": [
+   "مضمون 2.5 اور 3.75 ہیں"
+  ]
+ },
+ {
+  "fn": "countSentences",
+  "args": [
+   "یہ پہلا جملہ ہے۔ یہ دوسرا ہے۔"
+  ],
+  "options": {},
+  "expected": 2
+ },
+ {
+  "fn": "countSentences",
+  "args": [
+   "آپ کیسے ہیں؟ میں ٹھیک ہوں۔"
+  ],
+  "options": {},
+  "expected": 2
+ },
+ {
+  "fn": "countSentences",
+  "args": [
+   "ایک جملہ۔"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "countSentences",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "countSentences",
+  "args": [
+   "واہ! کیا بات ہے۔"
+  ],
+  "options": {},
+  "expected": 2
+ },
+ {
+  "fn": "countSentences",
+  "args": [
+   "پائی کی قیمت 3.14 ہے۔ یہ ایک مستقل عدد ہے۔"
+  ],
+  "options": {},
+  "expected": 2
+ },
+ {
+  "fn": "analyzeUrdu",
+  "args": [
+   "پاکستان ایک خوبصورت ملک ہے۔ اس کی آبادی بہت زیادہ ہے۔"
+  ],
+  "options": {},
+  "expected": {
+   "characters": 53,
+   "charactersNoSpaces": 43,
+   "words": 11,
+   "sentences": 2,
+   "paragraphs": 1,
+   "urduPercentage": 100,
+   "diacritics": 0,
+   "digits": 0,
+   "averageWordsPerSentence": 5.5,
+   "readingTimeMinutes": 0.1
+  }
+ },
+ {
+  "fn": "analyzeUrdu",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": {
+   "characters": 0,
+   "charactersNoSpaces": 0,
+   "words": 0,
+   "sentences": 0,
+   "paragraphs": 0,
+   "urduPercentage": 0,
+   "diacritics": 0,
+   "digits": 0,
+   "averageWordsPerSentence": 0,
+   "readingTimeMinutes": 0
+  }
+ },
+ {
+  "fn": "analyzeUrdu",
+  "args": [
+   "مُحَمَّد ۱۲۳ 45"
+  ],
+  "options": {},
+  "expected": {
+   "characters": 15,
+   "charactersNoSpaces": 13,
+   "words": 3,
+   "sentences": 1,
+   "paragraphs": 1,
+   "urduPercentage": 100,
+   "diacritics": 4,
+   "digits": 5,
+   "averageWordsPerSentence": 3,
+   "readingTimeMinutes": 0
+  }
+ },
+ {
+  "fn": "analyzeUrdu",
+  "args": [
+   "پاکستان Pakistan"
+  ],
+  "options": {},
+  "expected": {
+   "characters": 16,
+   "charactersNoSpaces": 15,
+   "words": 2,
+   "sentences": 1,
+   "paragraphs": 1,
+   "urduPercentage": 47,
+   "diacritics": 0,
+   "digits": 0,
+   "averageWordsPerSentence": 2,
+   "readingTimeMinutes": 0
+  }
+ },
+ {
+  "fn": "analyzeUrdu",
+  "args": [
+   "پہلا پیراگراف۔\n\nدوسرا پیراگراف۔\n\nتیسرا۔"
+  ],
+  "options": {},
+  "expected": {
+   "characters": 39,
+   "charactersNoSpaces": 33,
+   "words": 5,
+   "sentences": 3,
+   "paragraphs": 3,
+   "urduPercentage": 100,
+   "diacritics": 0,
+   "digits": 0,
+   "averageWordsPerSentence": 1.7,
+   "readingTimeMinutes": 0
+  }
+ },
+ {
+  "fn": "analyzeUrdu",
+  "args": [
+   "پاکستان! (Pakistan)"
+  ],
+  "options": {},
+  "expected": {
+   "characters": 19,
+   "charactersNoSpaces": 18,
+   "words": 2,
+   "sentences": 2,
+   "paragraphs": 1,
+   "urduPercentage": 47,
+   "diacritics": 0,
+   "digits": 0,
+   "averageWordsPerSentence": 1,
+   "readingTimeMinutes": 0
+  }
+ },
+ {
+  "fn": "analyzeUrdu",
+  "args": [
+   "دو جملے۔ تین الفاظ۔"
+  ],
+  "options": {},
+  "expected": {
+   "characters": 19,
+   "charactersNoSpaces": 16,
+   "words": 4,
+   "sentences": 2,
+   "paragraphs": 1,
+   "urduPercentage": 100,
+   "diacritics": 0,
+   "digits": 0,
+   "averageWordsPerSentence": 2,
+   "readingTimeMinutes": 0
+  }
+ }
+]

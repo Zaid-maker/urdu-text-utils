@@ -2,9 +2,11 @@
  * Regenerate php/data/tables.json from the canonical TypeScript sources.
  *
  * The TS library is the single source of truth for Urdu tables (letter
- * inventory, dictionary, variants). This script compiles chars.ts and
- * dictionary.ts to throwaway ESM modules and serializes their exports to one
- * JSON file that the PHP port consumes — so the two languages can never drift.
+ * inventory, dictionary, variants, stop words, stemmer affixes, date names,
+ * name transliteration). This script compiles chars.ts, dictionary.ts,
+ * stopwords.ts, stats.ts, stemmer.ts, date.ts and names.ts to throwaway ESM
+ * modules and serializes their exports to one JSON file that the PHP port
+ * consumes — so the two languages can never drift.
  *
  * Usage: node scripts/generate-php-tables.mjs
  */
@@ -21,7 +23,15 @@ const phpData = join(root, "php", "data");
 rmSync(tmp, { recursive: true, force: true });
 mkdirSync(tmp, { recursive: true });
 await build({
-  entry: ["src/chars.ts", "src/dictionary.ts"],
+  entry: [
+    "src/chars.ts",
+    "src/dictionary.ts",
+    "src/stopwords.ts",
+    "src/stats.ts",
+    "src/stemmer.ts",
+    "src/date.ts",
+    "src/names.ts",
+  ],
   format: ["esm"],
   dts: false,
   outDir: tmp,
@@ -32,6 +42,11 @@ await build({
 // 2. Import them and read the exact data (plus regex .source patterns).
 const chars = await import(pathToFileURL(join(tmp, "chars.js")).href);
 const dict = await import(pathToFileURL(join(tmp, "dictionary.js")).href);
+const stop = await import(pathToFileURL(join(tmp, "stopwords.js")).href);
+const stats = await import(pathToFileURL(join(tmp, "stats.js")).href);
+const stem = await import(pathToFileURL(join(tmp, "stemmer.js")).href);
+const date = await import(pathToFileURL(join(tmp, "date.js")).href);
+const names = await import(pathToFileURL(join(tmp, "names.js")).href);
 
 const source = (re) => re.source;
 
@@ -71,9 +86,33 @@ const tables = {
     sentenceSplit: source(chars.SENTENCE_SPLIT_RE),
     anyLetter: source(chars.ANY_LETTER_RE),
     arabicLetter: source(chars.ARABIC_LETTER_RE),
+    anyDigit: source(chars.ANY_DIGIT_RE_G),
   },
   dictionary: dict.WORD_DICTIONARY,
   romanVariants: dict.ROMAN_VARIANTS,
+  stopWords: [...stop.URDU_STOP_WORDS],
+  /** Titles/honorifics whose dot must not end a sentence (src/stats.ts). */
+  sentenceAbbreviations: [...stats.SENTENCE_ABBREVIATIONS],
+  /** src/stemmer.ts affix tables. */
+  stemmer: {
+    prefixes: [...stem.URDU_PREFIXES],
+    suffixes: [...stem.URDU_SUFFIXES],
+    protectedWords: [...stem.PROTECTED_WORDS],
+  },
+  /** src/date.ts name tables. */
+  date: {
+    monthsGregorian: [...date.URDU_MONTHS_GREGORIAN],
+    monthsHijri: [...date.URDU_MONTHS_HIJRI],
+    weekdays: [...date.URDU_WEEKDAYS],
+  },
+  /** src/names.ts name transliteration tables. */
+  names: {
+    firstNames: names.URDU_FIRST_NAMES,
+    familyNames: names.URDU_FAMILY_NAMES,
+    honorifics: names.HONORIFICS,
+    prefixes: names.NAME_PREFIXES,
+    englishAliases: names.ENGLISH_NAME_ALIASES,
+  },
   /** Presentation forms whose NFKC decomposition differs (fallback when ext-intl is absent). */
   presentation: presentation,
 };

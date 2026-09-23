@@ -74,8 +74,9 @@ export const URDU_SUFFIXES = [
 
 /**
  * Irreducible base words that must not have prefixes or suffixes stripped falsely.
+ * Exported so the PHP port can consume the identical list via tables.json.
  */
-const PROTECTED_WORDS = new Set<string>([
+export const PROTECTED_WORDS = new Set<string>([
   "ہم",
   "نا",
   "لا",

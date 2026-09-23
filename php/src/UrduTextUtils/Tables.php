@@ -54,6 +54,36 @@ final class Tables
         return self::data()['romanVariants'];
     }
 
+    /** Canonical Urdu stop words (generated from src/stopwords.ts). */
+    public static function stopWords(): array
+    {
+        return self::data()['stopWords'];
+    }
+
+    /** Titles/honorifics whose dot must not end a sentence (generated from src/stats.ts). */
+    public static function sentenceAbbreviations(): array
+    {
+        return self::data()['sentenceAbbreviations'];
+    }
+
+    /** Stemmer affix tables: prefixes, suffixes, protectedWords (generated from src/stemmer.ts). */
+    public static function stemmer(): array
+    {
+        return self::data()['stemmer'];
+    }
+
+    /** Date name tables: monthsGregorian, monthsHijri, weekdays (generated from src/date.ts). */
+    public static function date(): array
+    {
+        return self::data()['date'];
+    }
+
+    /** Name transliteration tables: firstNames, familyNames, honorifics, prefixes, englishAliases (generated from src/names.ts). */
+    public static function names(): array
+    {
+        return self::data()['names'];
+    }
+
     /**
      * Compile a named JS RegExp into PCRE (with /u), converting \uXXXX and
      * \u{...} escapes to PCRE's \x{...} form.

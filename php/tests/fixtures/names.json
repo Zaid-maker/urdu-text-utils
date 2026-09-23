@@ -1,0 +1,947 @@
+[
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "محمد"
+  ],
+  "options": {},
+  "expected": "Muhammad"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "علی"
+  ],
+  "options": {},
+  "expected": "Ali"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "عمر"
+  ],
+  "options": {},
+  "expected": "Umar"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "خان"
+  ],
+  "options": {},
+  "expected": "Khan"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "محمد علی"
+  ],
+  "options": {},
+  "expected": "Muhammad Ali"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "احمد خان"
+  ],
+  "options": {},
+  "expected": "Ahmed Khan"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "فاطمہ عائشہ"
+  ],
+  "options": {},
+  "expected": "Fatima Ayesha"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "جناب خان"
+  ],
+  "options": {},
+  "expected": "Janab Khan"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "محمد صاحب"
+  ],
+  "options": {},
+  "expected": "Muhammad Sahib"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "علی صاحب"
+  ],
+  "options": {},
+  "expected": "Ali Sahib"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "شریف"
+  ],
+  "options": {},
+  "expected": "Sharif"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "بھٹو"
+  ],
+  "options": {},
+  "expected": "Bhutto"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "زرداری"
+  ],
+  "options": {},
+  "expected": "Zardari"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "جناب محمد علی خان صاحب"
+  ],
+  "options": {},
+  "expected": "Janab Muhammad Ali Khan Sahib"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "میاں محمد"
+  ],
+  "options": {},
+  "expected": "Mian Muhammad"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "جناب محمد علی"
+  ],
+  "options": {
+   "includeHonorifics": false
+  },
+  "expected": "Muhammad Ali"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "جناب ڈاکٹر محمد علی صاحب"
+  ],
+  "options": {
+   "includeHonorifics": false
+  },
+  "expected": "Muhammad Ali"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "محمد علی"
+  ],
+  "options": {
+   "preserveCase": false
+  },
+  "expected": "muhammad ali"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "آصف"
+  ],
+  "options": {},
+  "expected": "Asif"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "خالد"
+  ],
+  "options": {},
+  "expected": "Khalid"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "ندیم"
+  ],
+  "options": {},
+  "expected": "Nadeem"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "نظیر"
+  ],
+  "options": {},
+  "expected": "Nazir"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "سرفراز"
+  ],
+  "options": {},
+  "expected": "Sarfraz"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "مقصود"
+  ],
+  "options": {},
+  "expected": "Maqsood"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "مسعود"
+  ],
+  "options": {},
+  "expected": "Masood"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "اقصی"
+  ],
+  "options": {},
+  "expected": "Aqsa"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "لائبہ"
+  ],
+  "options": {},
+  "expected": "Laiba"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "فیزا"
+  ],
+  "options": {},
+  "expected": "Fiza"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "فضہ"
+  ],
+  "options": {},
+  "expected": "Fizza"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "نازیہ"
+  ],
+  "options": {},
+  "expected": "Nazia"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "تسنیم"
+  ],
+  "options": {},
+  "expected": "Tasneem"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "سلمی"
+  ],
+  "options": {},
+  "expected": "Salma"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "عظمی"
+  ],
+  "options": {},
+  "expected": "Uzma"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "عدیل"
+  ],
+  "options": {},
+  "expected": "Adeel"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "شعیب"
+  ],
+  "options": {},
+  "expected": "Shoaib"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "رؤف"
+  ],
+  "options": {},
+  "expected": "Rauf"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "حرا"
+  ],
+  "options": {},
+  "expected": "Hira"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "ماہم"
+  ],
+  "options": {},
+  "expected": "Maham"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "حنا"
+  ],
+  "options": {},
+  "expected": "Hina"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "سدرہ"
+  ],
+  "options": {},
+  "expected": "Sidra"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "ردا"
+  ],
+  "options": {},
+  "expected": "Rida"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "نائلہ"
+  ],
+  "options": {},
+  "expected": "Naila"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "بشری"
+  ],
+  "options": {},
+  "expected": "Bushra"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "رخسانہ"
+  ],
+  "options": {},
+  "expected": "Rukhsana"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "ناہید"
+  ],
+  "options": {},
+  "expected": "Naheed"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "صائمہ"
+  ],
+  "options": {},
+  "expected": "Saima"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "مہرین"
+  ],
+  "options": {},
+  "expected": "Mehreen"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "عنبرین"
+  ],
+  "options": {},
+  "expected": "Ambreen"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "سمیعہ"
+  ],
+  "options": {},
+  "expected": "Samia"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "سامیہ"
+  ],
+  "options": {},
+  "expected": "Samiya"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "رابعہ"
+  ],
+  "options": {},
+  "expected": "Rabia"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "ارم"
+  ],
+  "options": {},
+  "expected": "Iram"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "فرح"
+  ],
+  "options": {},
+  "expected": "Farah"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "نزہت"
+  ],
+  "options": {},
+  "expected": "Nuzhat"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "کرن"
+  ],
+  "options": {},
+  "expected": "Kiran"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "قریشی"
+  ],
+  "options": {},
+  "expected": "Qureshi"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "جدون"
+  ],
+  "options": {},
+  "expected": "Jadoon"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "کھوسہ"
+  ],
+  "options": {},
+  "expected": "Khosa"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "تالپور"
+  ],
+  "options": {},
+  "expected": "Talpur"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "دانیال"
+  ],
+  "options": {},
+  "expected": "Daniyal"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "ذیشان"
+  ],
+  "options": {},
+  "expected": "Zeeshan"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "مصطفی"
+  ],
+  "options": {},
+  "expected": "Mustafa"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "جویریہ"
+  ],
+  "options": {},
+  "expected": "Javeria"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "مہوش"
+  ],
+  "options": {},
+  "expected": "Mehwish"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "عالیہ"
+  ],
+  "options": {},
+  "expected": "Alia"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "میمونہ"
+  ],
+  "options": {},
+  "expected": "Memoona"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "اقصیٰ"
+  ],
+  "options": {},
+  "expected": "Aqsa"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "سلمیٰ"
+  ],
+  "options": {},
+  "expected": "Salma"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "عظمیٰ"
+  ],
+  "options": {},
+  "expected": "Uzma"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "بشریٰ"
+  ],
+  "options": {},
+  "expected": "Bushra"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "مصطفیٰ"
+  ],
+  "options": {},
+  "expected": "Mustafa"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "ظفر"
+  ],
+  "options": {},
+  "expected": "Zfr"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "غیور"
+  ],
+  "options": {},
+  "expected": "Ghyor"
+ },
+ {
+  "fn": "transliterateNameToEnglish",
+  "args": [
+   "شاہین"
+  ],
+  "options": {},
+  "expected": "Shahyn"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Muhammad"
+  ],
+  "options": {},
+  "expected": "محمد"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Ali"
+  ],
+  "options": {},
+  "expected": "علی"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Umar"
+  ],
+  "options": {},
+  "expected": "عمر"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Khan"
+  ],
+  "options": {},
+  "expected": "خان"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Muhammad Ali"
+  ],
+  "options": {},
+  "expected": "محمد علی"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Ahmed Khan"
+  ],
+  "options": {},
+  "expected": "احمد خان"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Fatima Ayesha"
+  ],
+  "options": {},
+  "expected": "فاطمہ عائشہ"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Janab Khan"
+  ],
+  "options": {},
+  "expected": "جناب خان"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Muhammad Sahib"
+  ],
+  "options": {},
+  "expected": "محمد صاحب"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Sharif"
+  ],
+  "options": {},
+  "expected": "شریف"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Bhutto"
+  ],
+  "options": {},
+  "expected": "بھٹو"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Zardari"
+  ],
+  "options": {},
+  "expected": "زرداری"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "MUHAMMAD"
+  ],
+  "options": {},
+  "expected": "محمد"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "ali"
+  ],
+  "options": {},
+  "expected": "علی"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Hassan"
+  ],
+  "options": {},
+  "expected": "حسن"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Omar"
+  ],
+  "options": {},
+  "expected": "عمر"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Omer"
+  ],
+  "options": {},
+  "expected": "عمر"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Yaqoob"
+  ],
+  "options": {},
+  "expected": "یعقوب"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Jameel"
+  ],
+  "options": {},
+  "expected": "جمیل"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Majeed"
+  ],
+  "options": {},
+  "expected": "مجید"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Amna"
+  ],
+  "options": {},
+  "expected": "آمنہ"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Gilani"
+  ],
+  "options": {},
+  "expected": "گیلانی"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Sahab"
+  ],
+  "options": {},
+  "expected": "صاحب"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Doctor"
+  ],
+  "options": {},
+  "expected": "ڈاکٹر"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Professor"
+  ],
+  "options": {},
+  "expected": "پروفیسر"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Engineer"
+  ],
+  "options": {},
+  "expected": "انجینئر"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Advocate"
+  ],
+  "options": {},
+  "expected": "ایڈووکیٹ"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Retd"
+  ],
+  "options": {},
+  "expected": "ریٹائرڈ"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Mian"
+  ],
+  "options": {},
+  "expected": "میاں"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Begum"
+  ],
+  "options": {},
+  "expected": "بیگم"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Syed"
+  ],
+  "options": {},
+  "expected": "سید"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Chowdhury"
+  ],
+  "options": {},
+  "expected": "چوہدری"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   "Zafar"
+  ],
+  "options": {},
+  "expected": "Zafar"
+ },
+ {
+  "fn": "transliterateNameToUrdu",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "extractNameParts",
+  "args": [
+   "جناب محمد علی خان صاحب"
+  ],
+  "options": {},
+  "expected": {
+   "honorific": "جناب",
+   "firstName": "محمد علی",
+   "familyName": "خان",
+   "suffix": "صاحب"
+  }
+ },
+ {
+  "fn": "extractNameParts",
+  "args": [
+   "محمد علی خان"
+  ],
+  "options": {},
+  "expected": {
+   "firstName": "محمد علی",
+   "familyName": "خان"
+  }
+ },
+ {
+  "fn": "extractNameParts",
+  "args": [
+   "محمد"
+  ],
+  "options": {},
+  "expected": {
+   "firstName": "محمد"
+  }
+ },
+ {
+  "fn": "extractNameParts",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": {
+   "firstName": ""
+  }
+ },
+ {
+  "fn": "extractNameParts",
+  "args": [
+   "بیگم فاطمہ خان"
+  ],
+  "options": {},
+  "expected": {
+   "firstName": "فاطمہ",
+   "familyName": "خان",
+   "suffix": "بیگم"
+  }
+ },
+ {
+  "fn": "extractNameParts",
+  "args": [
+   "ڈاکٹر عالیہ"
+  ],
+  "options": {},
+  "expected": {
+   "honorific": "ڈاکٹر",
+   "firstName": "عالیہ"
+  }
+ }
+]
