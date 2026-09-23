@@ -1,3 +1,21 @@
 * text=auto eol=lf
 *.png binary
 *.jpg binary
+
+# Packagist serves git-tag archives as the dist zip; keep the PHP package's
+# footprint to exactly what a consumer needs (mirrors package.json "files").
+/.github export-ignore
+/docs export-ignore
+/node_modules export-ignore
+/php/.gitignore export-ignore
+/php/.phpunit.cache export-ignore
+/php/tests export-ignore
+/php/vendor export-ignore
+/scripts export-ignore
+/tests export-ignore
+/bench.mjs export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
+/release.mjs export-ignore
+/smoke-package.mjs export-ignore
+/tsup.config.ts export-ignore

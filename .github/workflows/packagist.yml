@@ -1,0 +1,135 @@
+name: Packagist
+
+# Packagist.org has no OIDC trusted publishing (that is a Private Packagist
+# feature). On packagist.org the code always comes from this repository: a git
+# tag IS the release — Packagist derives each version from the tag pointing at
+# a commit whose ROOT composer.json describes the package. Publishing is
+# therefore: verify everything, then notify Packagist to re-read the repo via
+# its update API with a "<username>:<token>" secret (PACKAGIST_TOKEN).
+#
+# One-time setup is documented in php/README.md.
+
+on:
+  push:
+    # Mirrors release.yml: stable and pre-release version tags both publish.
+    tags: ["v*.*.*"]
+  workflow_dispatch: {} # manual re-notify after Packagist-side changes
+
+permissions:
+  contents: read
+
+concurrency:
+  group: packagist-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # Every supported PHP version must pass the parity suite before the tag is
+  # surfaced on Packagist — the same gate the npm Release applies to JS tests.
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["8.1", "8.2", "8.3"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          extensions: mbstring, intl
+          tools: composer:v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # The PHP tables/fixtures are generated from the TypeScript source; a
+      # drifted artifact would ship a package that disagrees with the npm
+      # release carrying the same tag.
+      - name: Check generated PHP tables are in sync
+        run: |
+          npm ci
+          npm run build
+          node scripts/generate-php-tables.mjs
+          if [ -n "$(git status --porcelain -- php/data/)" ]; then
+            echo "php/data/tables.json drifted from the TypeScript source." >&2
+            git diff --stat -- php/data/ >&2
+            exit 1
+          fi
+
+      - name: Validate composer manifest
+        run: composer validate --strict --no-check-publish
+
+      - name: Install PHP dev dependencies
+        run: composer install --no-interaction --prefer-dist --working-dir=php
+
+      - name: Run the PHP parity suite
+        run: composer test --working-dir=php
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          coverage: none
+          extensions: mbstring, intl
+          tools: composer:v2
+
+      # Packagist serves the dist archive built from the tagged commit, so
+      # prove exactly what the tag serves: that the root composer.json resolves
+      # the PSR-4 autoload into php/src and the public API answers.
+      - name: Verify the package the tag will serve
+        run: |
+          composer validate --strict
+          composer dump-autoload --no-dev
+          php -r "
+            require 'vendor/autoload.php';
+            \$ok = UrduTextUtils\\Normalizer::normalizeUrdu('كيا') === 'کیا';
+            \$ok = \$ok && UrduTextUtils\\Names::toEnglish('محمد علی') === 'Muhammad Ali';
+            \$ok = \$ok && UrduTextUtils\\Date::timeAgoUrdu(0, 300) !== '';
+            if (!\$ok) { fwrite(STDERR, \"tag smoke failed\\n\"); exit(1); }
+            echo \"tag smoke passed\\n\";
+          "
+          rm -rf vendor
+
+      # The actual "publish": ask Packagist to re-read the repository. The
+      # secret value is "<username>:<token>", exactly as Packagist documents.
+      - name: Notify Packagist
+        env:
+          PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+        run: |
+          if [ -z "$PACKAGIST_TOKEN" ]; then
+            echo "PACKAGIST_TOKEN is not set — skipping the notification."
+            echo "Add the repository secret (see php/README.md) to enable publishing."
+            exit 0
+          fi
+          STATUS=$(curl -sS -o /tmp/packagist-response.json -w "%{http_code}" \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"repository_url": "https://github.com/Zaid-maker/urdu-text-utils"}' \
+            -u "$PACKAGIST_TOKEN" \
+            "https://packagist.org/api/update-package")
+          echo "Packagist API responded $STATUS"
+          cat /tmp/packagist-response.json; echo
+          if [ "$STATUS" != "202" ] && [ "$STATUS" != "200" ]; then
+            echo "Packagist update failed with HTTP $STATUS" >&2
+            exit 1
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Packagist publish"
+            echo ""
+            echo "- Tag: \`${GITHUB_REF_NAME}\`"
+            echo "- Package: https://packagist.org/packages/urdu-text-utils/urdu-text-utils"
+            echo "- Packagist re-indexes asynchronously; the version appears within a few minutes."
+          } >> "$GITHUB_STEP_SUMMARY"

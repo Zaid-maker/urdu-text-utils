@@ -1,0 +1,48 @@
+{
+  "name": "urdu-text-utils/urdu-text-utils",
+  "description": "Zero-dependency Urdu text processing: normalization, collation, transliteration, search, numbers, detection, tokenization, statistics, stop words, stemming, dates, and name transliteration. PHP port of the TypeScript urdu-text-utils, consuming the same generated tables.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "urdu",
+    "unicode",
+    "transliteration",
+    "normalization",
+    "collation",
+    "search",
+    "nlp",
+    "rtl",
+    "nastaliq",
+    "stopwords",
+    "stemmer",
+    "roman-urdu",
+    "pakistan"
+  ],
+  "homepage": "https://github.com/Zaid-maker/urdu-text-utils/tree/main/php#readme",
+  "authors": [
+    {
+      "name": "Zaid-maker",
+      "homepage": "https://github.com/Zaid-maker"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/Zaid-maker/urdu-text-utils/issues",
+    "source": "https://github.com/Zaid-maker/urdu-text-utils/tree/main/php",
+    "docs": "https://zaid-maker.github.io/urdu-text-utils/"
+  },
+  "require": {
+    "php": "^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "UrduTextUtils\\": "php/src/UrduTextUtils/"
+    }
+  },
+  "suggest": {
+    "ext-intl": "Provides true Unicode NFKC/NFC normalization; without it a generated presentation-form fallback is used.",
+    "ext-mbstring": "Handy for multibyte string work around the library; not required by it."
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

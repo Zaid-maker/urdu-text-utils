@@ -19,6 +19,14 @@ of truth, so the two languages cannot drift.
 composer require urdu-text-utils/urdu-text-utils
 ```
 
+> The package is published to Packagist from the version tags of this
+> repository (see [Publishing](#publishing) below). Until the first tagged
+> release lands there, install straight from GitHub:
+>
+> ```bash
+> composer require urdu-text-utils/urdu-text-utils:dev-main
+> ```
+
 `ext-intl` is optional — when present it is used for true Unicode NFKC/NFC
 normalization; without it a generated presentation-form fallback is applied.
 
@@ -76,6 +84,35 @@ Run the parity suite:
 ```bash
 composer test
 ```
+
+## Publishing
+
+The PHP package is published to [Packagist](https://packagist.org/packages/urdu-text-utils/urdu-text-utils)
+from the same `vX.Y.Z` tags that drive the npm release. Unlike npm, Packagist
+has no OIDC trusted publishing: the code always comes from this repository and
+a git tag **is** the release. The root `composer.json` (autoload pointing into
+`php/src/UrduTextUtils/`) is what Packagist indexes; `.gitattributes`
+`export-ignore` rules keep the dist archive to consumer-relevant files.
+
+One-time setup, mirroring how `release.yml` relies on the npm trusted
+publisher configuration:
+
+1. Create a [Packagist](https://packagist.org) account and submit this
+   repository at <https://packagist.org/packages/submit>. The vendor is
+   `urdu-text-utils`; if Packagist says it is not yours yet, use the vendor
+   claim/creation link it offers — vendor names are claimed once and then
+   permanently owned by the account.
+2. On your Packagist profile page, copy the API **username** and **token**.
+3. Add a repository secret `PACKAGIST_TOKEN` with the value `username:token`
+   (GitHub → Settings → Secrets and variables → Actions).
+4. Optionally add the Packagist **webhook URL** (profile → "Your webhook URL")
+   as a GitHub webhook, so pushes notify Packagist even outside tag builds.
+
+After that, `.github/workflows/packagist.yml` publishes automatically on every
+version tag: it verifies the generated tables are in sync with the TypeScript
+source, runs the parity suite on PHP 8.1–8.3, smoke-tests the root autoload,
+and then notifies Packagist via its update API. Packagist re-indexes
+asynchronously; the version appears on the package page within a few minutes.
 
 ## Scope
 
