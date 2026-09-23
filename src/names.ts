@@ -241,8 +241,9 @@ for (const table of [HONORIFICS, URDU_FIRST_NAMES, URDU_FAMILY_NAMES, NAME_PREFI
 /**
  * Alternate English spellings of names already in the forward tables
  * (e.g. `Omar` for عمر, canonically spelled `Umar` in English).
+ * Exported so the PHP port can consume the identical list via tables.json.
  */
-const ENGLISH_NAME_ALIASES: Record<string, string> = {
+export const ENGLISH_NAME_ALIASES: Record<string, string> = {
   hassan: "حسن", // vs. canonical Hasan
   omar: "عمر", // vs. canonical Umar
   omer: "عمر", // vs. canonical Umar

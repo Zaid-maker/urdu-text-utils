@@ -3,9 +3,9 @@
 A zero-dependency PHP port of the [urdu-text-utils](https://github.com/Zaid-maker/urdu-text-utils)
 TypeScript library: Urdu normalization, collation, transliteration, numbers,
 diacritic-insensitive search, script detection, word/sentence tokenization with
-text statistics, stop words, rule-based stemming, and Urdu date formatting with
-relative time — implemented in pure PHP with **no required extensions**
-(Unicode regexes via PCRE `/u`).
+text statistics, stop words, rule-based stemming, Urdu date formatting with
+relative time, and Urdu ⇄ English name transliteration — implemented in pure
+PHP with **no required extensions** (Unicode regexes via PCRE `/u`).
 
 Every behavior is verified against the TypeScript implementation by
 **parity fixtures**: the expected values in `tests/fixtures/*.json` are
@@ -55,6 +55,11 @@ Stemmer::stemText("طلباء کتابیں پڑھتے ہیں۔");        // "ط�
 
 Date::formatUrduDate(new DateTime(), "DD MMMM YYYY");  // "۲۲ اگست ۲۰۲۶"
 Date::timeAgoUrdu(time() - 300);                       // "۵ منٹ پہلے"
+
+Names::toEnglish("محمد علی خان");         // "Muhammad Ali Khan"
+Names::toUrdu("Muhammad Ali Khan");       // "محمد علی خان"
+Names::extractNameParts("جناب محمد علی خان صاحب");
+// ['honorific' => 'جناب', 'firstName' => 'محمد علی', 'familyName' => 'خان', 'suffix' => 'صاحب']
 ```
 
 ## Development
@@ -74,6 +79,6 @@ composer test
 
 ## Scope
 
-Stages 0.1–0.3: normalize, collate, transliterate, numbers, search, detect,
-stats (words, sentences, analyzeUrdu), stop words, stemmer and dates. Name
-transliteration arrives in a later stage.
+Stages 0.1–0.4: normalize, collate, transliterate, numbers, search, detect,
+stats (words, sentences, analyzeUrdu), stop words, stemmer, dates, and name
+transliteration — every module of the TypeScript library is now ported.

@@ -30,6 +30,7 @@ const fixtures = {
   stopwords: [],
   stemmer: [],
   date: [],
+  names: [],
 };
 
 /**
@@ -552,6 +553,68 @@ tAgo(-2700);
 tAgo(-79200);
 tAgo(-8 * 86400);
 tAgo(-330 * 86400);
+
+// ---- names -----------------------------------------------------------------
+for (const [input, options] of [
+  // single names, full names, honorifics, family names
+  ["محمد"], ["علی"], ["عمر"], ["خان"],
+  ["محمد علی"], ["احمد خان"], ["فاطمہ عائشہ"],
+  ["جناب خان"], ["محمد صاحب"], ["علی صاحب"],
+  ["شریف"], ["بھٹو"], ["زرداری"],
+  ["جناب محمد علی خان صاحب"],
+  ["میاں محمد"],
+  [""],
+  // options
+  ["جناب محمد علی", { includeHonorifics: false }],
+  ["جناب ڈاکٹر محمد علی صاحب", { includeHonorifics: false }],
+  ["محمد علی", { preserveCase: false }],
+  // corrected spellings round-tripping both ways
+  ["آصف"], ["خالد"], ["ندیم"], ["نظیر"], ["سرفراز"], ["مقصود"], ["مسعود"],
+  ["اقصی"], ["لائبہ"], ["فیزا"], ["فضہ"], ["نازیہ"], ["تسنیم"], ["سلمی"], ["عظمی"],
+  ["عدیل"], ["شعیب"], ["رؤف"], ["حرا"], ["ماہم"], ["حنا"], ["سدرہ"], ["ردا"],
+  ["نائلہ"], ["بشری"], ["رخسانہ"], ["ناہید"], ["صائمہ"], ["مہرین"], ["عنبرین"],
+  ["سمیعہ"], ["سامیہ"], ["رابعہ"], ["ارم"], ["فرح"], ["نزہت"], ["کرن"],
+  ["قریشی"], ["جدون"], ["کھوسہ"], ["تالپور"],
+  ["دانیال"], ["ذیشان"], ["مصطفی"], ["جویریہ"], ["مہوش"], ["عالیہ"], ["میمونہ"],
+  // superscript-alef spellings normalize to the dictionary keys
+  ["اقصیٰ"], ["سلمیٰ"], ["عظمیٰ"], ["بشریٰ"], ["مصطفیٰ"],
+  // rule fallback keeps unknown names ASCII-clean
+  ["ظفر"], ["غیور"], ["شاہین"],
+]) {
+  fixtures.names.push({
+    fn: "transliterateNameToEnglish",
+    args: [input],
+    options: options ?? {},
+    expected: lib.transliterateNameToEnglish(input, options),
+  });
+}
+for (const input of [
+  "Muhammad", "Ali", "Umar", "Khan",
+  "Muhammad Ali", "Ahmed Khan", "Fatima Ayesha",
+  "Janab Khan", "Muhammad Sahib",
+  "Sharif", "Bhutto", "Zardari",
+  "MUHAMMAD", "ali",
+  // alternate Roman spellings
+  "Hassan", "Omar", "Omer", "Yaqoob", "Jameel", "Majeed", "Amna", "Gilani", "Sahab",
+  "Doctor", "Professor", "Engineer", "Advocate", "Retd",
+  // prefixes
+  "Mian", "Begum", "Syed", "Chowdhury",
+  // unknown passes through
+  "Zafar",
+  "",
+]) {
+  fixtures.names.push({ fn: "transliterateNameToUrdu", args: [input], options: {}, expected: lib.transliterateNameToUrdu(input) });
+}
+for (const input of [
+  "جناب محمد علی خان صاحب",
+  "محمد علی خان",
+  "محمد",
+  "",
+  "بیگم فاطمہ خان",
+  "ڈاکٹر عالیہ",
+]) {
+  fixtures.names.push({ fn: "extractNameParts", args: [input], options: {}, expected: lib.extractNameParts(input) });
+}
 
 for (const [name, cases] of Object.entries(fixtures)) {
   const file = join(outDir, `${name}.json`);

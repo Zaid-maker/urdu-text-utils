@@ -80,5 +80,10 @@ export {
   transliterateNameToEnglish,
   transliterateNameToUrdu,
   extractNameParts,
+  URDU_FIRST_NAMES,
+  URDU_FAMILY_NAMES,
+  HONORIFICS,
+  NAME_PREFIXES,
+  ENGLISH_NAME_ALIASES,
   type NameTransliterationOptions,
 } from "./names.js";

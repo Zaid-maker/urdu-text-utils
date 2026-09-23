@@ -78,6 +78,12 @@ final class Tables
         return self::data()['date'];
     }
 
+    /** Name transliteration tables: firstNames, familyNames, honorifics, prefixes, englishAliases (generated from src/names.ts). */
+    public static function names(): array
+    {
+        return self::data()['names'];
+    }
+
     /**
      * Compile a named JS RegExp into PCRE (with /u), converting \uXXXX and
      * \u{...} escapes to PCRE's \x{...} form.
