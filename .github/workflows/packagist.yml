@@ -99,8 +99,10 @@ jobs:
           "
           rm -rf vendor
 
-      # The actual "publish": ask Packagist to re-read the repository. The
-      # secret value is "<username>:<token>", exactly as Packagist documents.
+      # The actual "publish": ask Packagist to re-read the repository.
+      # Payload and auth follow the current API docs (packagist.org/apidoc):
+      # POST {"repository": "<url>"} with "Authorization: Bearer <username>:<token>"
+      # — so the PACKAGIST_TOKEN secret value is "<username>:<token>".
       - name: Notify Packagist
         env:
           PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
@@ -113,8 +115,9 @@ jobs:
           STATUS=$(curl -sS -o /tmp/packagist-response.json -w "%{http_code}" \
             -X POST \
             -H "Content-Type: application/json" \
-            -d '{"repository_url": "https://github.com/Zaid-maker/urdu-text-utils"}' \
-            -u "$PACKAGIST_TOKEN" \
+            -H "Authorization: Bearer $PACKAGIST_TOKEN" \
+            -A "urdu-text-utils-release-ci (pzhafeez@gmail.com)" \
+            -d '{"repository": "https://github.com/Zaid-maker/urdu-text-utils"}' \
             "https://packagist.org/api/update-package")
           echo "Packagist API responded $STATUS"
           cat /tmp/packagist-response.json; echo
