@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0
+
+- Complete the PHP port (stages 0.2-0.4): add Detect.php, StopWords.php, Words.php sentence/statistics APIs, Stemmer.php, Date.php and Names.php with full fixture parity against the TypeScript source
+- Flow every shared table (stop words, sentence abbreviations, stemmer affixes, date names, name tables) through the generated php/data/tables.json
+- Export PROTECTED_WORDS and ENGLISH_NAME_ALIASES from the TypeScript source and re-export them from the package root
+- Add 360 PHP parity fixtures (536 PHPUnit tests) that pass with and without ext-intl
+- Add scripts/verify-php-parity.mjs, a no-PHP smoke check mirroring the PHP algorithms in Node
+- Use timezone-stable date fixtures so CI regeneration can never drift from locally generated fixtures
+
+
 ## 0.2.3
 
 - Add Complementary libraries section
