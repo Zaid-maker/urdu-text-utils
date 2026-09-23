@@ -23,6 +23,7 @@ export {
   splitWords,
   splitSentences,
   analyzeUrdu,
+  SENTENCE_ABBREVIATIONS,
   type UrduStats,
   type SplitSentenceOptions,
 } from "./stats.js";

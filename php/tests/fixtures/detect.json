@@ -1,0 +1,246 @@
+[
+ {
+  "fn": "isUrdu",
+  "args": [
+   "آپ کیسے ہیں؟"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "پاکستان"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "hello world"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "12345 !!! ---"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "The word پاکستان appears in this English sentence"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "The word پاکستان appears"
+  ],
+  "options": {
+   "threshold": 0.1
+  },
+  "expected": true
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "پاکستان ایک خوبصورت ملک ہے (Pakistan)"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "پاکستان پاکستان hello"
+  ],
+  "options": {
+   "minLetters": 5,
+   "threshold": 0.4
+  },
+  "expected": true
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "پاکستان hello world foo bar"
+  ],
+  "options": {
+   "minLetters": 5,
+   "threshold": 0.4
+  },
+  "expected": false
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "پاکستان pakistan"
+  ],
+  "options": {
+   "threshold": 0.5
+  },
+  "expected": false
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "پاکستان pakistan"
+  ],
+  "options": {
+   "threshold": 0.4
+  },
+  "expected": true
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "كتاب مدرسة"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isUrdu",
+  "args": [
+   "کیا حال ہے? ٹھیک ہوں."
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "urduRatio",
+  "args": [
+   "پاکستان"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "urduRatio",
+  "args": [
+   "Pakistan"
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "urduRatio",
+  "args": [
+   "12345"
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "urduRatio",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": 0
+ },
+ {
+  "fn": "urduRatio",
+  "args": [
+   "پاکستان! (Pakistan)"
+  ],
+  "options": {},
+  "expected": 0.4666666666666667
+ },
+ {
+  "fn": "urduRatio",
+  "args": [
+   "پاکستان Pakistan"
+  ],
+  "options": {},
+  "expected": 0.4666666666666667
+ },
+ {
+  "fn": "urduRatio",
+  "args": [
+   "مُحَمَّد ۱۲۳ 45"
+  ],
+  "options": {},
+  "expected": 1
+ },
+ {
+  "fn": "hasUrduSpecificLetters",
+  "args": [
+   "پاکستان"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "hasUrduSpecificLetters",
+  "args": [
+   "لڑکی"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "hasUrduSpecificLetters",
+  "args": [
+   "كتاب مدرسة"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "hasUrduSpecificLetters",
+  "args": [
+   "سلام علیکم"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "hasUrduSpecificLetters",
+  "args": [
+   "کتاب"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "hasUrduSpecificLetters",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "hasUrduSpecificLetters",
+  "args": [
+   "دولت"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "hasUrduSpecificLetters",
+  "args": [
+   "داروغہ"
+  ],
+  "options": {},
+  "expected": true
+ }
+]

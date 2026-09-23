@@ -1,0 +1,240 @@
+[
+ {
+  "fn": "isStopWord",
+  "args": [
+   "ہے"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "اور"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "میں"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "لیکن"
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "فى"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "اور "
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "کتاب"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "پاکستان"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "خوبصورت"
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "خاص",
+   [
+    "خاص",
+    "لفظ"
+   ]
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "ہے",
+   [
+    "خاص",
+    "لفظ"
+   ]
+  ],
+  "options": {},
+  "expected": false
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "لفظ",
+   [
+    "خاص",
+    "لفظ"
+   ]
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "isStopWord",
+  "args": [
+   "اور",
+   [
+    "اور "
+   ]
+  ],
+  "options": {},
+  "expected": true
+ },
+ {
+  "fn": "filterStopWords",
+  "args": [
+   [
+    "یہ",
+    "ایک",
+    "بہترین",
+    "اور",
+    "خوبصورت",
+    "کتاب",
+    "ہے"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "بہترین",
+   "خوبصورت",
+   "کتاب"
+  ]
+ },
+ {
+  "fn": "filterStopWords",
+  "args": [
+   []
+  ],
+  "options": {},
+  "expected": []
+ },
+ {
+  "fn": "filterStopWords",
+  "args": [
+   [
+    "یہ",
+    "ہے",
+    "اور"
+   ]
+  ],
+  "options": {},
+  "expected": []
+ },
+ {
+  "fn": "filterStopWords",
+  "args": [
+   [
+    "آم",
+    "سیب",
+    "کیلا"
+   ],
+   [
+    "سیب"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "آم",
+   "کیلا"
+  ]
+ },
+ {
+  "fn": "filterStopWords",
+  "args": [
+   [
+    "آم",
+    "سیب",
+    "کیلا"
+   ],
+   [
+    "سیب",
+    "کیلا"
+   ]
+  ],
+  "options": {},
+  "expected": [
+   "آم"
+  ]
+ },
+ {
+  "fn": "removeStopWords",
+  "args": [
+   "پاکستان ایک بہت خوبصورت ملک ہے اور اس کے لوگ اچھے ہیں"
+  ],
+  "options": {},
+  "expected": "پاکستان بہت خوبصورت ملک لوگ اچھے"
+ },
+ {
+  "fn": "removeStopWords",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "removeStopWords",
+  "args": [
+   "آم میٹھا پھل ہے",
+   [
+    "میٹھا"
+   ]
+  ],
+  "options": {},
+  "expected": "آم پھل ہے"
+ },
+ {
+  "fn": "removeStopWords",
+  "args": [
+   "یہ ایک اچھی کتاب ہے۔"
+  ],
+  "options": {},
+  "expected": "اچھی کتاب"
+ }
+]

@@ -1,8 +1,9 @@
 # urdu-text-utils (PHP)
 
 A zero-dependency PHP port of the [urdu-text-utils](https://github.com/Zaid-maker/urdu-text-utils)
-TypeScript library: Urdu normalization, collation, transliteration, numbers and
-diacritic-insensitive search — implemented in pure PHP with **no required
+TypeScript library: Urdu normalization, collation, transliteration, numbers,
+diacritic-insensitive search, script detection, word/sentence tokenization with
+text statistics, and stop words — implemented in pure PHP with **no required
 extensions** (Unicode regexes via PCRE `/u`).
 
 Every behavior is verified against the TypeScript implementation by
@@ -26,6 +27,9 @@ normalization; without it a generated presentation-form fallback is applied.
 use UrduTextUtils\Normalizer;
 use UrduTextUtils\Collator;
 use UrduTextUtils\Transliterator;
+use UrduTextUtils\Detect;
+use UrduTextUtils\Words;
+use UrduTextUtils\StopWords;
 
 Normalizer::normalizeUrdu("كيا حال ہے");            // "کیا حال ہے"
 Normalizer::removeDiacritics("مُحَمَّد");           // "محمد"
@@ -34,6 +38,16 @@ Collator::sortUrdu(["گل", "آم", "بادام"]);          // ["آم", "باد
 
 Transliterator::romanize("آپ کیسے ہیں");             // "aap kaisay hain"
 Transliterator::urduSlug("میرا پہلا مضمون");         // "mera-pehla-mazmoon"
+
+Detect::isUrdu("آپ کیسے ہیں؟");                      // true
+Detect::hasUrduSpecificLetters("لڑکی");              // true — ڑ does not exist in Arabic
+
+Words::count("پاکستان ایک خوبصورت ملک ہے");          // 5
+Words::splitSentences("یہ پہلا جملہ ہے۔ یہ دوسرا ہے۔"); // ["یہ پہلا جملہ ہے", "یہ دوسرا ہے"]
+Words::analyze("پاکستان ایک خوبصورت ملک ہے۔");       // words, sentences, reading time, …
+
+StopWords::isStopWord("اور");                        // true
+StopWords::removeStopWords("پاکستان ایک خوبصورت ملک ہے"); // "پاکستان خوبصورت ملک"
 ```
 
 ## Development
@@ -53,5 +67,6 @@ composer test
 
 ## Scope
 
-Stage 0.1: normalize, collate, transliterate, numbers, search. Stemmer, dates,
-stopwords, detection and name transliteration arrive in a later stage.
+Stages 0.1–0.2: normalize, collate, transliterate, numbers, search, detect,
+stats (words, sentences, analyzeUrdu) and stop words. Stemmer, dates and name
+transliteration arrive in a later stage.

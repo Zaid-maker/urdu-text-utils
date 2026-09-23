@@ -25,6 +25,9 @@ const fixtures = {
   transliterate: [],
   numbers: [],
   search: [],
+  detect: [],
+  stats: [],
+  stopwords: [],
 };
 
 // ---- normalize -----------------------------------------------------------
@@ -275,6 +278,134 @@ for (const [text, query] of [
   ["احمد", ""],
 ]) {
   fixtures.search.push({ fn: "highlightUrdu", args: [text, query], options: {}, expected: lib.highlightUrdu(text, query) });
+}
+
+// ---- detect ----------------------------------------------------------------
+for (const [input, options] of [
+  ["آپ کیسے ہیں؟"],
+  ["پاکستان"],
+  ["hello world"],
+  [""],
+  ["12345 !!! ---"],
+  ["The word پاکستان appears in this English sentence"],
+  ["The word پاکستان appears", { threshold: 0.1 }],
+  ["پاکستان ایک خوبصورت ملک ہے (Pakistan)"],
+  ["پاکستان پاکستان hello", { minLetters: 5, threshold: 0.4 }],
+  ["پاکستان hello world foo bar", { minLetters: 5, threshold: 0.4 }],
+  ["پاکستان pakistan", { threshold: 0.5 }],
+  ["پاکستان pakistan", { threshold: 0.4 }],
+  ["كتاب مدرسة"],
+  ["کیا حال ہے? ٹھیک ہوں."],
+]) {
+  fixtures.detect.push({
+    fn: "isUrdu",
+    args: [input],
+    options: options ?? {},
+    expected: lib.isUrdu(input, options),
+  });
+}
+for (const input of ["پاکستان", "Pakistan", "12345", "", "پاکستان! (Pakistan)", "پاکستان Pakistan", "مُحَمَّد ۱۲۳ 45"]) {
+  fixtures.detect.push({ fn: "urduRatio", args: [input], options: {}, expected: json(lib.urduRatio(input)) });
+}
+for (const input of ["پاکستان", "لڑکی", "كتاب مدرسة", "سلام علیکم", "کتاب", "", "دولت", "داروغہ"]) {
+  fixtures.detect.push({ fn: "hasUrduSpecificLetters", args: [input], options: {}, expected: lib.hasUrduSpecificLetters(input) });
+}
+
+// ---- stats -------------------------------------------------------------------
+for (const input of ["پاکستان ایک خوبصورت ملک ہے", "کیا، حال؛ ہے؟", "   ", "", "مضمون 2 اور 3"]) {
+  fixtures.stats.push({ fn: "splitWords", args: [input], options: {}, expected: lib.splitWords(input) });
+}
+for (const input of ["پاکستان ایک خوبصورت ملک ہے", "پاکستان ایک خوبصورت ملک ہے۔", "آپ کیسے ہیں؟", "  کیا \n\n حال  ", ""]) {
+  fixtures.stats.push({ fn: "countWords", args: [input], options: {}, expected: lib.countWords(input) });
+}
+for (const [input, options] of [
+  ["یہ پہلا جملہ ہے۔ یہ دوسرا ہے۔"],
+  ["آپ کیسے ہیں؟ میں ٹھیک ہوں۔"],
+  ["ایک جملہ۔"],
+  [""],
+  ["کیا آپ خیریت سے ہیں؟ جی ہاں، میں ٹھیک ہوں۔", { preserveTerminators: true }],
+  ["ڈاکٹر. علامہ اقبال ہمارے قومی شاعر ہیں۔ وہ سیالکوٹ میں پیدا ہوئے۔"],
+  ["پائی کی قیمت 3.14 ہے۔ یہ ایک مستقل عدد ہے۔"],
+  ["پائی کی قیمت ۳٫۱۴ ہے۔ یہ ایک عدد ہے۔"],
+  ["واہ! کیا بات ہے۔"],
+  ["رکو… چلو۔"],
+  ["کیا حال ہے? ٹھیک ہوں."],
+  ["کیا حال ہے? ٹھیک ہوں.", { preserveTerminators: true }],
+  ["مولانا علی علیہ السلام فرماتے ہیں۔ یہ ایک مثال ہے۔"],
+  ["مضمون 2.5 اور 3.75 ہیں۔"],
+]) {
+  fixtures.stats.push({
+    fn: "splitSentences",
+    args: [input],
+    options: options ?? {},
+    expected: lib.splitSentences(input, options),
+  });
+}
+for (const input of ["یہ پہلا جملہ ہے۔ یہ دوسرا ہے۔", "آپ کیسے ہیں؟ میں ٹھیک ہوں۔", "ایک جملہ۔", "", "واہ! کیا بات ہے۔", "پائی کی قیمت 3.14 ہے۔ یہ ایک مستقل عدد ہے۔"]) {
+  fixtures.stats.push({ fn: "countSentences", args: [input], options: {}, expected: lib.countSentences(input) });
+}
+for (const input of [
+  "پاکستان ایک خوبصورت ملک ہے۔ اس کی آبادی بہت زیادہ ہے۔",
+  "",
+  "مُحَمَّد ۱۲۳ 45",
+  "پاکستان Pakistan",
+  "پہلا پیراگراف۔\n\nدوسرا پیراگراف۔\n\nتیسرا۔",
+  "پاکستان! (Pakistan)",
+  "دو جملے۔ تین الفاظ۔",
+]) {
+  fixtures.stats.push({ fn: "analyzeUrdu", args: [input], options: {}, expected: lib.analyzeUrdu(input) });
+}
+
+// ---- stopwords ---------------------------------------------------------------
+for (const [word, custom] of [
+  ["ہے", undefined],
+  ["اور", undefined],
+  ["میں", undefined],
+  ["لیکن", undefined],
+  ["فى", undefined],
+  ["اور ", undefined],
+  ["کتاب", undefined],
+  ["پاکستان", undefined],
+  ["خوبصورت", undefined],
+  ["", undefined],
+  ["خاص", ["خاص", "لفظ"]],
+  ["ہے", ["خاص", "لفظ"]],
+  ["لفظ", ["خاص", "لفظ"]],
+  ["اور", ["اور "]],
+]) {
+  fixtures.stopwords.push({
+    fn: "isStopWord",
+    args: custom === undefined ? [word] : [word, custom],
+    options: {},
+    expected: lib.isStopWord(word, custom),
+  });
+}
+for (const [words, custom] of [
+  [["یہ", "ایک", "بہترین", "اور", "خوبصورت", "کتاب", "ہے"], undefined],
+  [[], undefined],
+  [["یہ", "ہے", "اور"], undefined],
+  [["آم", "سیب", "کیلا"], ["سیب"]],
+  [["آم", "سیب", "کیلا"], ["سیب", "کیلا"]],
+]) {
+  fixtures.stopwords.push({
+    fn: "filterStopWords",
+    args: custom === undefined ? [words] : [words, custom],
+    options: {},
+    expected: lib.filterStopWords(words, custom),
+  });
+}
+for (const [text, custom] of [
+  ["پاکستان ایک بہت خوبصورت ملک ہے اور اس کے لوگ اچھے ہیں", undefined],
+  ["", undefined],
+  ["آم میٹھا پھل ہے", ["میٹھا"]],
+  ["یہ ایک اچھی کتاب ہے۔", undefined],
+]) {
+  fixtures.stopwords.push({
+    fn: "removeStopWords",
+    args: custom === undefined ? [text] : [text, custom],
+    options: {},
+    expected: lib.removeStopWords(text, custom),
+  });
 }
 
 for (const [name, cases] of Object.entries(fixtures)) {
