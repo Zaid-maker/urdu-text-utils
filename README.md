@@ -8,6 +8,7 @@
 [![dependencies](https://img.shields.io/badge/dependencies-0-157f52?style=flat-square)](https://www.npmjs.com/package/urdu-text-utils?activeTab=dependencies)
 [![downloads](https://img.shields.io/npm/dm/urdu-text-utils?style=flat-square)](https://www.npmjs.com/package/urdu-text-utils)
 [![license](https://img.shields.io/npm/l/urdu-text-utils?style=flat-square)](./LICENSE)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/Zaid-maker/urdu-text-utils?utm_source=oss&utm_medium=github&utm_campaign=Zaid-maker%2Furdu-text-utils&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 A complete, lightweight **Urdu text processing toolkit for JavaScript and TypeScript** (Node.js, Deno, Bun, and browsers). Zero runtime dependencies. Provides Unicode normalization, Roman Urdu transliteration, Urdu stop words, script detection, Urdu digit conversion, diacritics (aerab / harakat) removal, alphabetical collation / sorting, fuzzy search, and text statistics.
 
