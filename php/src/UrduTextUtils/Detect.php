@@ -36,12 +36,15 @@ final class Detect
 
     /**
      * Ratio of Arabic-script letters to all letters, 0-1.
-     * Returns 0.0 for text with no letters at all (digits, punctuation, emoji).
+     * Returns 0 for text with no letters at all (digits, punctuation, emoji).
+     *
+     * Integral results arrive as int so assertSame matches the JS fixtures
+     * (JSON serializes 1.0 as 1, PHP keeps 1.0 a float).
      */
-    public static function urduRatio(string $input): float
+    public static function urduRatio(string $input): int|float
     {
         if ($input === '') {
-            return 0.0;
+            return 0;
         }
 
         $letters = 0;
@@ -55,7 +58,13 @@ final class Detect
             }
         }
 
-        return $letters === 0 ? 0.0 : $urdu / $letters;
+        if ($letters === 0) {
+            return 0;
+        }
+
+        $ratio = $urdu / $letters;
+
+        return floor($ratio) === $ratio ? (int) $ratio : $ratio;
     }
 
     /**

@@ -152,7 +152,7 @@ function analyze(input) {
 // ---------------------------------------------------------------------------
 
 function ratioOf(input) {
-  if (input === "") return 0.0;
+  if (input === "") return 0;
   let letters = 0;
   let urdu = 0;
   for (const ch of chars(input)) {
@@ -161,7 +161,10 @@ function ratioOf(input) {
       if (arabicLetterRe.test(ch)) urdu++;
     }
   }
-  return letters === 0 ? 0.0 : urdu / letters;
+  if (letters === 0) return 0;
+  const ratio = urdu / letters;
+  // PHP port int-ifies integral results so assertSame matches the JSON fixtures.
+  return Math.floor(ratio) === ratio ? Math.trunc(ratio) : ratio;
 }
 
 function isUrdu(input, options = {}) {
