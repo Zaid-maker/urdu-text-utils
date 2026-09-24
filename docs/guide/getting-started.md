@@ -88,3 +88,7 @@ Storing raw input and normalizing at query time means every comparison, every un
 ## Everything is pure
 
 Every export is synchronous, side-effect free and returns a new value. Nothing mutates its arguments, nothing reads globals, nothing touches the network. Safe in a request handler, a worker or a build script.
+
+## PHP too
+
+The whole toolkit is also available as a native PHP package on Packagist — same functions, same output, guaranteed by generated parity fixtures. See [PHP package](/guide/php).

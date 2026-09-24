@@ -1,6 +1,7 @@
 # urdu-text-utils — Urdu Text Processing Toolkit for JavaScript & TypeScript
 
 [![npm version](https://img.shields.io/npm/v/urdu-text-utils?style=flat-square&color=157f52&label=npm)](https://www.npmjs.com/package/urdu-text-utils)
+[![Packagist version](https://img.shields.io/packagist/v/urdu-text-utils/urdu-text-utils?style=flat-square&color=157f52&label=packagist)](https://packagist.org/packages/urdu-text-utils/urdu-text-utils)
 [![jsDelivr](https://img.shields.io/jsdelivr/npm/hm/urdu-text-utils?style=flat-square&label=jsDelivr)](https://www.jsdelivr.com/package/npm/urdu-text-utils)
 [![unpkg](https://img.shields.io/badge/unpkg-urdu--text--utils-blue?style=flat-square)](https://unpkg.com/urdu-text-utils/)
 [![CI](https://img.shields.io/github/actions/workflow/status/Zaid-maker/urdu-text-utils/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/Zaid-maker/urdu-text-utils/actions/workflows/ci.yml)
@@ -15,6 +16,25 @@ A complete, lightweight **Urdu text processing toolkit for JavaScript and TypeSc
 Zero runtime dependencies. ESM + CJS. Fully typed.
 
 **[Documentation and live playground →](https://zaid-maker.github.io/urdu-text-utils/)**
+
+## Also available for PHP
+
+The complete toolkit ships as a native PHP package: [`urdu-text-utils/urdu-text-utils`](https://packagist.org/packages/urdu-text-utils/urdu-text-utils) on Packagist (PHP 8.1+, zero dependencies, no required extensions).
+
+```bash
+composer require urdu-text-utils/urdu-text-utils
+```
+
+```php
+use UrduTextUtils\Normalizer;
+use UrduTextUtils\Search;
+
+Normalizer::normalizeUrdu("كيا حال ہے");  // "کیا حال ہے"
+Search::searchUrdu("محمد", ["مُحَمَّد علی", "احمد", "محمد خان"]);
+// ["مُحَمَّد علی", "محمد خان"]
+```
+
+The port is not a fork: the [TypeScript source stays the single source of truth](https://zaid-maker.github.io/urdu-text-utils/guide/php). Shared tables and parity fixtures are generated from it, and CI re-verifies both on every push on PHP 8.1–8.3, with and without `ext-intl`. Same functions, same output, byte for byte. See [`php/README.md`](./php/README.md) for the full API.
 
 ```bash
 npm install urdu-text-utils

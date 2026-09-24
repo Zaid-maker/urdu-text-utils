@@ -20,12 +20,7 @@ composer require urdu-text-utils/urdu-text-utils
 ```
 
 > The package is published to Packagist from the version tags of this
-> repository (see [Publishing](#publishing) below). Until the first tagged
-> release lands there, install straight from GitHub:
->
-> ```bash
-> composer require urdu-text-utils/urdu-text-utils:dev-main
-> ```
+> repository (see [Publishing](#publishing) below).
 
 `ext-intl` is optional — when present it is used for true Unicode NFKC/NFC
 normalization; without it a generated presentation-form fallback is applied.

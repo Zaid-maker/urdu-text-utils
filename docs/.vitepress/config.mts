@@ -81,11 +81,11 @@ export default defineConfig({
       { text: "API", link: "/api/" },
       { text: "Playground", link: "/playground" },
       {
-        text: "0.1.9",
+        text: "0.3.1",
         items: [
-          { text: "v0.1.10-alpha.0 (pre-release)", link: "https://github.com/Zaid-maker/urdu-text-utils/releases/tag/v0.1.10-alpha.0" },
           { text: "Changelog", link: "https://github.com/Zaid-maker/urdu-text-utils/blob/main/CHANGELOG.md" },
           { text: "npm", link: "https://www.npmjs.com/package/urdu-text-utils" },
+          { text: "Packagist (PHP)", link: "https://packagist.org/packages/urdu-text-utils/urdu-text-utils" },
         ],
       },
     ],
@@ -105,6 +105,7 @@ export default defineConfig({
           { text: "Stemming", link: "/guide/stemming" },
           { text: "Date & Time", link: "/guide/date-time" },
           { text: "Transliteration", link: "/guide/transliteration" },
+          { text: "PHP package", link: "/guide/php" },
           { text: "Use Cases & Recipes", link: "/guide/use-cases" },
           { text: "Performance", link: "/guide/performance" },
         ],
