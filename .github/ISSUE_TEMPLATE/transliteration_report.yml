@@ -1,0 +1,48 @@
+name: Transliteration report
+description: A specific word romanizes or reverses wrong. Feeds the lexicon milestone.
+labels: ["transliteration", "lexicon-candidate"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        `romanize` and `romanToUrdu` are **@experimental** (~70% word
+        accuracy): Urdu script omits short vowels and Roman Urdu has no
+        standard orthography, so rule-based output is an approximation by
+        design. Wrong romanization of an unseen word is a known limitation —
+        but every concrete report below becomes a candidate entry for the
+        lexicon that will replace the rules, so they are genuinely valuable.
+  - type: dropdown
+    id: direction
+    attributes:
+      label: Which direction?
+      options:
+        - Urdu → Roman (romanize)
+        - Roman → Urdu (romanToUrdu)
+        - urduSlug
+        - Name transliteration (Names / names.ts)
+    validations:
+      required: true
+  - type: textarea
+    id: cases
+    attributes:
+      label: Wrong cases
+      description: Input, actual output, and what a correct/literate reader would expect. More rows = better lexicon data.
+      placeholder: |
+        | input | got | expected |
+        | --- | --- | --- |
+        | کتب | ktb | kitab (in "usool-e-kutub-o-tadveen" context) |
+        | mera | میرا | میرا ✓ (correct example welcome too) |
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Where did this text come from — news headlines, chat, poetry, names? Ambiguity often resolves with context, which is what the future statistical model will use.
+  - type: checkboxes
+    id: understanding
+    attributes:
+      label: Acknowledgment
+      options:
+        - label: I understand rule-based transliteration is experimental and this report is lexicon data, not necessarily an immediate fix.
+          required: true

@@ -1,0 +1,81 @@
+name: Bug report
+description: Something returns wrong output, throws, or misbehaves.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. One question matters more than anything else
+        in this repo: **did this happen in the JavaScript package, the PHP
+        package, or both?** If it happens in only one of them, it is a parity
+        bug — the most important kind we track.
+  - type: dropdown
+    id: language
+    attributes:
+      label: Which package?
+      description: If the outputs of the two disagree, choose "Parity mismatch".
+      options:
+        - "urdu-text-utils (npm, JavaScript/TypeScript)"
+        - "urdu-text-utils/urdu-text-utils (Packagist, PHP)"
+        - "Parity mismatch — npm and PHP give different output"
+        - "Docs site / playground"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area?
+      options:
+        - Normalization / foldUrdu
+        - Detection (isUrdu, urduRatio)
+        - Tokenization / statistics (words, sentences, analyzeUrdu)
+        - Stop words
+        - Numbers / digits
+        - Collation / sorting
+        - Search / highlight
+        - Dates / relative time
+        - Stemming
+        - Name transliteration
+        - Roman transliteration (romanize / romanToUrdu / urduSlug)
+        - Build / packaging / types
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Code plus the input string. Real Urdu text is essential — a sentence that reproduces it, not "some Urdu text".
+      placeholder: |
+        import { normalizeUrdu } from "urdu-text-utils";
+        normalizeUrdu("…");
+        // expected: …
+        // actual:   …
+    validations:
+      required: true
+  - type: textarea
+    id: parity
+    attributes:
+      label: Parity check (if applicable)
+      description: If you can, run the same input through the other language and paste both outputs.
+      placeholder: |
+        TS:  normalizeUrdu("…") => "…"
+        PHP: Normalizer::normalizeUrdu("…") => "…"
+  - type: input
+    id: version
+    attributes:
+      label: Package version(s)
+      placeholder: 0.3.1 (npm), 0.3.1 (composer)
+    validations:
+      required: true
+  - type: input
+    id: runtime
+    attributes:
+      label: Runtime / environment
+      placeholder: Node 22 on Windows 11 / PHP 8.3 with ext-intl on Ubuntu
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?

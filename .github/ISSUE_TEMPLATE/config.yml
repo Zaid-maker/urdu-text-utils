@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation and live playground
+    url: https://zaid-maker.github.io/urdu-text-utils/
+    about: Guides for every module, plus a playground that runs the real library.
+  - name: Questions and discussions
+    url: https://github.com/Zaid-maker/urdu-text-utils/discussions
+    about: Usage help and design conversations (enable Discussions first if empty).

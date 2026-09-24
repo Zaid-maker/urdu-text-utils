@@ -1,0 +1,55 @@
+name: Feature request
+description: Propose a new function, table expansion, or improvement.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ground rule: this library ships **pure, synchronous, side-effect-free
+        functions**, and every feature must exist in TypeScript first and be
+        ported to PHP with parity fixtures. Features that need a runtime, a
+        network call, or state are out of scope by design (see "Notes on
+        scope" in the README).
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do with Urdu text, and what do you fall back to today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API
+      description: Function name(s), signature, and a worked example with real Urdu text and expected output.
+      placeholder: |
+        dedupeWords(text: string, options?: { fold?: boolean }): string[]
+        dedupeWords("کتاب کتاب کتاب") // ["کتاب"]
+    validations:
+      required: true
+  - type: checkboxes
+    id: fit
+    attributes:
+      label: Fit
+      options:
+        - label: This can be a pure function with no runtime/network dependencies.
+          required: true
+        - label: I'd expect the same behavior in the PHP package too.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Closest existing module
+      options:
+        - Normalization
+        - Detection
+        - Tokenization / statistics
+        - Stop words
+        - Numbers / digits
+        - Collation / sorting
+        - Search
+        - Dates / relative time
+        - Stemming
+        - Transliteration
+        - New area
+    validations:
+      required: true
