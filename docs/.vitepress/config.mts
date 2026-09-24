@@ -1,5 +1,12 @@
 import { defineConfig } from "vitepress";
 import { fileURLToPath, URL } from "node:url";
+import { readFileSync } from "node:fs";
+
+// The nav badge would silently go stale every release if hand-edited, so it
+// reads the version straight from package.json at config time.
+const version: string = JSON.parse(
+  readFileSync(fileURLToPath(new URL("../../package.json", import.meta.url)), "utf8"),
+).version;
 
 const description =
   "Urdu text processing toolkit for JavaScript and TypeScript: normalization, Roman Urdu transliteration, stop words, detection, digits, diacritics, collation, search and statistics. Zero dependencies.";
@@ -81,7 +88,7 @@ export default defineConfig({
       { text: "API", link: "/api/" },
       { text: "Playground", link: "/playground" },
       {
-        text: "0.3.1",
+        text: version,
         items: [
           { text: "Changelog", link: "https://github.com/Zaid-maker/urdu-text-utils/blob/main/CHANGELOG.md" },
           { text: "npm", link: "https://www.npmjs.com/package/urdu-text-utils" },
