@@ -73,7 +73,11 @@ import {
   isStopWord,
   removeStopWords,
   formatUrduDate,
+  parseUrduDate,
   timeAgoUrdu,
+  formatUrduNumber,
+  formatUrduCurrency,
+  toUrduOrdinal,
   stemUrdu,
   stemUrduText,
   isUrdu,
@@ -171,8 +175,16 @@ toArabicIndicDigits("123"); // "١٢٣"
 
 parseUrduNumber("۱٬۲۳۴"); // 1234 — handles ٬ and ٫
 parseUrduNumber("۳٫۱۴"); // 3.14
-numberToUrduWords(100000); // "ایک لاکھ" — South Asian scale, @experimental
+numberToUrduWords(1234567); // "بارہ لاکھ چونتیس ہزار پانچ سو سڑسٹھ" — South Asian scale
+
+formatUrduNumber(1234567); // "۱۲٬۳۴٬۵۶۷" — lakh/crore grouping, not 1,234,567
+formatUrduCurrency(1500); // "۱٬۵۰۰ روپے"
+formatUrduCurrency(1); // "۱ روپیہ" — singular for exactly one
+toUrduOrdinal(21); // "اکیسواں"
+toUrduOrdinal(1, { gender: "feminine" }); // "پہلی"
 ```
+
+The word tables cover every cardinal from 0 to 99 (`21` is `اکیس`, never a composed `بیس ایک`) and the scale runs ہزار → لاکھ → کروڑ → ارب → کھرب. `numberToUrduWords`, `formatUrduCurrency`'s `style: "words"` and `toUrduOrdinal` are `@experimental`: several of the 21–99 words have recognised variant spellings.
 
 ## Urdu dates & relative time
 
@@ -193,7 +205,15 @@ timeAgoUrdu(Date.now() - 3 * 3600 * 1000); // "۳ گھنٹے پہلے"
 timeAgoUrdu(Date.now() - 86400 * 1000);    // "کل"
 timeAgoUrdu(Date.now() - 2 * 86400 * 1000);// "پرسوں"
 timeAgoUrdu(Date.now() + 10 * 60 * 1000);  // "۱۰ منٹ بعد"
+
+// Parse it back — the inverse of formatUrduDate
+parseUrduDate("۲۲ اگست ۲۰۲۶");         // Date(2026, 7, 22)
+parseUrduDate("22/08/2026");           // day-first, Pakistani convention
+parseUrduDate("۵ جنوری", { defaultYear: 1999 });
+parseUrduDate("۳۱ فروری ۲۰۲۶");        // null — that date does not exist
 ```
+
+Anything `formatUrduDate` can emit — including `صبح دوپہر شام رات` periods — parses back to the same wall-clock moment, hours included. Absolute instants (a trailing `Z` or offset) and Hijri month names return `null` rather than guessing.
 
 ## Urdu stemming
 

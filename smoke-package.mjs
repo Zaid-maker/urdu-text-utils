@@ -122,13 +122,15 @@ try {
     "normalizeUrdu", "removeDiacritics", "foldUrdu",
     "convertNumbers", "toUrduDigits", "toEnglishDigits", "toArabicIndicDigits",
     "parseUrduNumber", "numberToUrduWords",
+    "formatUrduNumber", "formatUrduCurrency", "toUrduOrdinal",
+    "URDU_ONES", "URDU_TEENS_AND_TENS", "URDU_TENS_UNITS", "URDU_SCALES", "URDU_ORDINAL_IRREGULARS",
     "isUrdu", "urduRatio", "hasUrduSpecificLetters",
     "countWords", "countSentences", "splitWords", "splitSentences", "analyzeUrdu",
     "URDU_STOP_WORDS", "isStopWord", "filterStopWords", "removeStopWords",
     "sortUrdu", "compareUrdu",
     "searchUrdu", "searchUrduRanked", "highlightUrdu", "editDistance",
     "romanize", "romanToUrdu", "urduSlug",
-    "formatUrduDate", "timeAgoUrdu", "getUrduMonthName", "getUrduWeekdayName",
+    "formatUrduDate", "parseUrduDate", "timeAgoUrdu", "getUrduMonthName", "getUrduWeekdayName",
     "URDU_MONTHS_GREGORIAN", "URDU_MONTHS_HIJRI", "URDU_WEEKDAYS",
     "stemUrdu", "stemUrduText", "getAffixes", "URDU_PREFIXES", "URDU_SUFFIXES",
     "transliterateNameToEnglish", "transliterateNameToUrdu", "extractNameParts",
@@ -156,6 +158,10 @@ assert(u.isUrdu("پاکستان") === true, "isUrdu detects Urdu text");
 assert(u.transliterateNameToEnglish("محمد علی") === "Muhammad Ali", "name transliteration works");
 assert(Array.isArray(u.sortUrdu(["علی", "احمد"])), "sortUrdu returns an array");
 assert(typeof u.romanToUrdu === "function", "romanToUrdu is exported");
+assert(u.formatUrduNumber(1234567) === "۱۲٬۳۴٬۵۶۷", "formatUrduNumber groups South Asian");
+assert(u.formatUrduCurrency(1) === "۱ روپیہ", "formatUrduCurrency uses the singular unit");
+assert(u.toUrduOrdinal(21) === "اکیسواں", "toUrduOrdinal spells ordinals");
+assert(u.parseUrduDate("۲۲ اگست ۲۰۲۶").getMonth() === 7, "parseUrduDate reads Urdu month names");
 console.log("ok");`;
 
   const guard = exactParity

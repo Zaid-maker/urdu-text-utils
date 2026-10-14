@@ -21,6 +21,25 @@ final class DateTest extends TestCase
     public function testMatchesTypeScriptFixture(array $case): void
     {
         $expected = $case['expected'];
+
+        // parseUrduDate expectations are wall-clock components (or null), built
+        // into a DateTime in THIS runtime's zone and compared component-wise.
+        if ($case['fn'] === 'parseUrduDate') {
+            $parsed = Date::parseUrduDate($case['args'][0], $case['options'] ?? []);
+            $label = 'parseUrduDate ' . json_encode($case['args'], JSON_UNESCAPED_UNICODE);
+            if ($expected === null) {
+                $this->assertNull($parsed, $label);
+                return;
+            }
+            $this->assertNotNull($parsed, $label);
+            $this->assertSame(
+                self::dateInput($expected)->format('Y-m-d H:i:s'),
+                $parsed->format('Y-m-d H:i:s'),
+                $label
+            );
+            return;
+        }
+
         $actual = match ($case['fn']) {
             'getUrduMonthName' => Date::getUrduMonthName($case['args'][0], $case['args'][1] ?? 'gregorian'),
             'getUrduWeekdayName' => Date::getUrduWeekdayName($case['args'][0]),

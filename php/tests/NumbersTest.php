@@ -27,6 +27,9 @@ final class NumbersTest extends TestCase
             'convertNumbers' => Numbers::convertNumbers($case['args'][0], $case['args'][1] ?? 'urdu'),
             'parseUrduNumber' => Numbers::parseUrduNumber($case['args'][0]),
             'numberToUrduWords' => Numbers::numberToUrduWords(self::arg($case['args'][0])),
+            'formatUrduNumber' => Numbers::formatUrduNumber(self::arg($case['args'][0]), $case['options']),
+            'formatUrduCurrency' => Numbers::formatUrduCurrency(self::arg($case['args'][0]), $case['options']),
+            'toUrduOrdinal' => Numbers::toUrduOrdinal(self::arg($case['args'][0]), $case['options']),
         };
 
         if ($expected === 'NAN') {

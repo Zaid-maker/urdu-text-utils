@@ -258,6 +258,291 @@ final class Date
         return $isPast ? "{$count} سال پہلے" : "{$count} سال بعد";
     }
 
+    /**
+     * The day-period words formatUrduDate emits, and the 12-hour window each
+     * one covers, so parsing can invert formatting exactly.
+     *
+     * رات is the awkward one: it spans 20:00-03:59, which hh renders as 08-11
+     * and 12, 1, 2, 3 respectively. Both halves have to be resolved back.
+     */
+    private const URDU_PERIODS = [
+        'صبح' => 'morning',
+        'دوپہر' => 'afternoon',
+        'شام' => 'evening',
+        'رات' => 'night',
+    ];
+
+    private const ENGLISH_MONTHS = [
+        'january', 'february', 'march', 'april', 'may', 'june',
+        'july', 'august', 'september', 'october', 'november', 'december',
+    ];
+
+    private const ENGLISH_WEEKDAYS = [
+        'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
+    ];
+
+    /**
+     * Recognised month spellings -> month index. Only Gregorian names are
+     * accepted: Hijri names include صفر, which is also the Urdu word for zero
+     * and would make a bare صفر genuinely ambiguous.
+     */
+    private static function monthLookup(): array
+    {
+        static $lookup = null;
+        if ($lookup === null) {
+            $lookup = [];
+            foreach (Tables::date()['monthsGregorian'] as $index => $name) {
+                $lookup[$name] = $index;
+            }
+            foreach (self::ENGLISH_MONTHS as $index => $name) {
+                $lookup[$name] = $index;
+                $lookup[substr($name, 0, 3)] = $index;
+            }
+        }
+        return $lookup;
+    }
+
+    /** Weekday names are recognised only so they can be skipped, never used. */
+    private static function weekdayTokens(): array
+    {
+        static $tokens = null;
+        if ($tokens === null) {
+            $tokens = [];
+            foreach (Tables::date()['weekdays'] as $name) {
+                $tokens[$name] = true;
+            }
+            foreach (self::ENGLISH_WEEKDAYS as $name) {
+                $tokens[$name] = true;
+                $tokens[substr($name, 0, 3)] = true;
+            }
+        }
+        return $tokens;
+    }
+
+    /** Resolve a 12-hour clock reading plus its period word to a 24-hour hour. */
+    private static function resolveHour(int $hour, ?string $period): int
+    {
+        switch ($period) {
+            case 'am':
+            case 'morning':
+                return $hour === 12 ? 0 : $hour;
+            case 'pm':
+            case 'afternoon':
+            case 'evening':
+                return $hour < 12 ? $hour + 12 : $hour;
+            case 'night':
+                if ($hour === 12) {
+                    return 0;
+                }
+                // 20:00-23:59 formats as hh 08-11 with رات; 00:00-03:59 as 12, 1, 2, 3.
+                return ($hour >= 8 && $hour <= 11) ? $hour + 12 : $hour;
+            default:
+                return $hour;
+        }
+    }
+
+    /** Expand a two-digit year the way date libraries conventionally do. */
+    private static function expandYear(int $year): int
+    {
+        if ($year >= 100) {
+            return $year;
+        }
+        return $year < 70 ? 2000 + $year : 1900 + $year;
+    }
+
+    /** Build a DateTime from wall-clock components, rejecting overflowed dates. */
+    private static function buildLocalDate(int $year, int $month, int $day, int $hour, int $minute, int $second): ?DateTime
+    {
+        if ($year < 100 || $month < 0 || $month > 11 || $day < 1 || $day > 31) {
+            return null;
+        }
+        if ($hour < 0 || $hour > 23 || $minute < 0 || $minute > 59 || $second < 0 || $second > 59) {
+            return null;
+        }
+
+        // Every component is zero-padded and the format tokens are the padded
+        // ones: createFromFormat requires exactly two digits for i and s, so a
+        // single-digit minute/second ("0:0:0") makes it return false outright.
+        $date = DateTime::createFromFormat(
+            'Y-m-d H:i:s',
+            sprintf('%04d-%02d-%02d %02d:%02d:%02d', $year, $month + 1, $day, $hour, $minute, $second)
+        );
+        if ($date === false) {
+            return null;
+        }
+
+        // A rolled-over date (31 فروری) must not silently become March.
+        if (
+            (int) $date->format('Y') !== $year
+            || (int) $date->format('n') - 1 !== $month
+            || (int) $date->format('j') !== $day
+            || (int) $date->format('G') !== $hour
+        ) {
+            return null;
+        }
+
+        return $date;
+    }
+
+    /** Numeric date form, day-first (Pakistani convention) or ISO with a 4-digit lead. */
+    private static function parseNumericDate(string $input): ?DateTime
+    {
+        if (preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[T ](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/', $input, $m) === 1) {
+            return self::buildLocalDate(
+                (int) $m[1],
+                (int) $m[2] - 1,
+                (int) $m[3],
+                isset($m[4]) && $m[4] !== '' ? (int) $m[4] : 0,
+                isset($m[5]) && $m[5] !== '' ? (int) $m[5] : 0,
+                isset($m[6]) && $m[6] !== '' ? (int) $m[6] : 0
+            );
+        }
+
+        if (preg_match('/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})(?:[ ,T]+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/', $input, $m) === 1) {
+            return self::buildLocalDate(
+                self::expandYear((int) $m[3]),
+                (int) $m[2] - 1,
+                (int) $m[1],
+                isset($m[4]) && $m[4] !== '' ? (int) $m[4] : 0,
+                isset($m[5]) && $m[5] !== '' ? (int) $m[5] : 0,
+                isset($m[6]) && $m[6] !== '' ? (int) $m[6] : 0
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * Parse a date written with Urdu or English month names and Urdu or ASCII
+     * digits. This is the inverse of formatUrduDate, so anything that function
+     * can produce parses back to the same wall-clock moment.
+     *
+     * Accepted input:
+     * - ۲۲ اگست ۲۰۲۶, 22 August 2026, Aug 22, 2026 (Urdu or English month name)
+     * - ۲۲/۰۸/۲۰۲۶ — day-first, matching Pakistani convention
+     * - 2026-08-22 and 2026-08-22T14:30 — ISO, T form, no timezone offset
+     * - an optional preceding weekday name (ignored) and an optional time with
+     *   صبح دوپہر شام رات or am/pm, e.g. ۰۲:۳۰ دوپہر
+     *
+     * Deliberately rejected, returning null: absolute instants carrying a Z or
+     * numeric offset (this never does timezone conversion — it builds the
+     * wall-clock time in the runtime's own zone, exactly as formatUrduDate
+     * reads it), Hijri month names, and dates that do not exist (۳۱ فروری).
+     * A two-digit year expands as 00-69 -> 20xx and 70-99 -> 19xx.
+     *
+     * @param array{defaultYear?: int} $options
+     */
+    public static function parseUrduDate(string $input, array $options = []): ?DateTime
+    {
+        if ($input === '') {
+            return null;
+        }
+
+        $normalized = Numbers::toEnglishDigits($input);
+        $normalized = preg_replace('/[\x{200B}-\x{200F}\x{202A}-\x{202E}\x{2066}-\x{2069}\x{FEFF}]/u', '', $normalized) ?? $normalized;
+        $normalized = str_replace(['،', '۔'], ' ', $normalized);
+        $normalized = trim(preg_replace('/\s+/u', ' ', $normalized) ?? $normalized);
+        if ($normalized === '') {
+            return null;
+        }
+
+        $numeric = self::parseNumericDate($normalized);
+        if ($numeric !== null) {
+            return $numeric;
+        }
+
+        $month = null;
+        $hour = null;
+        $minute = 0;
+        $second = 0;
+        $period = null;
+        $numbers = [];
+        $weekdays = self::weekdayTokens();
+        $months = self::monthLookup();
+
+        foreach (explode(' ', $normalized) as $rawToken) {
+            // Strip punctuation hugging a token (۲۰۲۶، is already spaced out, but
+            // 2026. and (۲۰۲۶) are not).
+            $token = preg_replace('/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/u', '', $rawToken) ?? $rawToken;
+            if ($token === '') {
+                continue;
+            }
+
+            $urduPeriod = self::URDU_PERIODS[$token] ?? null;
+            if ($urduPeriod !== null) {
+                $period = $urduPeriod;
+                continue;
+            }
+
+            // strtolower, not mb_strtolower: English month names are ASCII and
+            // mbstring is deliberately not a required extension.
+            $lower = strtolower($token);
+            if ($lower === 'am' || $lower === 'pm') {
+                $period = $lower;
+                continue;
+            }
+
+            if (isset($weekdays[$token]) || isset($weekdays[$lower])) {
+                continue;
+            }
+
+            if (preg_match('/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/', $token, $m) === 1) {
+                $hour = (int) $m[1];
+                $minute = (int) $m[2];
+                $second = isset($m[3]) && $m[3] !== '' ? (int) $m[3] : 0;
+                continue;
+            }
+
+            $monthIndex = $months[$token] ?? $months[$lower] ?? null;
+            if ($monthIndex !== null) {
+                $month = $monthIndex;
+                continue;
+            }
+
+            if (preg_match('/^\d+$/', $token) === 1) {
+                $numbers[] = (int) $token;
+            }
+            // Anything else (بتاریخ, stray words) is ignored rather than fatal,
+            // so a decorated date string still parses.
+        }
+
+        if ($month === null || $numbers === []) {
+            return null;
+        }
+
+        if (count($numbers) === 1) {
+            $only = $numbers[0];
+            if ($only > 31) {
+                // جنوری ۲۰۲۶ — month precision, resolved to the first of the month.
+                $day = 1;
+                $year = $only;
+            } else {
+                $day = $only;
+                $year = $options['defaultYear'] ?? (int) date('Y');
+            }
+        } else {
+            $first = $numbers[0];
+            $last = $numbers[count($numbers) - 1];
+            // Day-first, but tolerate a year that leads (۲۰۲۶ اگست ۲۲).
+            if ($first > 31 && $last <= 31) {
+                $day = $last;
+                $year = $first;
+            } else {
+                $day = $first;
+                $year = $last;
+            }
+        }
+
+        return self::buildLocalDate(
+            self::expandYear($year),
+            $month,
+            $day,
+            $hour === null ? 0 : self::resolveHour($hour, $period),
+            $minute,
+            $second
+        );
+    }
+
     /** Normalize any accepted input to a DateTime, or null when invalid. */
     private static function parseDateInput(DateTimeInterface|string|int $input): ?DateTimeInterface
     {

@@ -78,6 +78,15 @@ final class Tables
         return self::data()['date'];
     }
 
+    /**
+     * Number word tables: ones, teensAndTens, tensUnits, scales and
+     * ordinalIrregulars (generated from src/numbers.ts).
+     */
+    public static function numbers(): array
+    {
+        return self::data()['numbers'];
+    }
+
     /** Name transliteration tables: firstNames, familyNames, honorifics, prefixes, englishAliases (generated from src/names.ts). */
     public static function names(): array
     {

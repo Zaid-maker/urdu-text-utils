@@ -34,6 +34,7 @@ use UrduTextUtils\Transliterator;
 use UrduTextUtils\Detect;
 use UrduTextUtils\Words;
 use UrduTextUtils\StopWords;
+use UrduTextUtils\Numbers;
 
 Normalizer::normalizeUrdu("كيا حال ہے");            // "کیا حال ہے"
 Normalizer::removeDiacritics("مُحَمَّد");           // "محمد"
@@ -56,7 +57,13 @@ StopWords::removeStopWords("پاکستان ایک خوبصورت ملک ہے"); 
 Stemmer::stem("کتابیں");                             // "کتاب"
 Stemmer::stemText("طلباء کتابیں پڑھتے ہیں۔");        // "طلباء کتاب پڑھ ہیں۔"
 
+Numbers::formatUrduNumber(1234567);                    // "۱۲٬۳۴٬۵۶۷"
+Numbers::formatUrduCurrency(1500);                     // "۱٬۵۰۰ روپے"
+Numbers::numberToUrduWords(1234567);                   // "بارہ لاکھ چونتیس ہزار پانچ سو سڑسٹھ"
+Numbers::toUrduOrdinal(21);                            // "اکیسواں"
+
 Date::formatUrduDate(new DateTime(), "DD MMMM YYYY");  // "۲۲ اگست ۲۰۲۶"
+Date::parseUrduDate("۲۲ اگست ۲۰۲۶");                   // DateTime(2026-08-22)
 Date::timeAgoUrdu(time() - 300);                       // "۵ منٹ پہلے"
 
 Names::toEnglish("محمد علی خان");         // "Muhammad Ali Khan"

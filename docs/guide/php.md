@@ -51,12 +51,12 @@ Each PHP class mirrors the equivalently named TypeScript module:
 | `Detect` | `detect.ts` | `urduRatio`, `isUrdu`, `hasUrduSpecificLetters` |
 | `Words` | `stats.ts` | word/sentence tokenization (abbreviation-aware), `analyze` |
 | `StopWords` | `stopwords.ts` | 224-word default list, filtering, removal |
-| `Numbers` | `numbers.ts` | digit conversion, `parseUrduNumber`, `numberToUrduWords` |
+| `Numbers` | `numbers.ts` | digit conversion, `parseUrduNumber`, `formatUrduNumber`, `formatUrduCurrency`, `numberToUrduWords`, `toUrduOrdinal` |
 | `Collator` | `collate.ts` | explicit Urdu alphabet collation, `sortUrdu`, `compareUrdu` |
 | `Search` | `search.ts` | folding search, fuzzy, ranked results, highlighting |
 | `Transliterator` | `transliterate.ts` | `romanize`, `romanToUrdu`, `urduSlug` (`@experimental` parity) |
 | `Stemmer` | `stemmer.ts` | affix tables, morphological restoration, `stemText` |
-| `Date` | `date.ts` | `formatUrduDate` token engine, `timeAgoUrdu` ladder |
+| `Date` | `date.ts` | `formatUrduDate` token engine, `parseUrduDate`, `timeAgoUrdu` ladder |
 | `Names` | `names.ts` | Urdu ⇄ English name transliteration, name-part extraction |
 
 ## Why the output matches, by construction
@@ -66,8 +66,8 @@ this library:
 
 - **One source of truth.** The TypeScript source is canonical. A generator
   script compiles shared tables (letters, dictionary, stop words, stemmer
-  affixes, date names, honorifics) into `php/data/tables.json`, which the PHP
-  classes read at runtime.
+  affixes, date names, honorifics, number words) into `php/data/tables.json`,
+  which the PHP classes read at runtime.
 - **Generated fixtures.** `tests/fixtures/*.json` are produced by running the
   real TypeScript build; the PHPUnit suite asserts the PHP output is
   identical, case by case.

@@ -64,7 +64,49 @@ Parses Urdu or Arabic-Indic digits, including `٫` decimal and `٬` thousands se
 
 ### `numberToUrduWords(value)` <Badge type="warning" text="experimental" />
 
-Spells a whole number using the South Asian scale (ہزار, لاکھ, کروڑ). Throws `TypeError` on a non-integer. Returns `string`.
+Spells a whole number using the South Asian scale (ہزار, لاکھ, کروڑ, ارب, کھرب). Every cardinal from 0 to 99 is a real word — `21` is `اکیس`, not `بیس ایک`. Throws `TypeError` on a non-integer. Returns `string`.
+
+### `formatUrduNumber(value, options?)`
+
+Formats a number with South Asian digit grouping and Urdu digits by default. Returns `string`, or `""` for `NaN`/`Infinity`. Large magnitudes print as digits, never in exponential notation (`1e21` is `۱٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰۰`).
+
+```ts
+formatUrduNumber(1234567);                          // "۱۲٬۳۴٬۵۶۷"
+formatUrduNumber(1234567, { grouping: "western" });  // "۱٬۲۳۴٬۵۶۷"
+formatUrduNumber(1234, { digits: "english" });       // "1,234"
+```
+
+| Option | Type | Default |
+| --- | --- | --- |
+| `digits` | `"urdu" \| "english"` | `"urdu"` |
+| `grouping` | `"southAsian" \| "western" \| "none"` | `"southAsian"` |
+| `decimals` | `number` | `2` |
+
+### `formatUrduCurrency(value, options?)`
+
+Formats an amount with `روپیہ` for exactly one and `روپے` otherwise, or spells it out with `style: "words"`. Accepts every `formatUrduNumber` option plus `style`, `unit` and `singularUnit`. `style: "words"` throws `TypeError` on a fractional amount.
+
+```ts
+formatUrduCurrency(1500);                     // "۱٬۵۰۰ روپے"
+formatUrduCurrency(1);                        // "۱ روپیہ"
+formatUrduCurrency(1500, { style: "words" }); // "ایک ہزار پانچ سو روپے"
+```
+
+### `toUrduOrdinal(value, options?)` <Badge type="warning" text="experimental" />
+
+Spells an ordinal, inflecting for `gender` (`"masculine"` by default). 1–6 are irregular (`پہلا`, `چھٹا`); larger ordinals suffix the last word of the cardinal, with a final `و` contracting (`نواں`, `سواں`). Throws `TypeError` on a non-integer.
+
+```ts
+toUrduOrdinal(1);                        // "پہلا"
+toUrduOrdinal(1, { gender: "feminine" }); // "پہلی"
+toUrduOrdinal(100);                      // "سواں"
+```
+
+### Constants
+
+- `URDU_ONES`, `URDU_TEENS_AND_TENS`, `URDU_TENS_UNITS`: the cardinal word tables.
+- `URDU_SCALES`: the South Asian scale pairs, largest first.
+- `URDU_ORDINAL_IRREGULARS`: the 1–6 ordinal forms in both genders.
 
 ## Statistics & Tokenization
 
@@ -205,6 +247,25 @@ formatUrduDate(new Date(2026, 7, 22, 14, 30), "dddd، D MMMM YYYY، hh:mm A");
 | --- | --- | --- |
 | `digits` | `"urdu" \| "english"` | `"urdu"` |
 | `calendar` | `"gregorian" \| "hijri"` | `"gregorian"` |
+
+### `parseUrduDate(input, options?)`
+
+The inverse of `formatUrduDate`: parses Urdu or English month names, Urdu/Arabic-Indic/ASCII digits, day-first numeric dates, ISO dates and optional day-period times into a `Date`, or `null`.
+
+```ts
+parseUrduDate("۲۲ اگست ۲۰۲۶");                        // Date(2026, 7, 22)
+parseUrduDate("22 August 2026");
+parseUrduDate("۲۲/۰۸/۲۰۲۶");                          // day-first
+parseUrduDate("2026-08-22T14:30");
+parseUrduDate("ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰ دوپہر");    // 14:30
+parseUrduDate("5 جنوری", { defaultYear: 1999 });
+```
+
+| Option | Type | Default |
+| --- | --- | --- |
+| `defaultYear` | `number` | current year |
+
+Returns `null` for absolute instants (a `Z` or numeric offset), Hijri month names, and dates that do not exist (`۳۱ فروری`). See [the dates guide](/guide/date-time) for why.
 
 ### `timeAgoUrdu(date, relativeTo?, options?)`
 

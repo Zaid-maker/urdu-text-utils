@@ -12,7 +12,18 @@ export {
   toArabicIndicDigits,
   parseUrduNumber,
   numberToUrduWords,
+  formatUrduNumber,
+  formatUrduCurrency,
+  toUrduOrdinal,
+  URDU_ONES,
+  URDU_TEENS_AND_TENS,
+  URDU_TENS_UNITS,
+  URDU_SCALES,
+  URDU_ORDINAL_IRREGULARS,
   type DigitStyle,
+  type FormatUrduNumberOptions,
+  type FormatUrduCurrencyOptions,
+  type UrduOrdinalOptions,
 } from "./numbers.js";
 
 export { isUrdu, urduRatio, hasUrduSpecificLetters, type IsUrduOptions } from "./detect.js";
@@ -55,6 +66,7 @@ export {
 
 export {
   formatUrduDate,
+  parseUrduDate,
   timeAgoUrdu,
   getUrduMonthName,
   getUrduWeekdayName,
@@ -63,6 +75,7 @@ export {
   URDU_WEEKDAYS,
   type FormatUrduDateOptions,
   type TimeAgoOptions,
+  type ParseUrduDateOptions,
 } from "./date.js";
 
 export {

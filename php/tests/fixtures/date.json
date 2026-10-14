@@ -684,5 +684,873 @@
   ],
   "options": {},
   "expected": "ایک سال پہلے"
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۲۲ اگست ۲۰۲۶"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "22 اگست 2026"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "22 August 2026"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "Aug 22, 2026"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "اگست ۲۲، ۲۰۲۶"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰ دوپہر"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 14,
+   "mm": 30,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۵ جنوری ۲۰۲۶، ۰۹:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 0,
+   "d": 5,
+   "hh": 9,
+   "mm": 15,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "اتوار ۱۵ جنوری ۲۰۲۶ صبح ۰۹:۱۵"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 0,
+   "d": 15,
+   "hh": 9,
+   "mm": 15,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "(۲۲) اگست ۲۰۲۶"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "بتاریخ ۲۲ اگست ۲۰۲۶"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۲۲/۰۸/۲۰۲۶"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "22-08-2026"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "22.08.2026"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "22/08/26"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "22/08/2026 14:30"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 14,
+   "mm": 30,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "2026-08-22"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "2026-08-22T14:30"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 14,
+   "mm": 30,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "2026-08-22T14:30:45"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 14,
+   "mm": 30,
+   "ss": 45
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۳۱ دسمبر ۱۹۹۹"
+  ],
+  "options": {},
+  "expected": {
+   "y": 1999,
+   "m": 11,
+   "d": 31,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۱ جنوری ۲۰۰۰"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2000,
+   "m": 0,
+   "d": 1,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۱۲ مارچ ۲۰۲۶"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 2,
+   "d": 12,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۲۰۲۶ اگست ۲۲"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "جنوری ۲۰۲۶"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 0,
+   "d": 1,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "5 جنوری"
+  ],
+  "options": {
+   "defaultYear": 1999
+  },
+  "expected": {
+   "y": 1999,
+   "m": 0,
+   "d": 5,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۲۲ اگست ۲۰۲۶ ۱۱:۰۰ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 23,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۲۲ اگست ۲۰۲۶ ۱۲:۰۰ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۲۲ اگست ۲۰۲۶ ۰۲:۰۰ دوپہر"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 14,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۲۲ اگست ۲۰۲۶ ۰۶:۰۰ شام"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 18,
+   "mm": 0,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۲۲ اگست ۲۰۲۶ ۱۱:۳۰ pm"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 23,
+   "mm": 30,
+   "ss": 0
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۳۱ فروری ۲۰۲۶"
+  ],
+  "options": {},
+  "expected": null
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "2026-02-30"
+  ],
+  "options": {},
+  "expected": null
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "2026-13-01"
+  ],
+  "options": {},
+  "expected": null
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "2026-08-22T14:30:00Z"
+  ],
+  "options": {},
+  "expected": null
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "۱ رمضان المبارک ۱۴۴۷"
+  ],
+  "options": {},
+  "expected": null
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "پاکستان"
+  ],
+  "options": {},
+  "expected": null
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   ""
+  ],
+  "options": {},
+  "expected": null
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۱۲:۳۰:۱۵ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 0,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۱:۳۰:۱۵ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 1,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰:۱۵ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 2,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۳:۳۰:۱۵ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 3,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۴:۳۰:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 4,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۵:۳۰:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 5,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۶:۳۰:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 6,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۷:۳۰:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 7,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۸:۳۰:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 8,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۹:۳۰:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 9,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۱۰:۳۰:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 10,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۱۱:۳۰:۱۵ صبح"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 11,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۱۲:۳۰:۱۵ دوپہر"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 12,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۱:۳۰:۱۵ دوپہر"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 13,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰:۱۵ دوپہر"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 14,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۳:۳۰:۱۵ دوپہر"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 15,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۴:۳۰:۱۵ شام"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 16,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۵:۳۰:۱۵ شام"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 17,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۶:۳۰:۱۵ شام"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 18,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۷:۳۰:۱۵ شام"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 19,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۸:۳۰:۱۵ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 20,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۹:۳۰:۱۵ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 21,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۱۰:۳۰:۱۵ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 22,
+   "mm": 30,
+   "ss": 15
+  }
+ },
+ {
+  "fn": "parseUrduDate",
+  "args": [
+   "ہفتہ، ۲۲ اگست ۲۰۲۶، ۱۱:۳۰:۱۵ رات"
+  ],
+  "options": {},
+  "expected": {
+   "y": 2026,
+   "m": 7,
+   "d": 22,
+   "hh": 23,
+   "mm": 30,
+   "ss": 15
+  }
  }
 ]

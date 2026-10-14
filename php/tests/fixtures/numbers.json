@@ -213,7 +213,7 @@
    21
   ],
   "options": {},
-  "expected": "بیس ایک"
+  "expected": "اکیس"
  },
  {
   "fn": "numberToUrduWords",
@@ -221,7 +221,79 @@
    25
   ],
   "options": {},
-  "expected": "بیس پانچ"
+  "expected": "پچیس"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   26
+  ],
+  "options": {},
+  "expected": "چھبیس"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   54
+  ],
+  "options": {},
+  "expected": "چون"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   63
+  ],
+  "options": {},
+  "expected": "ترسٹھ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   68
+  ],
+  "options": {},
+  "expected": "اڑسٹھ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   75
+  ],
+  "options": {},
+  "expected": "پچہتر"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   77
+  ],
+  "options": {},
+  "expected": "ستتر"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   91
+  ],
+  "options": {},
+  "expected": "اکانوے"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   92
+  ],
+  "options": {},
+  "expected": "بانوے"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   99
+  ],
+  "options": {},
+  "expected": "نانوے"
  },
  {
   "fn": "numberToUrduWords",
@@ -266,10 +338,26 @@
  {
   "fn": "numberToUrduWords",
   "args": [
+   1100
+  ],
+  "options": {},
+  "expected": "ایک ہزار ایک سو"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
    1234
   ],
   "options": {},
-  "expected": "ایک ہزار دو سو تیس چار"
+  "expected": "ایک ہزار دو سو چونتیس"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   99999
+  ],
+  "options": {},
+  "expected": "نانوے ہزار نو سو نانوے"
  },
  {
   "fn": "numberToUrduWords",
@@ -293,7 +381,7 @@
    1234567
   ],
   "options": {},
-  "expected": "بارہ لاکھ تیس چار ہزار پانچ سو ساٹھ سات"
+  "expected": "بارہ لاکھ چونتیس ہزار پانچ سو سڑسٹھ"
  },
  {
   "fn": "numberToUrduWords",
@@ -314,10 +402,50 @@
  {
   "fn": "numberToUrduWords",
   "args": [
+   1000000000
+  ],
+  "options": {},
+  "expected": "ایک ارب"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   100000000000
+  ],
+  "options": {},
+  "expected": "ایک کھرب"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   1000000000000
+  ],
+  "options": {},
+  "expected": "دس کھرب"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   123456789
+  ],
+  "options": {},
+  "expected": "بارہ کروڑ چونتیس لاکھ چھپن ہزار سات سو نواسی"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
    -5
   ],
   "options": {},
   "expected": "منفی پانچ"
+ },
+ {
+  "fn": "numberToUrduWords",
+  "args": [
+   -21
+  ],
+  "options": {},
+  "expected": "منفی اکیس"
  },
  {
   "fn": "numberToUrduWords",
@@ -334,5 +462,708 @@
   ],
   "options": {},
   "expected": ""
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234567
+  ],
+  "options": {},
+  "expected": "۱۲٬۳۴٬۵۶۷"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234567
+  ],
+  "options": {
+   "grouping": "western"
+  },
+  "expected": "۱٬۲۳۴٬۵۶۷"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234567
+  ],
+  "options": {
+   "grouping": "none"
+  },
+  "expected": "۱۲۳۴۵۶۷"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234
+  ],
+  "options": {
+   "digits": "english"
+  },
+  "expected": "1,234"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234567
+  ],
+  "options": {
+   "digits": "english",
+   "grouping": "western"
+  },
+  "expected": "1,234,567"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   0
+  ],
+  "options": {},
+  "expected": "۰"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   -1234
+  ],
+  "options": {},
+  "expected": "-۱٬۲۳۴"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   -0.4
+  ],
+  "options": {},
+  "expected": "-۰٫۴"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   0.05
+  ],
+  "options": {},
+  "expected": "۰٫۰۵"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   0.5
+  ],
+  "options": {},
+  "expected": "۰٫۵"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1.005
+  ],
+  "options": {},
+  "expected": "۱"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   2.675
+  ],
+  "options": {
+   "decimals": 2
+  },
+  "expected": "۲٫۶۷"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   3.14159
+  ],
+  "options": {},
+  "expected": "۳٫۱۴"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   3.14159
+  ],
+  "options": {
+   "decimals": 3
+  },
+  "expected": "۳٫۱۴۲"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   -3.14159
+  ],
+  "options": {
+   "decimals": 3
+  },
+  "expected": "-۳٫۱۴۲"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234.5
+  ],
+  "options": {
+   "decimals": 0
+  },
+  "expected": "۱٬۲۳۵"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234.4
+  ],
+  "options": {
+   "decimals": 0
+  },
+  "expected": "۱٬۲۳۴"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   999
+  ],
+  "options": {},
+  "expected": "۹۹۹"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   100000000000
+  ],
+  "options": {},
+  "expected": "۱٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰۰"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   100000000000000
+  ],
+  "options": {},
+  "expected": "۱۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰۰"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1e+21
+  ],
+  "options": {},
+  "expected": "۱٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰٬۰۰۰"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1e+21
+  ],
+  "options": {
+   "digits": "english"
+  },
+  "expected": "1,00,00,00,00,00,00,00,00,00,000"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1e+21
+  ],
+  "options": {
+   "digits": "english",
+   "grouping": "western"
+  },
+  "expected": "1,000,000,000,000,000,000,000"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1.5e+21
+  ],
+  "options": {
+   "digits": "english"
+  },
+  "expected": "1,50,00,00,00,00,00,00,00,00,000"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234567.891
+  ],
+  "options": {
+   "decimals": 3
+  },
+  "expected": "۱۲٬۳۴٬۵۶۷٫۸۹۱"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234567
+  ],
+  "options": {
+   "decimals": -3
+  },
+  "expected": "۱۲٬۳۴٬۵۶۷"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   1234567
+  ],
+  "options": {
+   "decimals": 9
+  },
+  "expected": "۱۲٬۳۴٬۵۶۷"
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   "NAN"
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "formatUrduNumber",
+  "args": [
+   "INF"
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   1500
+  ],
+  "options": {},
+  "expected": "۱٬۵۰۰ روپے"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   1
+  ],
+  "options": {},
+  "expected": "۱ روپیہ"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   0
+  ],
+  "options": {},
+  "expected": "۰ روپے"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   2
+  ],
+  "options": {},
+  "expected": "۲ روپے"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   -1
+  ],
+  "options": {},
+  "expected": "-۱ روپیہ"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   1.5
+  ],
+  "options": {},
+  "expected": "۱٫۵ روپے"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   1234567
+  ],
+  "options": {},
+  "expected": "۱۲٬۳۴٬۵۶۷ روپے"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   1500
+  ],
+  "options": {
+   "digits": "english"
+  },
+  "expected": "1,500 روپے"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   1500
+  ],
+  "options": {
+   "style": "words"
+  },
+  "expected": "ایک ہزار پانچ سو روپے"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   1
+  ],
+  "options": {
+   "style": "words"
+  },
+  "expected": "ایک روپیہ"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   21
+  ],
+  "options": {
+   "style": "words"
+  },
+  "expected": "اکیس روپے"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   2.5
+  ],
+  "options": {
+   "unit": "ڈالر",
+   "singularUnit": "ڈالر"
+  },
+  "expected": "۲٫۵ ڈالر"
+ },
+ {
+  "fn": "formatUrduCurrency",
+  "args": [
+   "NAN"
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   0
+  ],
+  "options": {},
+  "expected": "صفر"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   1
+  ],
+  "options": {},
+  "expected": "پہلا"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   2
+  ],
+  "options": {},
+  "expected": "دوسرا"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   3
+  ],
+  "options": {},
+  "expected": "تیسرا"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   4
+  ],
+  "options": {},
+  "expected": "چوتھا"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   5
+  ],
+  "options": {},
+  "expected": "پانچواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   6
+  ],
+  "options": {},
+  "expected": "چھٹا"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   7
+  ],
+  "options": {},
+  "expected": "ساتواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   8
+  ],
+  "options": {},
+  "expected": "آٹھواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   9
+  ],
+  "options": {},
+  "expected": "نواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   10
+  ],
+  "options": {},
+  "expected": "دسواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   11
+  ],
+  "options": {},
+  "expected": "گیارہواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   15
+  ],
+  "options": {},
+  "expected": "پندرہواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   20
+  ],
+  "options": {},
+  "expected": "بیسواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   21
+  ],
+  "options": {},
+  "expected": "اکیسواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   26
+  ],
+  "options": {},
+  "expected": "چھبیسواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   45
+  ],
+  "options": {},
+  "expected": "پینتالیسواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   90
+  ],
+  "options": {},
+  "expected": "نوےواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   99
+  ],
+  "options": {},
+  "expected": "نانوےواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   100
+  ],
+  "options": {},
+  "expected": "سواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   101
+  ],
+  "options": {},
+  "expected": "ایک سو ایکواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   200
+  ],
+  "options": {},
+  "expected": "دو سواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   1000
+  ],
+  "options": {},
+  "expected": "ہزارواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   1100
+  ],
+  "options": {},
+  "expected": "ایک ہزار ایک سواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   100000
+  ],
+  "options": {},
+  "expected": "لاکھواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   10000000
+  ],
+  "options": {},
+  "expected": "کروڑواں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   -3
+  ],
+  "options": {},
+  "expected": "منفی تیسرا"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   "INF"
+  ],
+  "options": {},
+  "expected": ""
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   1
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "پہلی"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   2
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "دوسری"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   5
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "پانچویں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   6
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "چھٹی"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   7
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "ساتویں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   21
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "اکیسویں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   90
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "نوےویں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   100
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "سویں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   1000
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "ہزارویں"
+ },
+ {
+  "fn": "toUrduOrdinal",
+  "args": [
+   1100
+  ],
+  "options": {
+   "gender": "feminine"
+  },
+  "expected": "ایک ہزار ایک سویں"
  }
 ]

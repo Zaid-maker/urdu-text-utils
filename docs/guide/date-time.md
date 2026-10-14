@@ -7,6 +7,7 @@
 ```ts
 import {
   formatUrduDate,
+  parseUrduDate,
   timeAgoUrdu,
   getUrduMonthName,
   getUrduWeekdayName,
@@ -130,6 +131,70 @@ timeAgoUrdu(now - 5 * 60 * 1000, now, { digits: "english" });
 timeAgoUrdu(now - 5 * 60 * 1000, now, { addSuffix: false });
 // "۵ منٹ"
 ```
+
+---
+
+## `parseUrduDate(input, options?)`
+
+`formatUrduDate` has an inverse. Anything it can produce parses back to the same wall-clock moment, which makes the pair safe for round-tripping stored text.
+
+```ts
+const d = new Date(2026, 7, 22, 14, 30);
+const text = formatUrduDate(d, "dddd، D MMMM YYYY، hh:mm A");
+// "ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰ دوپہر"
+
+parseUrduDate(text)?.getHours();
+// 14
+```
+
+### Accepted input
+
+```ts
+// Urdu or English month names, Urdu, Arabic-Indic or ASCII digits
+parseUrduDate("۲۲ اگست ۲۰۲۶");    // Date(2026, 7, 22)
+parseUrduDate("22 اگست 2026");
+parseUrduDate("22 August 2026");
+parseUrduDate("Aug 22, 2026");
+
+// Day-first numeric, matching Pakistani convention
+parseUrduDate("۲۲/۰۸/۲۰۲۶");      // 22 August, not 8 February
+parseUrduDate("22-08-2026");
+parseUrduDate("22/08/26");         // 00-69 -> 20xx, 70-99 -> 19xx
+
+// ISO, with the `T` form but no timezone offset
+parseUrduDate("2026-08-22");
+parseUrduDate("2026-08-22T14:30");
+
+// An optional leading weekday (ignored) and an optional time
+parseUrduDate("ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰ دوپہر")?.getHours(); // 14
+parseUrduDate("۲۲ اگست ۲۰۲۶ ۱۱:۳۰ pm")?.getHours();           // 23
+
+// Month precision resolves to the first of the month;
+// a missing year needs a default or falls back to the current one
+parseUrduDate("جنوری ۲۰۲۶");                          // Date(2026, 0, 1)
+parseUrduDate("5 جنوری", { defaultYear: 1999 });     // Date(1999, 0, 5)
+```
+
+The day period words are the inverse of the `A` token: `صبح`, `دوپہر`, `شام` and `رات`, plus `am`/`pm`. `رات` is the awkward one — it covers both 00:00–03:59 and 20:00–23:59, so `۱۲:۰۰ رات` is midnight and `۱۱:۰۰ رات` is 23:00. Both halves resolve correctly, and every hour of a formatted date round-trips.
+
+### Deliberately rejected
+
+`parseUrduDate` returns `null` rather than guessing:
+
+```ts
+parseUrduDate("۳۱ فروری ۲۰۲۶");          // null — that date does not exist
+parseUrduDate("2026-08-22T14:30:00Z");   // null — an absolute instant
+parseUrduDate("۱ رمضان المبارک ۱۴۴۷");    // null — Hijri month names
+parseUrduDate("پاکستان");                // null
+```
+
+Three of those are deliberate rather than missing features:
+
+- **No timezone conversion.** A `Z` or `+05:00` suffix names an absolute instant, which this function has no timezone to resolve into. It builds wall-clock time in the runtime's own zone, exactly as `formatUrduDate` reads it with `getFullYear()` and friends.
+- **No Hijri names.** `صفر` is both a Hijri month and the Urdu word for zero, so a bare `صفر` would be genuinely ambiguous. Hijri *formatting* still works through `formatUrduDate`'s `calendar: "hijri"` option.
+- **No roll-over.** `۳۱ فروری` is rejected instead of silently becoming 3 March.
+
+Unknown words are tolerated rather than fatal, so a decorated string like `بتاریخ ۲۲ اگست ۲۰۲۶` still parses.
 
 ---
 

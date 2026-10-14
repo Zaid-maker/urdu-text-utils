@@ -3,10 +3,10 @@
  *
  * The TS library is the single source of truth for Urdu tables (letter
  * inventory, dictionary, variants, stop words, stemmer affixes, date names,
- * name transliteration). This script compiles chars.ts, dictionary.ts,
- * stopwords.ts, stats.ts, stemmer.ts, date.ts and names.ts to throwaway ESM
- * modules and serializes their exports to one JSON file that the PHP port
- * consumes — so the two languages can never drift.
+ * name transliteration, number words). This script compiles chars.ts,
+ * dictionary.ts, stopwords.ts, stats.ts, stemmer.ts, date.ts, names.ts and
+ * numbers.ts to throwaway ESM modules and serializes their exports to one JSON
+ * file that the PHP port consumes — so the two languages can never drift.
  *
  * Usage: node scripts/generate-php-tables.mjs
  */
@@ -31,6 +31,7 @@ await build({
     "src/stemmer.ts",
     "src/date.ts",
     "src/names.ts",
+    "src/numbers.ts",
   ],
   format: ["esm"],
   dts: false,
@@ -47,6 +48,7 @@ const stats = await import(pathToFileURL(join(tmp, "stats.js")).href);
 const stem = await import(pathToFileURL(join(tmp, "stemmer.js")).href);
 const date = await import(pathToFileURL(join(tmp, "date.js")).href);
 const names = await import(pathToFileURL(join(tmp, "names.js")).href);
+const numbers = await import(pathToFileURL(join(tmp, "numbers.js")).href);
 
 const source = (re) => re.source;
 
@@ -104,6 +106,14 @@ const tables = {
     monthsGregorian: [...date.URDU_MONTHS_GREGORIAN],
     monthsHijri: [...date.URDU_MONTHS_HIJRI],
     weekdays: [...date.URDU_WEEKDAYS],
+  },
+  /** src/numbers.ts word tables: cardinals, scales and irregular ordinals. */
+  numbers: {
+    ones: [...numbers.URDU_ONES],
+    teensAndTens: numbers.URDU_TEENS_AND_TENS,
+    tensUnits: numbers.URDU_TENS_UNITS,
+    scales: numbers.URDU_SCALES.map((scale) => [...scale]),
+    ordinalIrregulars: numbers.URDU_ORDINAL_IRREGULARS,
   },
   /** src/names.ts name transliteration tables. */
   names: {

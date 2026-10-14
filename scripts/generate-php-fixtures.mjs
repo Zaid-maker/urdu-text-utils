@@ -242,8 +242,101 @@ for (const [input, style] of [
 for (const input of ["۱۲۳۴۵", "1,234", "1,234.5", "-۱۲۳", "+۳٫۵", ".5", " ۱۲۳ ", "12abc", "1.2.3", "", "پاکستان", "۱۲۳٬۴۵۶٫۷۸"]) {
   fixtures.numbers.push({ fn: "parseUrduNumber", args: [input], options: {}, expected: json(lib.parseUrduNumber(input)) });
 }
-for (const value of [0, 5, 15, 21, 25, 90, 100, 200, 1000, 1005, 1234, 100000, 1000000, 1234567, 10000000, 100000000, -5, Infinity, NaN]) {
+for (const value of [
+  0, 5, 15, 21, 25, 26, 54, 63, 68, 75, 77, 91, 92, 99,
+  90, 100, 200, 1000, 1005, 1100, 1234, 99999, 100000, 1000000, 1234567,
+  10000000, 100000000, 1000000000, 100000000000, 1000000000000, 123456789,
+  -5, -21, Infinity, NaN,
+]) {
   fixtures.numbers.push({ fn: "numberToUrduWords", args: [argNum(value)], options: {}, expected: lib.numberToUrduWords(value) });
+}
+
+for (const [value, options] of [
+  [1234567],
+  [1234567, { grouping: "western" }],
+  [1234567, { grouping: "none" }],
+  [1234, { digits: "english" }],
+  [1234567, { digits: "english", grouping: "western" }],
+  [0],
+  [-1234],
+  [-0.4],
+  [0.05],
+  [0.5],
+  [1.005],
+  [2.675, { decimals: 2 }],
+  [3.14159],
+  [3.14159, { decimals: 3 }],
+  [-3.14159, { decimals: 3 }],
+  [1234.5, { decimals: 0 }],
+  [1234.4, { decimals: 0 }],
+  [999],
+  [100000000000],
+  [1e14],
+  // Above 1e21 String() goes exponential in JS; these lock the digit output
+  // both ports agree on for values that are exactly representable there.
+  [1e21],
+  [1e21, { digits: "english" }],
+  [1e21, { digits: "english", grouping: "western" }],
+  [1.5e21, { digits: "english" }],
+  [1234567.891, { decimals: 3 }],
+  [1234567, { decimals: -3 }],
+  [1234567, { decimals: 9 }],
+  [NaN],
+  [Infinity],
+]) {
+  fixtures.numbers.push({
+    fn: "formatUrduNumber",
+    args: [argNum(value)],
+    options: options ?? {},
+    expected: lib.formatUrduNumber(value, options),
+  });
+}
+
+for (const [value, options] of [
+  [1500],
+  [1],
+  [0],
+  [2],
+  [-1],
+  [1.5],
+  [1234567],
+  [1500, { digits: "english" }],
+  [1500, { style: "words" }],
+  [1, { style: "words" }],
+  [21, { style: "words" }],
+  [2.5, { unit: "ڈالر", singularUnit: "ڈالر" }],
+  [NaN],
+]) {
+  fixtures.numbers.push({
+    fn: "formatUrduCurrency",
+    args: [argNum(value)],
+    options: options ?? {},
+    expected: lib.formatUrduCurrency(value, options),
+  });
+}
+
+for (const [value, options] of [
+  [0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [15], [20],
+  [21], [26], [45], [90], [99], [100], [101], [200], [1000], [1100], [100000], [10000000],
+  [-3],
+  [Infinity],
+  [1, { gender: "feminine" }],
+  [2, { gender: "feminine" }],
+  [5, { gender: "feminine" }],
+  [6, { gender: "feminine" }],
+  [7, { gender: "feminine" }],
+  [21, { gender: "feminine" }],
+  [90, { gender: "feminine" }],
+  [100, { gender: "feminine" }],
+  [1000, { gender: "feminine" }],
+  [1100, { gender: "feminine" }],
+]) {
+  fixtures.numbers.push({
+    fn: "toUrduOrdinal",
+    args: [argNum(value)],
+    options: options ?? {},
+    expected: lib.toUrduOrdinal(value, options),
+  });
 }
 
 // ---- search ----------------------------------------------------------------
@@ -553,6 +646,76 @@ tAgo(-2700);
 tAgo(-79200);
 tAgo(-8 * 86400);
 tAgo(-330 * 86400);
+
+/**
+ * parseUrduDate fixtures store the parsed WALL-CLOCK COMPONENTS (or null), the
+ * same shape formatUrduDate cases take as input — so the PHP test compares
+ * components in its own zone rather than an absolute instant.
+ */
+const parse = (input, options) => {
+  const parsed = lib.parseUrduDate(input, options);
+  fixtures.date.push({
+    fn: "parseUrduDate",
+    args: [input],
+    options: options ?? {},
+    expected:
+      parsed === null
+        ? null
+        : {
+            y: parsed.getFullYear(),
+            m: parsed.getMonth(),
+            d: parsed.getDate(),
+            hh: parsed.getHours(),
+            mm: parsed.getMinutes(),
+            ss: parsed.getSeconds(),
+          },
+  });
+};
+
+parse("۲۲ اگست ۲۰۲۶");
+parse("22 اگست 2026");
+parse("22 August 2026");
+parse("Aug 22, 2026");
+parse("اگست ۲۲، ۲۰۲۶");
+parse("ہفتہ، ۲۲ اگست ۲۰۲۶");
+parse("ہفتہ، ۲۲ اگست ۲۰۲۶، ۰۲:۳۰ دوپہر");
+parse("۵ جنوری ۲۰۲۶، ۰۹:۱۵ صبح");
+parse("اتوار ۱۵ جنوری ۲۰۲۶ صبح ۰۹:۱۵");
+parse("(۲۲) اگست ۲۰۲۶");
+parse("بتاریخ ۲۲ اگست ۲۰۲۶");
+parse("۲۲/۰۸/۲۰۲۶");
+parse("22-08-2026");
+parse("22.08.2026");
+parse("22/08/26");
+parse("22/08/2026 14:30");
+parse("2026-08-22");
+parse("2026-08-22T14:30");
+parse("2026-08-22T14:30:45");
+parse("۳۱ دسمبر ۱۹۹۹");
+parse("۱ جنوری ۲۰۰۰");
+parse("۱۲ مارچ ۲۰۲۶");
+parse("۲۰۲۶ اگست ۲۲");
+parse("جنوری ۲۰۲۶");
+parse("5 جنوری", { defaultYear: 1999 });
+parse("۲۲ اگست ۲۰۲۶ ۱۱:۰۰ رات");
+parse("۲۲ اگست ۲۰۲۶ ۱۲:۰۰ رات");
+parse("۲۲ اگست ۲۰۲۶ ۰۲:۰۰ دوپہر");
+parse("۲۲ اگست ۲۰۲۶ ۰۶:۰۰ شام");
+parse("۲۲ اگست ۲۰۲۶ ۱۱:۳۰ pm");
+parse("۳۱ فروری ۲۰۲۶");
+parse("2026-02-30");
+parse("2026-13-01");
+parse("2026-08-22T14:30:00Z");
+parse("۱ رمضان المبارک ۱۴۴۷");
+parse("پاکستان");
+parse("");
+
+// Every hour of a full formatted string must parse back to the same moment —
+// this is what pins the صبح/دوپہر/شام/رات (and especially the split رات) logic.
+for (let hours = 0; hours < 24; hours++) {
+  const d = new Date(2026, 7, 22, hours, 30, 15);
+  parse(lib.formatUrduDate(d, "dddd، D MMMM YYYY، hh:mm:ss A"));
+}
 
 // ---- names -----------------------------------------------------------------
 for (const [input, options] of [

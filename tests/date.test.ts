@@ -6,6 +6,7 @@ import {
   formatUrduDate,
   getUrduMonthName,
   getUrduWeekdayName,
+  parseUrduDate,
   timeAgoUrdu,
 } from "../src/date.js";
 
@@ -202,5 +203,94 @@ describe("timeAgoUrdu", () => {
     const inOneMin = new Date(baseTime + 60 * 1000);
     expect(timeAgoUrdu(inOneMin, baseTime)).toBe("ایک منٹ بعد");
     expect(timeAgoUrdu(inOneMin, baseTime, { addSuffix: false })).toBe("ایک منٹ");
+  });
+});
+
+describe("parseUrduDate", () => {
+  const parts = (d: Date | null) =>
+    d === null ? null : [d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()];
+
+  it("parses Urdu and English month names", () => {
+    expect(parts(parseUrduDate("۲۲ اگست ۲۰۲۶"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("22 اگست 2026"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("22 August 2026"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("Aug 22, 2026"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("۱۲ مارچ ۲۰۲۶"))).toEqual([2026, 2, 12, 0, 0, 0]);
+  });
+
+  it("parses numeric dates day-first, matching Pakistani convention", () => {
+    expect(parts(parseUrduDate("۲۲/۰۸/۲۰۲۶"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("22-08-2026"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("22/08/26"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("22/08/2026 14:30"))).toEqual([2026, 7, 22, 14, 30, 0]);
+  });
+
+  it("parses ISO dates but refuses absolute instants", () => {
+    expect(parts(parseUrduDate("2026-08-22"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("2026-08-22T14:30"))).toEqual([2026, 7, 22, 14, 30, 0]);
+    expect(parts(parseUrduDate("2026-08-22T14:30:45"))).toEqual([2026, 7, 22, 14, 30, 45]);
+    // A trailing Z or offset would need a timezone conversion this never does.
+    expect(parseUrduDate("2026-08-22T14:30:00Z")).toBeNull();
+    expect(parseUrduDate("2026-08-22T14:30:00+05:00")).toBeNull();
+  });
+
+  it("reads the day-period words, including the split رات window", () => {
+    expect(parseUrduDate("۲۲ اگست ۲۰۲۶ ۰۹:۱۵ صبح")?.getHours()).toBe(9);
+    expect(parseUrduDate("۲۲ اگست ۲۰۲۶ ۰۲:۰۰ دوپہر")?.getHours()).toBe(14);
+    expect(parseUrduDate("۲۲ اگست ۲۰۲۶ ۰۶:۰۰ شام")?.getHours()).toBe(18);
+    expect(parseUrduDate("۲۲ اگست ۲۰۲۶ ۱۱:۰۰ رات")?.getHours()).toBe(23);
+    expect(parseUrduDate("۲۲ اگست ۲۰۲۶ ۱۲:۰۰ رات")?.getHours()).toBe(0);
+    expect(parseUrduDate("۲۲ اگست ۲۰۲۶ ۱۱:۳۰ pm")?.getHours()).toBe(23);
+    expect(parseUrduDate("۲۲ اگست ۲۰۲۶ ۱۲:۳۰ am")?.getHours()).toBe(0);
+  });
+
+  it("ignores a leading weekday and tolerates decoration", () => {
+    expect(parts(parseUrduDate("ہفتہ، ۲۲ اگست ۲۰۲۶"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("بتاریخ ۲۲ اگست ۲۰۲۶"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("(۲۲) اگست ۲۰۲۶"))).toEqual([2026, 7, 22, 0, 0, 0]);
+    expect(parts(parseUrduDate("۲۰۲۶ اگست ۲۲"))).toEqual([2026, 7, 22, 0, 0, 0]);
+  });
+
+  it("resolves a missing or month-only year", () => {
+    expect(parts(parseUrduDate("5 جنوری", { defaultYear: 1999 }))).toEqual([1999, 0, 5, 0, 0, 0]);
+    expect(parts(parseUrduDate("5 جنوری ۲۰۲۶"))).toEqual([2026, 0, 5, 0, 0, 0]);
+    // Month precision resolves to the first of that month.
+    expect(parts(parseUrduDate("جنوری ۲۰۲۶"))).toEqual([2026, 0, 1, 0, 0, 0]);
+  });
+
+  it("rejects impossible dates instead of rolling them over", () => {
+    expect(parseUrduDate("۳۱ فروری ۲۰۲۶")).toBeNull();
+    expect(parseUrduDate("2026-02-30")).toBeNull();
+    expect(parseUrduDate("2026-13-01")).toBeNull();
+  });
+
+  it("rejects Hijri month names, since صفر is also the word for zero", () => {
+    expect(parseUrduDate("۱ رمضان المبارک ۱۴۴۷")).toBeNull();
+  });
+
+  it("returns null for input it cannot read", () => {
+    expect(parseUrduDate("")).toBeNull();
+    expect(parseUrduDate("پاکستان")).toBeNull();
+    expect(parseUrduDate("اگست")).toBeNull();
+    // Object.prototype members must not be mistaken for month or period names.
+    expect(parseUrduDate("constructor")).toBeNull();
+    expect(parseUrduDate("toString 22 اگست ۲۰۲۶")).toEqual(expect.any(Date));
+  });
+
+  it("round-trips every hour of a fully formatted date back to the same moment", () => {
+    for (let hours = 0; hours < 24; hours++) {
+      const d = new Date(2026, 7, 22, hours, 30, 15);
+      const text = formatUrduDate(d, "dddd، D MMMM YYYY، hh:mm:ss A");
+      expect(parseUrduDate(text)?.getTime(), `${text} should round-trip`).toBe(d.getTime());
+    }
+  });
+
+  it("round-trips the default and 24-hour patterns", () => {
+    const d = new Date(2026, 7, 22, 10, 0, 0);
+    expect(parseUrduDate(formatUrduDate(d))?.getTime()).toBe(new Date(2026, 7, 22).getTime());
+
+    const withTime = new Date(2026, 0, 15, 5, 7, 9);
+    const text = formatUrduDate(withTime, "DD MMMM YYYY HH:mm:ss");
+    expect(parseUrduDate(text)?.getTime()).toBe(withTime.getTime());
   });
 });

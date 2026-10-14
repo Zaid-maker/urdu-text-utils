@@ -6,6 +6,12 @@
  * This is a dev-only smoke check for when PHP is unavailable locally;
  * php/tests remains the real parity gate.
  *
+ * It CANNOT catch PHP runtime/API semantics, because it re-implements the
+ * algorithms rather than executing them — a case that passed here once still
+ * shipped a real bug (DateTime::createFromFormat needs two digits for i and s,
+ * so "0:0:0" returns false and every parseUrduDate call returned null). Treat a
+ * pass here as necessary, never sufficient: run `composer test` in php/.
+ *
  * Usage: node scripts/verify-php-parity.mjs   (after generate-php-fixtures.mjs)
  */
 import { readFileSync } from "node:fs";
@@ -231,6 +237,373 @@ const removeStopWords = (text, custom) => {
 };
 
 // ---------------------------------------------------------------------------
+// Numbers.php
+// ---------------------------------------------------------------------------
+
+const numberTables = tables.numbers;
+
+const digitSets = {
+  urdu: tables.digits.urdu,
+  english: tables.digits.english,
+  arabic: tables.digits.arabic,
+};
+
+const digitValue = new Map();
+for (const set of Object.values(digitSets)) {
+  chars(set).forEach((ch, i) => digitValue.set(ch, i));
+}
+
+/** Tables::chars() splits codepoints, so convert per codepoint like the PHP port. */
+const convertDigits = (input, target) => {
+  if (input === "") return "";
+  const digits = chars(digitSets[target]);
+  let out = "";
+  for (const ch of chars(input)) {
+    const value = digitValue.get(ch);
+    out += value === undefined ? ch : digits[value];
+  }
+  return out;
+};
+
+const phpToUrduDigits = (s) => convertDigits(s, "urdu");
+const phpToEnglishDigits = (s) => convertDigits(s, "english");
+const phpToArabicIndicDigits = (s) => convertDigits(s, "arabic");
+const phpConvertNumbers = (s, to = "urdu") => convertDigits(s, to);
+
+const phpParseUrduNumber = (input) => {
+  if (input === "") return NaN;
+  let ascii = strReplace(
+    [
+      ["٬", ""],
+      [",", ""],
+      ["٫", "."],
+    ],
+    phpToEnglishDigits(input)
+  );
+  ascii = ascii.replace(/\s+/gu, "");
+  if (!/^[+-]?(\d+(\.\d*)?|\.\d+)$/.test(ascii)) return NaN;
+  return Number(ascii);
+};
+
+const phpNumberToUrduWords = (value) => {
+  const v = Number(value);
+  if (!Number.isFinite(v)) return "";
+  if (v !== Math.floor(v)) throw new TypeError("expects an integer");
+  let n = v;
+  if (n < 0) return "منفی " + phpNumberToUrduWords(-n);
+  if (n === 0) return "صفر";
+
+  const parts = [];
+  let rest = n;
+  for (const [size, name] of numberTables.scales) {
+    if (rest >= size) {
+      const count = Math.floor(rest / size);
+      rest = rest % size;
+      parts.push(phpNumberToUrduWords(count) + " " + name);
+    }
+  }
+  if (rest > 0) {
+    if (numberTables.tensUnits[rest] !== undefined) {
+      parts.push(numberTables.tensUnits[rest]);
+    } else if (numberTables.teensAndTens[rest] !== undefined) {
+      parts.push(numberTables.teensAndTens[rest]);
+    } else if (rest < 10) {
+      parts.push(numberTables.ones[rest]);
+    } else {
+      const tens = Math.floor(rest / 10) * 10;
+      parts.push(phpTrim(((numberTables.teensAndTens[tens] ?? "") + " " + (numberTables.ones[rest % 10] ?? "")).replace(/^\s+|\s+$/gu, "")));
+    }
+  }
+  return phpTrim(parts.join(" ").replace(/\s+/gu, " "));
+};
+
+/** groupDigits(): ASCII digits only, so byte-oriented substr is safe here. */
+const phpGroupDigits = (intStr, grouping, separator) => {
+  if (grouping === "none" || separator === "") return intStr;
+  if (grouping === "western") return intStr.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+  const lastThree = intStr.slice(-3);
+  const rest = intStr.slice(0, -3);
+  if (rest === "") return lastThree;
+  return rest.replace(/\B(?=(\d{2})+(?!\d))/g, separator) + separator + lastThree;
+};
+
+/** sprintf('%.0F', $float) for an integral float: plain digits, never exponent. */
+const phpFixedZero = (value) => BigInt(value).toString();
+
+const phpFormatUrduNumber = (value, options = {}) => {
+  const v = Number(value);
+  if (!Number.isFinite(v)) return "";
+
+  const digits = options.digits ?? "urdu";
+  const grouping = options.grouping ?? "southAsian";
+  const decimals = Math.max(0, Math.min(15, Math.trunc(options.decimals ?? 2)));
+  const separators = digits === "urdu" ? { group: "٬", decimal: "٫" } : { group: ",", decimal: "." };
+
+  const negative = v < 0;
+  const abs = Math.abs(v);
+  const scale = 10 ** decimals;
+
+  let intPart = Math.floor(abs);
+  let scaledFraction = Math.floor((abs - intPart) * scale + 0.5);
+  if (scaledFraction >= scale) {
+    intPart += 1;
+    scaledFraction -= scale;
+  }
+
+  const intStr = phpGroupDigits(phpFixedZero(intPart), grouping, separators.group);
+  const fraction = String(scaledFraction).padStart(decimals, "0").replace(/0+$/gu, "");
+  const body = fraction === "" ? intStr : intStr + separators.decimal + fraction;
+  const sign = negative ? "-" : "";
+
+  return digits === "urdu" ? sign + phpToUrduDigits(body) : sign + body;
+};
+
+const phpFormatUrduCurrency = (value, options = {}) => {
+  const v = Number(value);
+  if (!Number.isFinite(v)) return "";
+
+  const style = options.style ?? "digits";
+  const unit = options.unit ?? "روپے";
+  const singularUnit = options.singularUnit ?? "روپیہ";
+
+  const amount = style === "words" ? phpNumberToUrduWords(v) : phpFormatUrduNumber(v, options);
+  if (amount === "") return "";
+
+  return amount + " " + (Math.abs(v) === 1 ? singularUnit : unit);
+};
+
+const phpToUrduOrdinal = (value, options = {}) => {
+  const v = Number(value);
+  if (!Number.isFinite(v)) return "";
+  if (v !== Math.floor(v)) throw new TypeError("expects an integer");
+
+  const gender = options.gender ?? "masculine";
+  const n = v;
+  if (n < 0) return "منفی " + phpToUrduOrdinal(-n, options);
+  if (n === 0) return "صفر";
+
+  const irregulars = numberTables.ordinalIrregulars;
+  if (irregulars[n] !== undefined) return irregulars[n][gender];
+
+  const words = phpNumberToUrduWords(n).split(" ");
+  const last = words.pop();
+  // PHP strips the trailing و by BYTE length, which is the correct codepoint
+  // removal here; slice(0, -1) mirrors that on a JS string.
+  const stem = last.endsWith("و") ? last.slice(0, -1) : last;
+  const ordinated = stem + (gender === "feminine" ? "ویں" : "واں");
+
+  const prefix = words.length === 1 && words[0] === "ایک" ? [] : words;
+
+  return prefix.concat([ordinated]).join(" ");
+};
+
+// ---------------------------------------------------------------------------
+// Date.php
+// ---------------------------------------------------------------------------
+
+const phpMonthNames = (calendar) =>
+  calendar === "hijri" ? tables.date.monthsHijri : tables.date.monthsGregorian;
+
+const phpGetUrduMonthName = (monthIndex, calendar = "gregorian") => {
+  const normalized = Math.trunc(Math.floor(monthIndex)) % 12;
+  const idx = normalized < 0 ? normalized + 12 : normalized;
+  return phpMonthNames(calendar)[idx];
+};
+
+const phpGetUrduWeekdayName = (dayIndex) => {
+  const normalized = Math.trunc(dayIndex) % 7;
+  const idx = normalized < 0 ? normalized + 7 : normalized;
+  return tables.date.weekdays[idx];
+};
+
+const PHP_ENGLISH_MONTHS = [
+  "january", "february", "march", "april", "may", "june",
+  "july", "august", "september", "october", "november", "december",
+];
+const PHP_ENGLISH_WEEKDAYS = [
+  "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
+];
+const PHP_URDU_PERIODS = { صبح: "morning", دوپہر: "afternoon", شام: "evening", رات: "night" };
+
+const phpMonthLookup = (() => {
+  const lookup = {};
+  tables.date.monthsGregorian.forEach((name, index) => {
+    lookup[name] = index;
+  });
+  PHP_ENGLISH_MONTHS.forEach((name, index) => {
+    lookup[name] = index;
+    lookup[name.slice(0, 3)] = index;
+  });
+  return lookup;
+})();
+
+const phpWeekdayTokens = (() => {
+  const tokens = {};
+  for (const name of tables.date.weekdays) tokens[name] = true;
+  for (const name of PHP_ENGLISH_WEEKDAYS) {
+    tokens[name] = true;
+    tokens[name.slice(0, 3)] = true;
+  }
+  return tokens;
+})();
+
+const phpResolveHour = (hour, period) => {
+  switch (period) {
+    case "am":
+    case "morning":
+      return hour === 12 ? 0 : hour;
+    case "pm":
+    case "afternoon":
+    case "evening":
+      return hour < 12 ? hour + 12 : hour;
+    case "night":
+      if (hour === 12) return 0;
+      return hour >= 8 && hour <= 11 ? hour + 12 : hour;
+    default:
+      return hour;
+  }
+};
+
+const phpExpandYear = (year) => (year >= 100 ? year : year < 70 ? 2000 + year : 1900 + year);
+
+const phpBuildLocalDate = (year, month, day, hour, minute, second) => {
+  if (year < 100 || month < 0 || month > 11 || day < 1 || day > 31) return null;
+  if (hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) return null;
+
+  const date = new Date(year, month, day, hour, minute, second);
+  if (
+    date.getFullYear() !== year
+    || date.getMonth() !== month
+    || date.getDate() !== day
+    || date.getHours() !== hour
+  ) {
+    return null;
+  }
+  return date;
+};
+
+const phpParseNumericDate = (input) => {
+  const iso = /^(\d{4})-(\d{1,2})-(\d{1,2})(?:[T ](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/.exec(input);
+  if (iso) {
+    return phpBuildLocalDate(
+      Number(iso[1]),
+      Number(iso[2]) - 1,
+      Number(iso[3]),
+      iso[4] ? Number(iso[4]) : 0,
+      iso[5] ? Number(iso[5]) : 0,
+      iso[6] ? Number(iso[6]) : 0
+    );
+  }
+
+  const dayFirst = /^(\d{1,2})[/\-.](\d{1,2})[/\-.](\d{2,4})(?:[ ,T]+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/.exec(input);
+  if (dayFirst) {
+    return phpBuildLocalDate(
+      phpExpandYear(Number(dayFirst[3])),
+      Number(dayFirst[2]) - 1,
+      Number(dayFirst[1]),
+      dayFirst[4] ? Number(dayFirst[4]) : 0,
+      dayFirst[5] ? Number(dayFirst[5]) : 0,
+      dayFirst[6] ? Number(dayFirst[6]) : 0
+    );
+  }
+
+  return null;
+};
+
+const phpParseUrduDate = (input, options = {}) => {
+  if (input === "") return null;
+
+  let normalized = phpToEnglishDigits(input);
+  normalized = normalized.replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/gu, "");
+  normalized = strReplace([["،", " "], ["۔", " "]], normalized);
+  normalized = phpTrim(normalized.replace(/\s+/gu, " "));
+  if (normalized === "") return null;
+
+  const numeric = phpParseNumericDate(normalized);
+  if (numeric !== null) return numeric;
+
+  let month = null;
+  let hour = null;
+  let minute = 0;
+  let second = 0;
+  let period = null;
+  const numbers = [];
+
+  for (const rawToken of normalized.split(" ")) {
+    // preg_replace('/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/u', '') — both anchors are
+    // replaced in one global pass, matching the PCRE behaviour.
+    const token = rawToken
+      .replace(/^[^\p{L}\p{N}]+/u, "")
+      .replace(/[^\p{L}\p{N}]+$/u, "");
+    if (token === "") continue;
+
+    const urduPeriod = PHP_URDU_PERIODS[token];
+    if (urduPeriod !== undefined) {
+      period = urduPeriod;
+      continue;
+    }
+
+    const lower = token.toLowerCase();
+    if (lower === "am" || lower === "pm") {
+      period = lower;
+      continue;
+    }
+
+    if (phpWeekdayTokens[token] || phpWeekdayTokens[lower]) continue;
+
+    const time = /^(\d{1,2}):(\d{2})(?::(\d{2}))?$/.exec(token);
+    if (time) {
+      hour = Number(time[1]);
+      minute = Number(time[2]);
+      second = time[3] ? Number(time[3]) : 0;
+      continue;
+    }
+
+    const monthIndex = phpMonthLookup[token] ?? phpMonthLookup[lower];
+    if (monthIndex !== undefined) {
+      month = monthIndex;
+      continue;
+    }
+
+    if (/^\d+$/.test(token)) numbers.push(Number(token));
+  }
+
+  if (month === null || numbers.length === 0) return null;
+
+  let day;
+  let year;
+  if (numbers.length === 1) {
+    const only = numbers[0];
+    if (only > 31) {
+      day = 1;
+      year = only;
+    } else {
+      day = only;
+      year = options.defaultYear ?? new Date().getFullYear();
+    }
+  } else {
+    const first = numbers[0];
+    const last = numbers[numbers.length - 1];
+    if (first > 31 && last <= 31) {
+      day = last;
+      year = first;
+    } else {
+      day = first;
+      year = last;
+    }
+  }
+
+  return phpBuildLocalDate(
+    phpExpandYear(year),
+    month,
+    day,
+    hour === null ? 0 : phpResolveHour(hour, period),
+    minute,
+    second
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Run every fixture through the PHP-mirrored implementation
 // ---------------------------------------------------------------------------
 
@@ -269,6 +642,69 @@ for (const c of load("php/tests/fixtures/stopwords.json")) {
   else if (c.fn === "filterStopWords") actual = filterStopWords(a, b);
   else if (c.fn === "removeStopWords") actual = removeStopWords(a, b);
   if (JSON.stringify(actual) !== JSON.stringify(c.expected)) fail("stopwords.json", c, actual);
+}
+
+/** Fixture args spell NaN/Infinity out for JSON. */
+const numericArg = (value) => {
+  if (value === "NAN") return NaN;
+  if (value === "INF") return Infinity;
+  return Number(value);
+};
+
+for (const c of load("php/tests/fixtures/numbers.json")) {
+  total++;
+  const a = c.args[0];
+  let actual;
+  if (c.fn === "toUrduDigits") actual = phpToUrduDigits(a);
+  else if (c.fn === "toEnglishDigits") actual = phpToEnglishDigits(a);
+  else if (c.fn === "toArabicIndicDigits") actual = phpToArabicIndicDigits(a);
+  else if (c.fn === "convertNumbers") actual = phpConvertNumbers(a, c.args[1] ?? "urdu");
+  else if (c.fn === "parseUrduNumber") actual = phpParseUrduNumber(a);
+  else if (c.fn === "numberToUrduWords") actual = phpNumberToUrduWords(numericArg(a));
+  else if (c.fn === "formatUrduNumber") actual = phpFormatUrduNumber(numericArg(a), c.options);
+  else if (c.fn === "formatUrduCurrency") actual = phpFormatUrduCurrency(numericArg(a), c.options);
+  else if (c.fn === "toUrduOrdinal") actual = phpToUrduOrdinal(numericArg(a), c.options);
+
+  if (c.expected === "NAN") {
+    if (!Number.isNaN(actual)) fail("numbers.json", c, actual);
+    continue;
+  }
+  if (c.fn === "parseUrduNumber") {
+    if (actual !== c.expected) fail("numbers.json", c, actual);
+    continue;
+  }
+  if (actual !== c.expected) fail("numbers.json", c, actual);
+}
+
+/** parseUrduDate expectations are wall-clock components, so compare components. */
+const dateParts = (d) =>
+  d === null
+    ? null
+    : [d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()];
+const fixtureParts = (comps) =>
+  comps === null ? null : [comps.y, comps.m, comps.d, comps.hh, comps.mm, comps.ss];
+
+for (const c of load("php/tests/fixtures/date.json")) {
+  total++;
+  let actual;
+  let expected;
+  if (c.fn === "getUrduMonthName") {
+    actual = phpGetUrduMonthName(c.args[0], c.args[1] ?? "gregorian");
+    expected = c.expected;
+  } else if (c.fn === "getUrduWeekdayName") {
+    actual = phpGetUrduWeekdayName(c.args[0]);
+    expected = c.expected;
+  } else if (c.fn === "parseUrduDate") {
+    actual = dateParts(phpParseUrduDate(c.args[0], c.options));
+    expected = fixtureParts(c.expected);
+  } else {
+    // formatUrduDate / timeAgoUrdu exercise pre-existing PHP code; the real
+    // PHPUnit suite covers them, and the no-PHP check stays scoped to the
+    // functions this script mirrors.
+    total--;
+    continue;
+  }
+  if (JSON.stringify(actual) !== JSON.stringify(expected)) fail("date.json", c, actual);
 }
 
 console.log(`${total - failures}/${total} fixture cases match the PHP-mirrored algorithms`);
