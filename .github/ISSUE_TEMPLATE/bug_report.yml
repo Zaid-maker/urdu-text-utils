@@ -65,7 +65,7 @@ body:
     id: version
     attributes:
       label: Package version(s)
-      placeholder: 0.3.1 (npm), 0.3.1 (composer)
+      placeholder: 0.4.0 (npm), 0.4.0 (composer)
     validations:
       required: true
   - type: input

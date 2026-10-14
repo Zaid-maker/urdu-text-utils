@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.4.0
+
+### Added
+
+- Add `formatUrduNumber`, which formats numbers with South Asian lakh/crore digit grouping (`1234567` -> `۱۲٬۳۴٬۵۶۷`) and Urdu digits by default, plus western and no-grouping modes and a `decimals` cap. Rounding is applied to the binary double identically in both ports, so JS and PHP stay byte-identical rather than diverging at ties.
+- Add `formatUrduCurrency`, which picks `روپیہ` for exactly one and `روپے` otherwise, or spells the amount out with `style: "words"`.
+- Add `toUrduOrdinal`, which spells ordinals and inflects for gender (`پہلا`/`پہلی`). 1-6 come from a table; larger ordinals suffix the last word of the cardinal, a word-final `و` contracts (`نواں`, `سواں`), and an exact scale value drops its `ایک` (`1000` -> `ہزارواں`).
+- Add `parseUrduDate`, the inverse of `formatUrduDate`. It reads Urdu and English month names, Urdu/Arabic-Indic/ASCII digits, day-first numeric dates, ISO dates and day-period times, and returns the same wall-clock moment `formatUrduDate` formatted — verified over all 24 hours.
+- Export the number word tables (`URDU_ONES`, `URDU_TEENS_AND_TENS`, `URDU_TENS_UNITS`, `URDU_SCALES`, `URDU_ORDINAL_IRREGULARS`) from the package root.
+- Extend `scripts/verify-php-parity.mjs` to mirror `Numbers.php` and `Date.php`, so the no-PHP check covers 300 fixture cases instead of 89.
+- Add `npm run diff:php` (`scripts/diff-php.mjs` with `php/tools/diff-runner.php`), which runs the same seeded randomized number and date inputs through the real TypeScript build and the real PHP port and fails on any disagreement. Unlike the fixtures it can cover inputs nobody wrote down, and unlike the parity mirror it executes PHP rather than re-describing it, so it observes PHP's own behaviour. Errors are compared too, so both languages must reject the same inputs.
+
+### Changed
+
+- `numberToUrduWords` now spells 21-99 with the real irregular Urdu words instead of a composed `بیس ایک`-style fallback. `21` is `اکیس` and `1234567` is `بارہ لاکھ چونتیس ہزار پانچ سو سڑسٹھ`; every cardinal from 0 to 99 is now a single correct word, covered by a completeness test.
+- Complete the South Asian scale with `ارب` (10^9) and `کھرب` (10^11), which the docstring had promised but the scale table did not implement. Values below 10^8 are unchanged.
+- Flow the number word tables through `php/data/tables.json`, generated from `src/numbers.ts`, so `Numbers.php` no longer keeps a hand-copied second set of cardinals.
+
+### Fixed
+
+- `formatUrduNumber` no longer emits exponential notation for large magnitudes. `String(1e21)` is `"1e+21"` in JavaScript, which reached the output verbatim — and digit grouping then inserted its separator inside the exponent (`۱e,+۲۱`, with western grouping `1e,+21`). Anything at or above 10^21 now prints as digits, matching the PHP port.
+- Fix the PHP port so `parseUrduDate` works at all. `DateTime::createFromFormat` requires exactly two digits for the `i` and `s` tokens, so the single-digit minute and second the port built (`0:0:0`) made it return `false`, and every non-numeric date parsed to `null`.
+
 ## 0.3.1
 
 - Publish the PHP port to Packagist. A root composer.json (Packagist reads repo-root manifests only) exposes php/src/UrduTextUtils via PSR-4 autoload, with export-ignore rules in .gitattributes for a clean dist archive. The new Packagist workflow runs on the same version tags as the npm Release: a PHP 8.1-8.3 matrix re-verifies table sync, strict manifest validation and the 536-test parity suite, then notifies packagist.org's update API so every tag publishes to both registries. v0.3.1 is the first version indexed on Packagist (composer require urdu-text-utils/urdu-text-utils).
