@@ -39,6 +39,13 @@ jobs:
         if: matrix.node == 22
         run: npm run docs:build
 
+      # A malformed frontmatter still builds green, so assert the invariants a
+      # reader and a search engine depend on: title shape, one heading per page,
+      # and no frontmatter keys leaking into the body text.
+      - name: Check rendered docs output
+        if: matrix.node == 22
+        run: npm run docs:check
+
   # The PHP port consumes tables and fixtures generated from the TypeScript
   # source. Regenerating both and failing on any diff catches committed drift
   # (a table edit that forgot to run the generators), then the PHPUnit suite

@@ -35,6 +35,12 @@ jobs:
       - run: npm ci
       - run: npm run docs:build
 
+      # Gate the deploy on the rendered HTML, not just a zero exit code: a
+      # frontmatter fence in the wrong place builds cleanly and ships a page
+      # whose title and body are both wrong.
+      - name: Check rendered docs output
+        run: npm run docs:check
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
