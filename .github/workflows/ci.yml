@@ -83,3 +83,10 @@ jobs:
         run: |
           composer install --no-interaction --prefer-dist
           vendor/bin/phpunit
+
+      # The fixtures above only cover inputs someone wrote down, and the no-PHP
+      # mirror re-describes the port rather than running it. This drives both
+      # real implementations over seeded random inputs and fails on any
+      # disagreement, including disagreement about which inputs to reject.
+      - name: Differential test the TypeScript and PHP implementations
+        run: node scripts/diff-php.mjs

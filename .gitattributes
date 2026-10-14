@@ -10,6 +10,7 @@
 /php/.gitignore export-ignore
 /php/.phpunit.cache export-ignore
 /php/tests export-ignore
+/php/tools export-ignore
 /php/vendor export-ignore
 /scripts export-ignore
 /tests export-ignore

@@ -35,12 +35,26 @@ CI tests both with and without it), plus Composer.
 
 ```bash
 npm install                 # TS toolchain
-npm test                    # 245+ vitest tests
+npm test                    # vitest suite
 npm run typecheck
 
 cd php && composer install
-composer test               # 536-test parity suite
+composer test               # PHPUnit parity suite
 ```
+
+Two extra checks keep the two implementations honest. The first is the real
+gate and runs the PHP; the second works without PHP installed:
+
+```bash
+npm run build                        # both scripts read the built dist
+npm run diff:php                     # randomized differential test, TS vs PHP
+node scripts/verify-php-parity.mjs   # no-PHP mirror (necessary, not sufficient)
+```
+
+`npm run diff:php` builds its inputs from a seeded PRNG, so `--seed <n>`
+reproduces any failure exactly and a run never depends on the wall clock. Narrow
+it with `--fn <name>` while debugging, and set `PHP_BIN` if PHP is not on your
+PATH.
 
 ### Regenerating tables and fixtures
 

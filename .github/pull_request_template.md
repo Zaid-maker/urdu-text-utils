@@ -23,9 +23,10 @@ with it — regenerate and commit those diffs:
 
 - [ ] `npm test` passes locally
 - [ ] `npm run typecheck` passes
-- [ ] `composer test` passes in `php/` (536 parity tests)
+- [ ] `composer test` passes in `php/`
 - [ ] If `src/` changed: tables + fixtures regenerated and the diffs are committed
 - [ ] New TS behavior has TS test cases; new PHP-only semantics have fixture + PHPUnit coverage
+- [ ] `npm run diff:php` passes (randomized differential test against the PHP port)
 - [ ] Fixtures stay deterministic (no wall-clock times; components or fixed offsets)
 
 ## Notes for reviewers
