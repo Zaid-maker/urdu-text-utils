@@ -24,6 +24,7 @@ describe("normalizeUrdu", () => {
   it("strips tatweel, bidi controls and BOM", () => {
     expect(normalizeUrdu("پاکـسـتان")).toBe("پاکستان");
     expect(normalizeUrdu("﻿‎پاکستان‏")).toBe("پاکستان");
+    expect(normalizeUrdu("\u2066پاکستان\u2069")).toBe("پاکستان");
   });
 
   it("collapses whitespace and trims by default", () => {

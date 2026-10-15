@@ -57,6 +57,7 @@ describe("highlightUrdu", () => {
 
   it("takes a custom wrapper and handles multiple hits", () => {
     expect(highlightUrdu("محمد اور محمد", "محمد", (m) => `[${m}]`)).toBe("[محمد] اور [محمد]");
+    expect(highlightUrdu("محمد محمد محمد", "محمد", (m) => `[${m}]`)).toBe("[محمد] [محمد] [محمد]");
   });
 
   it("returns the text unchanged on a miss", () => {

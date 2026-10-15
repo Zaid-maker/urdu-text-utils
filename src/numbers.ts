@@ -57,11 +57,47 @@ export function convertNumbers(input: string, to: DigitStyle = "urdu"): string {
  */
 export function parseUrduNumber(input: string): number {
   if (!input) return NaN;
-  const ascii = toEnglishDigits(input)
-    .replace(/[٬,\s]/gu, "")
-    .replace(/٫/gu, ".");
-  if (!/^[+-]?(\d+(\.\d*)?|\.\d+)$/u.test(ascii)) return NaN;
-  return Number(ascii);
+
+  const normalized = toEnglishDigits(input).replace(/\s+/gu, "");
+  const ascii = normalized.replace(/[٬]/gu, ",").replace(/٫/gu, ".");
+  if (ascii === "" || ascii.split(".").length > 2) return NaN;
+
+  const sign = ascii.startsWith("+") || ascii.startsWith("-") ? ascii[0]! : "";
+  const unsigned = sign ? ascii.slice(1) : ascii;
+  const [wholePart = "", fractionPart = ""] = unsigned.split(".");
+
+  if (fractionPart.includes(".")) return NaN;
+  if (fractionPart && !/^\d+$/u.test(fractionPart)) return NaN;
+  if (wholePart === "" && fractionPart === "") return NaN;
+
+  if (!wholePart.includes(",")) {
+    const integerText = wholePart || "0";
+    if (!/^\d+$/u.test(integerText)) return NaN;
+    return Number(`${sign}${integerText}${fractionPart ? `.${fractionPart}` : ""}`);
+  }
+
+  const groups = wholePart.split(",");
+  if (groups.some((group) => group.length === 0 || !/^\d+$/u.test(group))) return NaN;
+
+  const westernValid =
+    groups.length > 1 &&
+    groups[0]!.length >= 1 &&
+    groups[0]!.length <= 3 &&
+    groups.slice(1).every((group) => group.length === 3);
+
+  const indianValid =
+    groups.length > 1 &&
+    groups[0]!.length >= 1 &&
+    groups[0]!.length <= 3 &&
+    ((groups.length === 2 && [groups[1]!.length].every((len) => len === 2 || len === 3)) ||
+      (groups.length > 2 &&
+        groups.slice(1, -1).every((group) => group.length === 2) &&
+        groups[groups.length - 1]!.length === 3));
+
+  if (!westernValid && !indianValid) return NaN;
+
+  const value = `${sign}${groups.join("")}${fractionPart ? `.${fractionPart}` : ""}`;
+  return Number(value);
 }
 
 /**

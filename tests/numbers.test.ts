@@ -146,6 +146,12 @@ describe("parseUrduNumber edge cases", () => {
     expect(parseUrduNumber("  ۱۲۳  ")).toBe(123);
   });
 
+  it("rejects malformed separator patterns", () => {
+    expect(parseUrduNumber("۱۲۳٬٬۴۵۶")).toBeNaN();
+    expect(parseUrduNumber("۱۲۳٬۴۵٬۶")).toBeNaN();
+    expect(parseUrduNumber("۱۲۳٫۱۴٫۵")).toBeNaN();
+  });
+
   it("rejects malformed numbers", () => {
     expect(parseUrduNumber("12abc")).toBeNaN();
     expect(parseUrduNumber("1.2.3")).toBeNaN();
