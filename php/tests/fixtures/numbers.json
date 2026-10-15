@@ -114,6 +114,22 @@
  {
   "fn": "parseUrduNumber",
   "args": [
+   "1,234.567"
+  ],
+  "options": {},
+  "expected": 1234.567
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "۱٬۲۳۴٫۵۶۷"
+  ],
+  "options": {},
+  "expected": 1234.567
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
    "-۱۲۳"
   ],
   "options": {},
@@ -182,6 +198,54 @@
   ],
   "options": {},
   "expected": 123456.78
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "۱۲۳٬٬۴۵۶"
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "۱۲۳٬۴۵٬۶"
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "۱۲۳٫۱۴٫۵"
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "۷۸٬۳۶۱٬۹۸۳.۸٬۳۵۵"
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   " -.۴٬۵۰۳ "
+  ],
+  "options": {},
+  "expected": "NAN"
+ },
+ {
+  "fn": "parseUrduNumber",
+  "args": [
+   "۵۸۳,۶۵۷,۶۶۳.۵,۳۱۴"
+  ],
+  "options": {},
+  "expected": "NAN"
  },
  {
   "fn": "numberToUrduWords",

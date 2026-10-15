@@ -139,6 +139,8 @@ describe("parseUrduNumber edge cases", () => {
     expect(parseUrduNumber("+۳٫۵")).toBe(3.5);
     expect(parseUrduNumber(".5")).toBe(0.5);
     expect(parseUrduNumber("1,234")).toBe(1234);
+    expect(parseUrduNumber("1,234.567")).toBe(1234.567);
+    expect(parseUrduNumber("۱٬۲۳۴٫۵۶۷")).toBe(1234.567);
     expect(parseUrduNumber("۱۲۳٬۴۵۶٫۷۸")).toBe(123456.78);
   });
 
@@ -150,6 +152,9 @@ describe("parseUrduNumber edge cases", () => {
     expect(parseUrduNumber("۱۲۳٬٬۴۵۶")).toBeNaN();
     expect(parseUrduNumber("۱۲۳٬۴۵٬۶")).toBeNaN();
     expect(parseUrduNumber("۱۲۳٫۱۴٫۵")).toBeNaN();
+    expect(parseUrduNumber("۷۸٬۳۶۱٬۹۸۳.۸٬۳۵۵")).toBeNaN();
+    expect(parseUrduNumber(" -.۴٬۵۰۳ ")).toBeNaN();
+    expect(parseUrduNumber("۵۸۳,۶۵۷,۶۶۳.۵,۳۱۴")).toBeNaN();
   });
 
   it("rejects malformed numbers", () => {

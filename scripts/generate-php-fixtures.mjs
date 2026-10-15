@@ -239,7 +239,11 @@ for (const [input, style] of [
     expected: style === undefined ? lib.toUrduDigits(input) : lib.convertNumbers(input, style),
   });
 }
-for (const input of ["۱۲۳۴۵", "1,234", "1,234.5", "-۱۲۳", "+۳٫۵", ".5", " ۱۲۳ ", "12abc", "1.2.3", "", "پاکستان", "۱۲۳٬۴۵۶٫۷۸"]) {
+for (const input of [
+  "۱۲۳۴۵", "1,234", "1,234.5", "1,234.567", "۱٬۲۳۴٫۵۶۷", "-۱۲۳", "+۳٫۵", ".5", " ۱۲۳ ",
+  "12abc", "1.2.3", "", "پاکستان", "۱۲۳٬۴۵۶٫۷۸", "۱۲۳٬٬۴۵۶", "۱۲۳٬۴۵٬۶", "۱۲۳٫۱۴٫۵",
+  "۷۸٬۳۶۱٬۹۸۳.۸٬۳۵۵", " -.۴٬۵۰۳ ", "۵۸۳,۶۵۷,۶۶۳.۵,۳۱۴",
+]) {
   fixtures.numbers.push({ fn: "parseUrduNumber", args: [input], options: {}, expected: json(lib.parseUrduNumber(input)) });
 }
 for (const value of [

@@ -78,13 +78,71 @@ final class Numbers
         if ($input === '') {
             return NAN;
         }
-        $ascii = str_replace(['٬', ','], '', self::toEnglishDigits($input));
-        $ascii = str_replace('٫', '.', $ascii);
+
+        $ascii = str_replace(['٬', '٫'], [',', '.'], self::toEnglishDigits($input));
         $ascii = preg_replace('/\s+/u', '', $ascii) ?? $ascii;
-        if (!preg_match('/^[+-]?(\d+(\.\d*)?|\.\d+)$/', $ascii)) {
+        if ($ascii === '' || substr_count($ascii, '.') > 1) {
             return NAN;
         }
-        return (float) $ascii;
+
+        $sign = '';
+        if ($ascii[0] === '+' || $ascii[0] === '-') {
+            $sign = $ascii[0];
+            $unsigned = substr($ascii, 1);
+        } else {
+            $unsigned = $ascii;
+        }
+        $parts = explode('.', $unsigned);
+        $wholePart = $parts[0] ?? '';
+        $fractionPart = $parts[1] ?? '';
+
+        if (($fractionPart !== '' && !preg_match('/^\d+$/D', $fractionPart)) ||
+            ($wholePart === '' && $fractionPart === '')) {
+            return NAN;
+        }
+
+        if (!str_contains($wholePart, ',')) {
+            $integerText = $wholePart !== '' ? $wholePart : '0';
+            if (!preg_match('/^\d+$/D', $integerText)) {
+                return NAN;
+            }
+            return (float) ($sign . $integerText . ($fractionPart !== '' ? '.' . $fractionPart : ''));
+        }
+
+        $groups = explode(',', $wholePart);
+        foreach ($groups as $group) {
+            if ($group === '' || !preg_match('/^\d+$/D', $group)) {
+                return NAN;
+            }
+        }
+
+        $groupCount = count($groups);
+        $firstLength = strlen($groups[0]);
+        $westernValid = $groupCount > 1 &&
+            $firstLength >= 1 &&
+            $firstLength <= 3;
+        foreach (array_slice($groups, 1) as $group) {
+            $westernValid = $westernValid && strlen($group) === 3;
+        }
+
+        $indianValid = $groupCount > 1 &&
+            $firstLength >= 1 &&
+            $firstLength <= 3;
+        if ($groupCount === 2) {
+            $lastLength = strlen($groups[1]);
+            $indianValid = $indianValid && ($lastLength === 2 || $lastLength === 3);
+        } elseif ($groupCount > 2) {
+            foreach (array_slice($groups, 1, -1) as $group) {
+                $indianValid = $indianValid && strlen($group) === 2;
+            }
+            $indianValid = $indianValid && strlen($groups[$groupCount - 1]) === 3;
+        }
+
+        if (!$westernValid && !$indianValid) {
+            return NAN;
+        }
+
+        return (float) ($sign . implode('', $groups) . ($fractionPart !== '' ? '.' . $fractionPart : ''));
     }
 
     /**
