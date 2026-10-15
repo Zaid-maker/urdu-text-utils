@@ -56,6 +56,12 @@ features:
     details: About 11 kB min+gzip, pure and synchronous, side-effect free and tree-shakeable. Ships ESM, CJS and its own type declarations. Published with provenance.
     link: /guide/getting-started
     linkText: Install
+  - icon: |
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg>
+    title: Morphological analysis
+    details: Strip Urdu affixes and restore mutated bases — plurals, tense, negation and derivational suffixes. <bdi>کتابیں</bdi> and <bdi>کتابوں</bdi> both fold to <bdi>کتاب</bdi>; <bdi>بےوقوف</bdi> breaks into <bdi>بے</bdi> + <bdi>وقوف</bdi>. For indexing, keyword extraction and embeddings preprocessing.
+    link: /guide/stemming-deep-dive
+    linkText: Morphology
 ---
 
 <DownloadStats />
