@@ -7,13 +7,14 @@ Real-world examples showing how to integrate `urdu-text-utils` into your applica
 Build a search input that handles Urdu text normalization, diacritics, and fuzzy matching:
 
 ```ts
-import { searchUrdu, normalizeUrdu } from "urdu-text-utils";
+// docs-check
+import { searchUrdu } from "urdu-text-utils";
 
 // Your data source (e.g., from an API or database)
 const articles = [
-  { id: 1, title: "پاکستان کا خوبصورت ملک", category: "جغرافیہ" },
+  { id: 1, title: "کتاب خانہ", category: "تعلیم" },
   { id: 2, title: "کراچی میں بارش", category: "موسم" },
-  { id: 3, title: "اسلام آباد کی سرکاری عمارتیں", category: "شہر" },
+  { id: 3, title: "پاکستان کا خوبصورت ملک", category: "جغرافیہ" },
 ];
 
 // User types with Arabic characters (common on mobile keyboards)
@@ -24,19 +25,32 @@ const results = searchUrdu(query, articles, {
   getText: (item) => item.title,
   limit: 5,
 });
-// Returns: [{ id: 1, title: "پاکستان کا خوبصورت ملک", ... }]
-// Because "کتاب" matches after normalization
+
+if (results.length !== 1 || results[0] !== articles[0]) {
+  throw new Error("Arabic letter forms should match the Urdu title");
+}
 ```
 
 **With fuzzy matching for typo tolerance:**
 
 ```ts
-const results = searchUrdu("پاکستان", articles, {
+// docs-check
+import { searchUrdu } from "urdu-text-utils";
+
+const articles = [
+  { id: 1, title: "کتاب خانہ" },
+  { id: 2, title: "پاکستان کا خوبصورت ملک" },
+];
+
+const results = searchUrdu("پکستان", articles, {
   getText: (item) => item.title,
-  fuzzy: true, //允许 1 edit distance
+  fuzzy: true,
   limit: 5,
 });
-// "پاکستان" (missing alif) still matches "پاکستان"
+
+if (results.length !== 1 || results[0] !== articles[1]) {
+  throw new Error("Fuzzy search should match a one-character typo");
+}
 ```
 
 ## CMS Text Processing

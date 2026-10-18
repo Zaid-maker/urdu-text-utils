@@ -131,6 +131,17 @@ function htmlFiles(dir) {
   return found.sort();
 }
 
+function tagAttribute(tag, name) {
+  const value = new RegExp(`\\b${name}=["']([^"']*)["']`, "iu").exec(tag);
+  return value?.[1] ?? "";
+}
+
+function matchingMetaTags(html, attribute, value) {
+  return [...html.matchAll(/<meta\b[^>]*>/giu)]
+    .map(([tag]) => tag)
+    .filter((tag) => tagAttribute(tag, attribute) === value);
+}
+
 let files;
 try {
   files = htmlFiles(distDir);
@@ -153,7 +164,7 @@ if (files.length === 0) {
 // ---------------------------------------------------------------------------
 
 /** @returns {string[]} problems found on this page */
-function checkPage(html) {
+function checkPage(html, page) {
   const problems = [];
   const pageText = textLines(html);
 
@@ -214,17 +225,69 @@ function checkPage(html) {
   const mustache = pageText.find((line) => /\{\{|\}\}/u.test(line));
   if (mustache) problems.push(`unrendered placeholder in body text: ${mustache.slice(0, 90)}`);
 
-  return problems;
+  // Page-level SEO metadata must point to the page itself rather than repeat
+  // the homepage URL and description on every route. VitePress generates its
+  // own 404 page without passing it through transformPageData.
+  if (page === "404.html") return { problems, canonical: "", description: "" };
+
+  const canonicalTags = [...html.matchAll(/<link\b[^>]*>/giu)]
+    .map(([tag]) => tag)
+    .filter((tag) => tagAttribute(tag, "rel") === "canonical");
+  const canonical = canonicalTags.length === 1 ? tagAttribute(canonicalTags[0], "href") : "";
+  if (canonicalTags.length !== 1 || canonical === "") {
+    problems.push(`expected one non-empty canonical URL, found ${canonicalTags.length}`);
+  }
+
+  const descriptions = matchingMetaTags(html, "name", "description");
+  const description =
+    descriptions.length === 1 ? tagAttribute(descriptions[0], "content") : "";
+  if (descriptions.length !== 1 || description === "") {
+    problems.push(`expected one non-empty page description, found ${descriptions.length}`);
+  }
+
+  const ogUrls = matchingMetaTags(html, "property", "og:url");
+  const ogUrl = ogUrls.length === 1 ? tagAttribute(ogUrls[0], "content") : "";
+  if (ogUrls.length !== 1 || ogUrl === "" || ogUrl !== canonical) {
+    problems.push("expected one og:url matching the canonical URL");
+  }
+
+  const ogTitles = matchingMetaTags(html, "property", "og:title");
+  if (ogTitles.length !== 1 || tagAttribute(ogTitles[0], "content") === "") {
+    problems.push(`expected one non-empty og:title, found ${ogTitles.length}`);
+  }
+
+  const ogDescriptions = matchingMetaTags(html, "property", "og:description");
+  if (
+    ogDescriptions.length !== 1 ||
+    tagAttribute(ogDescriptions[0], "content") !== description
+  ) {
+    problems.push("expected one og:description matching the page description");
+  }
+
+  return { problems, canonical, description };
 }
 
 const failures = [];
+const canonicalOwners = new Map();
+const descriptionOwners = new Map();
 let checked = 0;
 for (const file of files) {
   const html = readFileSync(file, "utf8");
   checked++;
-  const problems = checkPage(html);
-  if (problems.length > 0) failures.push({ file: relative(distDir, file), problems });
-  else if (verbose) console.log(`  ok  ${relative(distDir, file)}`);
+  const page = relative(distDir, file);
+  const { problems, canonical, description } = checkPage(html, page);
+  if (canonical) {
+    const owner = canonicalOwners.get(canonical);
+    if (owner) problems.push(`canonical URL is duplicated by ${owner}: ${canonical}`);
+    else canonicalOwners.set(canonical, page);
+  }
+  if (description) {
+    const owner = descriptionOwners.get(description);
+    if (owner) problems.push(`page description is duplicated by ${owner}`);
+    else descriptionOwners.set(description, page);
+  }
+  if (problems.length > 0) failures.push({ file: page, problems });
+  else if (verbose) console.log(`  ok  ${page}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -234,6 +297,8 @@ for (const file of files) {
 console.log("Docs output check (rendered HTML)");
 console.log(`  pages checked  ${checked}`);
 console.log(`  title suffix   ${JSON.stringify(suffix)}`);
+console.log(`  unique canonicals  ${canonicalOwners.size}`);
+console.log(`  unique descriptions  ${descriptionOwners.size}`);
 
 if (failures.length === 0) {
   console.log(`\nAll ${checked} built pages passed.`);

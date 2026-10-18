@@ -8,13 +8,32 @@ const version: string = JSON.parse(
   readFileSync(fileURLToPath(new URL("../../package.json", import.meta.url)), "utf8"),
 ).version;
 
-const description =
-  "Urdu text processing toolkit for JavaScript and TypeScript: normalization, Roman Urdu transliteration, stop words, detection, digits, diacritics, collation, search and statistics. Zero dependencies.";
+const siteOrigin = "https://zaid-maker.github.io";
+const siteBase = "/urdu-text-utils/";
+const pageDescriptions: Record<string, string> = {
+  "index": "Explore urdu-text-utils, a zero-dependency Urdu text processing toolkit for JavaScript and TypeScript, with a live playground.",
+  "api/index": "Complete API reference for urdu-text-utils: normalization, search, transliteration, dates, numbers, statistics, stemming and more.",
+  "playground": "Try Urdu text normalization, search, sorting, transliteration and other urdu-text-utils functions in your browser.",
+  "guide/getting-started": "Install urdu-text-utils and start using Urdu normalization, search, sorting, statistics and digit conversion in JavaScript or PHP.",
+  "guide/why": "Learn why Urdu text needs Unicode-aware normalization, script-specific collation and dedicated search utilities.",
+  "guide/normalization": "Learn how urdu-text-utils normalizes Arabic and Urdu letter forms, diacritics, Unicode presentation forms and invisible controls.",
+  "guide/detection": "Detect Arabic-script and Urdu-specific text with urdu-text-utils, and understand script-ratio thresholds and limitations.",
+  "guide/numbers": "Convert Urdu and Arabic-Indic digits, parse localized numbers, format currency and spell numbers in Urdu.",
+  "guide/search": "Build Urdu search with normalization, diacritic-insensitive matching, fuzzy matching, ranking and highlighting.",
+  "guide/sorting": "Sort Urdu text using a dedicated Urdu alphabet collation rather than Unicode codepoint or Arabic-root ordering.",
+  "guide/statistics": "Count Urdu words and sentences and calculate paragraph, script, digit and reading-time statistics.",
+  "guide/stemming": "Use the Urdu stemmer to strip common prefixes, suffixes and inflections for search and text analysis.",
+  "guide/stemming-deep-dive": "Explore Urdu stemming rules, morphological restoration, affixes, exceptions and known linguistic tradeoffs.",
+  "guide/date-time": "Format, parse and display Urdu dates, Gregorian and Hijri month names, digits and relative times.",
+  "guide/transliteration": "Transliterate Urdu to Roman Urdu, convert Roman Urdu to Urdu and generate URL slugs with clear limitations.",
+  "guide/php": "Install and use the native PHP port of urdu-text-utils, with shared tables and TypeScript-verified parity fixtures.",
+  "guide/use-cases": "Practical Urdu text processing recipes for search autocomplete, CMS content, form validation and URL slugs.",
+  "guide/performance": "Review urdu-text-utils performance benchmarks, bundle sizes and guidance for running the measurements.",
+};
 
 export default defineConfig({
   title: "urdu-text-utils",
   titleTemplate: ":title | Urdu Text Processing Toolkit for JavaScript & TypeScript",
-  description,
   lang: "en-US",
   cleanUrls: true,
   lastUpdated: true,
@@ -29,7 +48,6 @@ export default defineConfig({
 
   head: [
     ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
-    ["link", { rel: "canonical", href: "https://zaid-maker.github.io/urdu-text-utils/" }],
     // Nastaliq is how Urdu is actually set. Loaded with display=swap so the page
     // never blocks on it, and applied only to Urdu text via the .urdu class.
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
@@ -42,14 +60,9 @@ export default defineConfig({
       },
     ],
     ["meta", { name: "keywords", content: "urdu text processing toolkit javascript, urdu text processing, urdu nlp javascript, urdu typescript, urdu text utils, roman urdu transliteration, urdu stopwords, urdu normalization, urdu sorting, urdu search, urdu digits" }],
-    ["meta", { property: "og:title", content: "urdu-text-utils — Urdu Text Processing Toolkit for JavaScript & TypeScript" }],
-    ["meta", { property: "og:description", content: description }],
     ["meta", { property: "og:type", content: "website" }],
-    ["meta", { property: "og:url", content: "https://zaid-maker.github.io/urdu-text-utils/" }],
     ["meta", { property: "og:site_name", content: "urdu-text-utils" }],
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
-    ["meta", { name: "twitter:title", content: "urdu-text-utils — Urdu Text Processing Toolkit" }],
-    ["meta", { name: "twitter:description", content: description }],
     [
       "script",
       { type: "application/ld+json" },
@@ -70,6 +83,29 @@ export default defineConfig({
       }),
     ],
   ],
+
+  transformPageData(pageData) {
+    const pageKey = pageData.relativePath.replace(/\\/gu, "/").replace(/\.md$/u, "");
+    const route = pageKey.replace(/(?:^|\/)index$/u, (match) => (match === "index" ? "" : "/"));
+    const canonical = new URL(route, `${siteOrigin}${siteBase}`).href;
+    const title = pageData.title || "urdu-text-utils";
+    const pageDescription =
+      pageDescriptions[pageKey] ??
+      pageData.frontmatter.description ??
+      `${title} — documentation for the Urdu text processing toolkit urdu-text-utils.`;
+    const socialTitle = title === "urdu-text-utils" ? title : `${title} | urdu-text-utils`;
+
+    pageData.description = pageDescription;
+    pageData.frontmatter.head = [
+      ...(pageData.frontmatter.head ?? []),
+      ["link", { rel: "canonical", href: canonical }],
+      ["meta", { property: "og:title", content: socialTitle }],
+      ["meta", { property: "og:description", content: pageDescription }],
+      ["meta", { property: "og:url", content: canonical }],
+      ["meta", { name: "twitter:title", content: socialTitle }],
+      ["meta", { name: "twitter:description", content: pageDescription }],
+    ];
+  },
 
   vite: {
     resolve: {

@@ -84,6 +84,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:check": "node scripts/check-docs-output.mjs",
+    "docs:examples": "node scripts/check-doc-examples.mjs",
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
