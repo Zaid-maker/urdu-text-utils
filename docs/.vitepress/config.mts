@@ -30,6 +30,135 @@ const pageDescriptions: Record<string, string> = {
   "guide/use-cases": "Practical Urdu text processing recipes for search autocomplete, CMS content, form validation and URL slugs.",
   "guide/performance": "Review urdu-text-utils performance benchmarks, bundle sizes and guidance for running the measurements.",
 };
+const pageKeywords: Record<string, string[]> = {
+  "index": [
+    "Urdu text processing",
+    "Urdu NLP JavaScript",
+    "Urdu TypeScript library",
+    "Urdu text utilities",
+    "Roman Urdu transliteration",
+    "Urdu text normalization",
+  ],
+  "api/index": [
+    "Urdu text processing API",
+    "Urdu JavaScript API reference",
+    "Urdu TypeScript functions",
+    "Urdu normalization",
+    "Urdu search",
+    "Roman Urdu transliteration",
+  ],
+  "playground": [
+    "Urdu text processing playground",
+    "Urdu text normalization demo",
+    "Urdu search demo",
+    "Roman Urdu transliteration demo",
+    "Urdu digit converter",
+  ],
+  "guide/getting-started": [
+    "Urdu JavaScript library install",
+    "Urdu TypeScript package",
+    "Urdu text processing setup",
+    "Urdu NLP package",
+    "Urdu PHP package",
+  ],
+  "guide/why": [
+    "Urdu Unicode text processing",
+    "Urdu text normalization",
+    "Urdu alphabet collation",
+    "Urdu search JavaScript",
+    "Arabic and Urdu Unicode differences",
+  ],
+  "guide/normalization": [
+    "Urdu Unicode normalization",
+    "Arabic to Urdu character normalization",
+    "Urdu diacritics removal",
+    "Urdu text cleaning JavaScript",
+    "Urdu presentation forms",
+  ],
+  "guide/detection": [
+    "Urdu language detection JavaScript",
+    "Arabic script detection",
+    "Urdu text identification",
+    "Urdu script ratio",
+    "Urdu-specific letters",
+  ],
+  "guide/numbers": [
+    "Urdu number conversion",
+    "Urdu digits JavaScript",
+    "Arabic-Indic digit conversion",
+    "parse Urdu numbers",
+    "Urdu number formatting",
+    "Urdu currency formatting",
+  ],
+  "guide/search": [
+    "Urdu search JavaScript",
+    "Urdu fuzzy search",
+    "Urdu diacritic-insensitive search",
+    "Urdu text matching",
+    "Urdu search highlighting",
+  ],
+  "guide/sorting": [
+    "Urdu text sorting",
+    "Urdu alphabet collation",
+    "sort Urdu strings JavaScript",
+    "Urdu alphabetical order",
+  ],
+  "guide/statistics": [
+    "Urdu word counter",
+    "Urdu sentence counter",
+    "Urdu text statistics JavaScript",
+    "Urdu reading time calculator",
+    "Urdu text analysis",
+  ],
+  "guide/stemming": [
+    "Urdu stemming JavaScript",
+    "Urdu stemmer",
+    "Urdu morphological analysis",
+    "Urdu affix stripping",
+    "Urdu text search preprocessing",
+  ],
+  "guide/stemming-deep-dive": [
+    "Urdu stemming rules",
+    "Urdu morphology",
+    "Urdu stemmer affixes",
+    "Urdu morphological restoration",
+    "Urdu linguistic analysis",
+  ],
+  "guide/date-time": [
+    "Urdu date formatting JavaScript",
+    "Urdu date parser",
+    "Urdu calendar formatting",
+    "Hijri dates Urdu",
+    "Urdu relative time",
+  ],
+  "guide/transliteration": [
+    "Urdu Roman transliteration",
+    "Roman Urdu to Urdu converter",
+    "Urdu to Roman Urdu JavaScript",
+    "Roman Urdu slug generator",
+    "Urdu URL slugs",
+  ],
+  "guide/php": [
+    "Urdu text processing PHP",
+    "Urdu PHP library",
+    "Urdu normalization PHP",
+    "Urdu search PHP",
+    "Roman Urdu PHP transliteration",
+  ],
+  "guide/use-cases": [
+    "Urdu JavaScript code examples",
+    "Urdu text processing recipes",
+    "Urdu search autocomplete",
+    "Urdu CMS text processing",
+    "Urdu form validation",
+  ],
+  "guide/performance": [
+    "Urdu JavaScript library benchmarks",
+    "Urdu text processing performance",
+    "Urdu NLP bundle size",
+    "Urdu search performance",
+  ],
+};
 
 export default defineConfig({
   title: "urdu-text-utils",
@@ -59,7 +188,6 @@ export default defineConfig({
         href: "https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600&display=swap",
       },
     ],
-    ["meta", { name: "keywords", content: "urdu text processing toolkit javascript, urdu text processing, urdu nlp javascript, urdu typescript, urdu text utils, roman urdu transliteration, urdu stopwords, urdu normalization, urdu sorting, urdu search, urdu digits" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:site_name", content: "urdu-text-utils" }],
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
@@ -79,7 +207,7 @@ export default defineConfig({
           name: "Zaid-maker",
           url: "https://github.com/Zaid-maker",
         },
-        keywords: "urdu, urdu text processing toolkit, javascript, typescript, nlp, roman urdu transliteration, urdu normalization",
+        keywords: ["Urdu text processing", "Urdu NLP", "JavaScript library", "TypeScript", "Roman Urdu transliteration"],
       }),
     ],
   ],
@@ -93,12 +221,14 @@ export default defineConfig({
       pageDescriptions[pageKey] ??
       pageData.frontmatter.description ??
       `${title} — documentation for the Urdu text processing toolkit urdu-text-utils.`;
+    const keywords = pageKeywords[pageKey] ?? ["Urdu text processing", "JavaScript", title];
     const socialTitle = title === "urdu-text-utils" ? title : `${title} | urdu-text-utils`;
 
     pageData.description = pageDescription;
     pageData.frontmatter.head = [
       ...(pageData.frontmatter.head ?? []),
       ["link", { rel: "canonical", href: canonical }],
+      ["meta", { name: "keywords", content: keywords.join(", ") }],
       ["meta", { property: "og:title", content: socialTitle }],
       ["meta", { property: "og:description", content: pageDescription }],
       ["meta", { property: "og:url", content: canonical }],

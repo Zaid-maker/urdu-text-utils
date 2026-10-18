@@ -228,7 +228,7 @@ function checkPage(html, page) {
   // Page-level SEO metadata must point to the page itself rather than repeat
   // the homepage URL and description on every route. VitePress generates its
   // own 404 page without passing it through transformPageData.
-  if (page === "404.html") return { problems, canonical: "", description: "" };
+  if (page === "404.html") return { problems, canonical: "", description: "", keywords: "" };
 
   const canonicalTags = [...html.matchAll(/<link\b[^>]*>/giu)]
     .map(([tag]) => tag)
@@ -264,18 +264,29 @@ function checkPage(html, page) {
     problems.push("expected one og:description matching the page description");
   }
 
-  return { problems, canonical, description };
+  const keywordTags = matchingMetaTags(html, "name", "keywords");
+  const keywords = keywordTags.length === 1 ? tagAttribute(keywordTags[0], "content") : "";
+  if (keywordTags.length !== 1 || keywords === "") {
+    problems.push(`expected one non-empty page keyword list, found ${keywordTags.length}`);
+  } else {
+    const terms = keywords.split(",").map((term) => term.trim().toLocaleLowerCase("en"));
+    if (terms.length > 8) problems.push(`page keyword list is too long (${terms.length} terms; maximum 8)`);
+    if (new Set(terms).size !== terms.length) problems.push("page keyword list contains duplicate terms");
+  }
+
+  return { problems, canonical, description, keywords };
 }
 
 const failures = [];
 const canonicalOwners = new Map();
 const descriptionOwners = new Map();
+const keywordOwners = new Map();
 let checked = 0;
 for (const file of files) {
   const html = readFileSync(file, "utf8");
   checked++;
   const page = relative(distDir, file);
-  const { problems, canonical, description } = checkPage(html, page);
+  const { problems, canonical, description, keywords } = checkPage(html, page);
   if (canonical) {
     const owner = canonicalOwners.get(canonical);
     if (owner) problems.push(`canonical URL is duplicated by ${owner}: ${canonical}`);
@@ -285,6 +296,11 @@ for (const file of files) {
     const owner = descriptionOwners.get(description);
     if (owner) problems.push(`page description is duplicated by ${owner}`);
     else descriptionOwners.set(description, page);
+  }
+  if (keywords) {
+    const owner = keywordOwners.get(keywords);
+    if (owner) problems.push(`page keyword list is duplicated by ${owner}`);
+    else keywordOwners.set(keywords, page);
   }
   if (problems.length > 0) failures.push({ file: page, problems });
   else if (verbose) console.log(`  ok  ${page}`);
@@ -299,6 +315,7 @@ console.log(`  pages checked  ${checked}`);
 console.log(`  title suffix   ${JSON.stringify(suffix)}`);
 console.log(`  unique canonicals  ${canonicalOwners.size}`);
 console.log(`  unique descriptions  ${descriptionOwners.size}`);
+console.log(`  unique keyword lists  ${keywordOwners.size}`);
 
 if (failures.length === 0) {
   console.log(`\nAll ${checked} built pages passed.`);
