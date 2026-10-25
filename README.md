@@ -1,3 +1,5 @@
+<!-- dpm-claim:515ee010 -->
+
 # urdu-text-utils — Urdu Text Processing Toolkit for JavaScript & TypeScript
 
 [![npm version](https://img.shields.io/npm/v/urdu-text-utils?style=flat-square&color=157f52&label=npm)](https://www.npmjs.com/package/urdu-text-utils)
