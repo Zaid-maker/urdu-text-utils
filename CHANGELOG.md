@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1
+
+- Fix Urdu and PHP number parsing for valid grouped decimals and reject malformed separators.
+- Add a morphological analysis card and stemming deep-dive guide; improve docs metadata and rendered-output validation.
+
+
 ## 0.4.0
 
 ### Added
