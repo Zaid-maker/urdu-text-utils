@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.3
+
+- Improve the Roman Urdu guide with clearer API choices, normalization examples, custom aliases, mixed-language cautions, and cross-script search limitations.
+
+
 ## 0.4.2
 
 - Add normalizeRomanUrdu to canonicalize known Roman Urdu spelling variants without translation, with custom overrides.
