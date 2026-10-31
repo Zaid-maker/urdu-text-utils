@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2
+
+- Add normalizeRomanUrdu to canonicalize known Roman Urdu spelling variants without translation, with custom overrides.
+- Document the new API and add regression tests.
+
+
 ## 0.4.1
 
 - Fix Urdu and PHP number parsing for valid grouped decimals and reject malformed separators.
