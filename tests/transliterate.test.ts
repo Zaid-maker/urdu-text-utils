@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { romanToUrdu, romanize, urduSlug } from "../src/transliterate.js";
+import { normalizeRomanUrdu, romanToUrdu, romanize, urduSlug } from "../src/transliterate.js";
 
 describe("romanize", () => {
   it("transliterates dictionary words", () => {
@@ -37,6 +37,34 @@ describe("romanToUrdu", () => {
   it("is case-insensitive and keeps spacing", () => {
     expect(romanToUrdu("Mera Naam")).toBe("میرا نام");
     expect(romanToUrdu("")).toBe("");
+  });
+});
+
+describe("normalizeRomanUrdu", () => {
+  it("canonicalizes known spelling variants without translating", () => {
+    expect(normalizeRomanUrdu("hay, kese ho?")).toBe("hai, kaisay ho?");
+    expect(normalizeRomanUrdu("kia kar ho")).toBe("kya kar ho");
+  });
+
+  it("preserves punctuation, whitespace, and straightforward capitalization", () => {
+    expect(normalizeRomanUrdu("Hay!\nMAIN aa raha hoon.")).toBe("Hai!\nMEIN aa raha hoon.");
+  });
+
+  it("leaves unknown words and short ambiguous spellings unchanged", () => {
+    expect(normalizeRomanUrdu("he said ap can go")).toBe("he said ap can go");
+    expect(normalizeRomanUrdu("constructor toString")).toBe("constructor toString");
+  });
+
+  it("accepts case-insensitive custom variants and overrides", () => {
+    expect(
+      normalizeRomanUrdu("KYA yaar", {
+        customVariants: { kya: "kiya", YAAR: "yaar dost" },
+      }),
+    ).toBe("KIYA yaar dost");
+  });
+
+  it("returns empty input unchanged", () => {
+    expect(normalizeRomanUrdu("")).toBe("");
   });
 });
 

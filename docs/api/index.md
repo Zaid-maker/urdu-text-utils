@@ -209,6 +209,16 @@ Levenshtein distance with early exit past `limit`. Returns `number`.
 
 ## Transliteration
 
+### `normalizeRomanUrdu(input, options?)`
+
+Canonicalizes known Roman Urdu spelling variants without translating them. Preserves punctuation and spacing; all-caps and title-case variants keep their case, while other mapped spellings use lowercase. Short ambiguous variants are left unchanged by default.
+
+```ts
+normalizeRomanUrdu("hay, kese ho?"); // "hai, kaisay ho?"
+```
+
+`options.customVariants` is a case-insensitive `Record<string, string>` for adding or overriding spellings.
+
 ### `romanize(input, options?)` <Badge type="warning" text="experimental" />
 
 Urdu script to Roman Urdu. Option: `capitalize` (default `false`). Returns `string`.

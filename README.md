@@ -80,6 +80,7 @@ import {
   formatUrduNumber,
   formatUrduCurrency,
   toUrduOrdinal,
+  normalizeRomanUrdu,
   stemUrdu,
   stemUrduText,
   isUrdu,
@@ -311,6 +312,7 @@ These functions work in two layers: a dictionary of ~650 high-frequency words, E
 romanize("آپ کیسے ہیں"); // "aap kaisay hain"
 romanize("آپ کیسے ہیں", { capitalize: true }); // "Aap kaisay hain"
 romanToUrdu("mera naam zaid hai"); // "میرا نام زید ہے"
+normalizeRomanUrdu("hay, kese ho?"); // "hai, kaisay ho?"
 
 urduSlug("میرا پہلا مضمون"); // "mera-pehla-mazmoon"
 urduSlug("میرا پہلا مضمون", { separator: "_", maxLength: 40 });
@@ -318,6 +320,8 @@ urduSlug("میرا پہلا مضمون", { preserveUrdu: true }); // "میرا-�
 ```
 
 For permanent URLs prefer `preserveUrdu: true` (percent-encoded but readable and exact), or store the slug you generate once rather than recomputing it — a dictionary improvement in a later version would otherwise change existing URLs.
+
+`normalizeRomanUrdu` only canonicalizes known Roman Urdu spellings; it does not translate. It preserves punctuation and spacing, leaves short ambiguous spellings alone by default, and accepts a `customVariants` map for corpus-specific spelling choices. Use it on text known to be Roman Urdu, since Latin words can be ambiguous in mixed-language text.
 
 ## Notes on scope
 

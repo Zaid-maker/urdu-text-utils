@@ -148,12 +148,83 @@ export function romanize(input: string, options: { capitalize?: boolean } = {}):
   return roman.charAt(0).toUpperCase() + roman.slice(1);
 }
 
+export interface NormalizeRomanUrduOptions {
+  /**
+   * Case-insensitive spelling overrides and additions. Built-in aliases can be
+   * overridden for a project's preferred spelling.
+   */
+  customVariants?: Readonly<Record<string, string>>;
+}
+
 /** Roman spellings seen in the wild, mapped to their Urdu word. */
 const ROMAN_DICTIONARY: Record<string, string> = {};
 for (const [urduWord, roman] of Object.entries(WORD_DICTIONARY)) {
   ROMAN_DICTIONARY[roman] = urduWord;
 }
 Object.assign(ROMAN_DICTIONARY, ROMAN_VARIANTS);
+
+const CANONICAL_ROMAN_WORDS = new Map<string, Set<string>>();
+for (const [urduWord, roman] of Object.entries(WORD_DICTIONARY)) {
+  const spelling = roman.toLowerCase();
+  const words = CANONICAL_ROMAN_WORDS.get(spelling) ?? new Set<string>();
+  words.add(urduWord);
+  CANONICAL_ROMAN_WORDS.set(spelling, words);
+}
+
+const CANONICAL_ROMAN_VARIANTS = new Map<string, string>();
+for (const [variant, urduWord] of Object.entries(ROMAN_VARIANTS)) {
+  const canonical = WORD_DICTIONARY[urduWord]?.toLowerCase();
+  const variantLower = variant.toLowerCase();
+  if (!canonical || variantLower.length < 3 || variantLower === canonical) continue;
+
+  const canonicalWordsForVariant = CANONICAL_ROMAN_WORDS.get(variantLower);
+  if (
+    canonicalWordsForVariant &&
+    (!canonicalWordsForVariant.has(urduWord) || canonicalWordsForVariant.size > 1)
+  ) {
+    continue;
+  }
+  CANONICAL_ROMAN_VARIANTS.set(variantLower, canonical);
+}
+
+function preserveRomanCase(input: string, canonical: string): string {
+  if (input === input.toUpperCase()) return canonical.toUpperCase();
+  if (input[0] === input[0]?.toUpperCase() && input.slice(1) === input.slice(1).toLowerCase()) {
+    return canonical[0]!.toUpperCase() + canonical.slice(1);
+  }
+  return canonical;
+}
+
+/**
+ * Canonicalizes known Roman Urdu spelling variants without translating words.
+ *
+ * Only unambiguous aliases of at least three letters are normalized by default;
+ * short spellings are left alone because they commonly overlap with English.
+ * Pass `customVariants` to add or override spellings for a known corpus.
+ *
+ * @example
+ * normalizeRomanUrdu("hay, kese ho?") // "hai, kaisay ho?"
+ */
+export function normalizeRomanUrdu(
+  input: string,
+  options: NormalizeRomanUrduOptions = {},
+): string {
+  if (!input) return "";
+
+  let variants: ReadonlyMap<string, string> = CANONICAL_ROMAN_VARIANTS;
+  if (options.customVariants) {
+    const customized = new Map(CANONICAL_ROMAN_VARIANTS);
+    for (const [variant, canonical] of Object.entries(options.customVariants)) {
+      customized.set(variant.toLowerCase(), canonical);
+    }
+    variants = customized;
+  }
+
+  return input.replace(/[A-Za-z]+/gu, (word) => {
+    const canonical = variants.get(word.toLowerCase());
+    return canonical === undefined ? word : preserveRomanCase(word, canonical);
+  });
+}
 
 const ROMAN_RULES: Array<[RegExp, string]> = [
   [/^kh/u, "کھ"],

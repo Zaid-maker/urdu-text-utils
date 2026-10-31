@@ -59,9 +59,11 @@ export {
 
 export {
   romanize,
+  normalizeRomanUrdu,
   romanToUrdu,
   urduSlug,
   type SlugOptions,
+  type NormalizeRomanUrduOptions,
 } from "./transliterate.js";
 
 export {

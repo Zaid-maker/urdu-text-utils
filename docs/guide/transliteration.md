@@ -5,12 +5,33 @@ Read this page before putting transliteration in front of users. The limits are 
 :::
 
 ```ts
-import { romanize, romanToUrdu, urduSlug } from "urdu-text-utils";
+import { normalizeRomanUrdu, romanize, romanToUrdu, urduSlug } from "urdu-text-utils";
 
 romanize("آپ کیسے ہیں");        // "aap kaisay hain"
 romanToUrdu("mera naam zaid hai"); // "میرا نام زید ہے"
+normalizeRomanUrdu("hay, kese ho?"); // "hai, kaisay ho?"
 urduSlug("میرا پہلا مضمون");     // "mera-pehla-mazmoon"
 ```
+
+## Roman Urdu spelling normalization
+
+`normalizeRomanUrdu` maps known Roman Urdu spelling variants to the package's preferred Roman spelling. It does not translate words or convert them to Urdu script.
+
+```ts
+normalizeRomanUrdu("kia haal hai?"); // "kya haal hai?"
+normalizeRomanUrdu("Hay, kese ho?"); // "Hai, kaisay ho?"
+```
+
+The built-in aliases come from the same Roman Urdu dictionary used by `romanToUrdu`. Short variants are deliberately left unchanged by default because they often collide with English words. Punctuation and spacing are preserved; all-caps and title-case variants keep their case, while other mapped spellings use lowercase. For a known corpus, add or override spellings with `customVariants`:
+
+```ts
+normalizeRomanUrdu("KYA scene hai?", {
+  customVariants: { kya: "kiya", scene: "situation" },
+});
+// "KIYA situation hai?"
+```
+
+Apply this to text known to be Roman Urdu. In mixed English/Roman Urdu, a spelling can be ambiguous; tailor `customVariants` to your data rather than assuming every matching Latin word is Urdu.
 
 ## Why it cannot be exact
 
