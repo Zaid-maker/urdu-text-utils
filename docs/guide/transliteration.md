@@ -1,92 +1,93 @@
-# Transliteration and slugs
+# Roman Urdu, transliteration & slugs
 
-::: warning Experimental
-Read this page before putting transliteration in front of users. The limits are inherent to the writing system, not a missing feature.
-:::
+Use the function that matches the job. **Spelling normalization is not translation**, and transliteration cannot recover vowels or meaning that the source text does not contain.
+
+| You want to… | Use | Example |
+| --- | --- | --- |
+| Standardize known Roman Urdu spelling variants | `normalizeRomanUrdu` | `hay` → `hai` |
+| Write Urdu-script text in Latin letters | `romanize` | `آپ` → `aap` |
+| Convert Roman Urdu into Urdu script | `romanToUrdu` | `mera` → `میرا` |
+| Make a URL slug from an Urdu title | `urduSlug` | `میرا مضمون` → `mera-mazmoon` |
 
 ```ts
 import { normalizeRomanUrdu, romanize, romanToUrdu, urduSlug } from "urdu-text-utils";
 
-romanize("آپ کیسے ہیں");        // "aap kaisay hain"
-romanToUrdu("mera naam zaid hai"); // "میرا نام زید ہے"
-normalizeRomanUrdu("hay, kese ho?"); // "hai, kaisay ho?"
-urduSlug("میرا پہلا مضمون");     // "mera-pehla-mazmoon"
+normalizeRomanUrdu("Hay, kese ho?"); // "Hai, kaisay ho?"
+romanize("آپ کیسے ہیں");              // "aap kaisay hain"
+romanToUrdu("mera naam zaid hai");   // "میرا نام زید ہے"
+urduSlug("میرا پہلا مضمون");          // "mera-pehla-mazmoon"
 ```
 
-## Roman Urdu spelling normalization
+## Normalize Roman Urdu spelling
 
-`normalizeRomanUrdu` maps known Roman Urdu spelling variants to the package's preferred Roman spelling. It does not translate words or convert them to Urdu script.
+`normalizeRomanUrdu` replaces known Roman Urdu spellings with the package's preferred Roman spelling. Unknown words are left alone.
 
 ```ts
 normalizeRomanUrdu("kia haal hai?"); // "kya haal hai?"
 normalizeRomanUrdu("Hay, kese ho?"); // "Hai, kaisay ho?"
+normalizeRomanUrdu("ap ne kia kaha?"); // "ap ne kya kaha?"
 ```
 
-The built-in aliases come from the same Roman Urdu dictionary used by `romanToUrdu`. Short variants are deliberately left unchanged by default because they often collide with English words. Punctuation and spacing are preserved; all-caps and title-case variants keep their case, while other mapped spellings use lowercase. For a known corpus, add or override spellings with `customVariants`:
+It preserves punctuation and spacing. Matching is case-insensitive; all-caps and title-case words keep that casing in the result. Other matched variants use the canonical spelling's lowercase form.
+
+### Add spellings for your data
+
+Short spellings are intentionally excluded from the built-in aliases because they can be ordinary English words. Add or override them only when you know the input is Roman Urdu:
 
 ```ts
-normalizeRomanUrdu("KYA scene hai?", {
-  customVariants: { kya: "kiya", scene: "situation" },
+normalizeRomanUrdu("ap ne kia kaha?", {
+  customVariants: {
+    ap: "aap",
+    kese: "kaise",
+  },
 });
-// "KIYA situation hai?"
+// "aap ne kya kaha?"
 ```
 
-Apply this to text known to be Roman Urdu. In mixed English/Roman Urdu, a spelling can be ambiguous; tailor `customVariants` to your data rather than assuming every matching Latin word is Urdu.
+`customVariants` is a case-insensitive map from an observed spelling to the spelling you want to keep. This is useful for choosing a house style or handling common spellings in your own messages and corpus. It does not infer a word's meaning, translate it, or convert it to Urdu script.
 
-## Why it cannot be exact
+::: tip Keep mixed-language text safe
+Apply the normalizer to text you have identified as Roman Urdu. A Latin word can be English or Roman Urdu depending on context; use custom variants for known data rather than broadly rewriting every English message.
+:::
 
-Urdu does not write short vowels. `کتب` is `k-t-b` on the page and a reader supplies the vowels from context: it is `kitab` or `kutub` depending on the sentence. No rule table can make that call, and neither direction is a function in the mathematical sense.
+## Transliteration is approximate
 
-Going back is worse. Roman Urdu has no standard orthography — `hai`, `hay`, `he`, `hei` are all the same word, and people spell the same name four ways in one thread.
+Urdu script omits short vowels. `کتب` can be read as *kitab* or *kutub*, depending on context, so no character-by-character mapping can always choose correctly. The reverse direction is also ambiguous: Roman Urdu has no standard spelling, and `hai`, `hay`, `he`, and `hei` can represent the same Urdu word.
 
-## How it works
+`romanize` uses a dictionary of common words, then applies spelling rules to words it does not know. `romanToUrdu` uses the same dictionary and its known spelling variants, then falls back to approximate letter rules. Treat both as best-effort tools, not language translation or spell correction.
 
-Two layers.
+Some rules used by `romanize`:
 
-**A dictionary of ~650 words** covering high-frequency vocabulary, function words, oblique verb forms (`کرنے`, `رہنے`), news and public-life vocabulary, English loanwords (`سکول`, `کمپیوٹر`) and the Roman spelling variants people actually type. Dictionary hits are exact.
-
-**A rule fallback** for everything else:
-
-| Rule | Example |
+| Urdu pattern | Example |
 | --- | --- |
-| Consonant + ھ is one aspirated sound | `چھوٹا` → `chh…` |
-| Word-initial `و` and `ی` are consonants | `والا` → `wala`, not `oala` |
-| `ی` is `e` inside a word, `i` at the end | `کھیل` → `khel`, `پڑھی` → `parhi` |
-| Final `یں` is the plural ending | `سڑکیں` → `sarkein` |
-| Final `ہ` is `-a`, not an audible h | `کمرہ` → `kamra` |
-| One schwa after an initial consonant cluster | `رہنے` → `rehne`, not `rhne` |
-
-The schwa is inserted once, not cascaded, so a guess never compounds across the rest of the word.
-
-Real sentence, no dictionary gaps visible:
+| Aspirated consonants (`چھ`, `کھ`) | `چھوٹا` → `chh…` |
+| Word-initial `و` and `ی` are consonants | `والا` → `wala`, `یار` → `yaar` |
+| `ی` varies by position | `کھیل` → `khel`, `پڑھی` → `parhi` |
+| Word-final `یں` | `سڑکیں` → `sarkein` |
+| Word-final `ہ` | `کمرہ` → `kamra` |
 
 ```ts
 romanize("کراچی میں بارش کے بعد سڑکیں بند ہیں");
 // "karachi mein barish ke baad sarkein band hain"
 ```
 
-Known rule-layer misses: vowel quality in unseen words (`حصہ` → `hasa`, properly `hissa`) and `و` as `au` (`دوڑتا` → `dorta`, properly `daurta`). Only a lexicon fixes that class.
+Unseen words can have the wrong vowel: `حصہ` may come out `hasa` instead of `hissa`, and `دوڑتا` may come out `dorta` instead of `daurta`. Review output before showing it to users or using it in permanent identifiers.
 
-## Slugs
+### Search is not cross-script
+
+`searchUrdu` folds Urdu-script spelling variants and diacritics. It does not transliterate Roman Urdu queries or automatically match Roman Urdu text against Urdu-script records. If you convert text for indexing, keep the original value and validate conversions against your data; transliteration is lossy.
+
+## Urdu URL slugs
 
 ```ts
-urduSlug("میرا پہلا مضمون");                        // "mera-pehla-mazmoon"
-urduSlug("آپ کیسے ہیں؟");                           // "aap-kaisay-hain"
-urduSlug("میرا پہلا مضمون", { separator: "_" });    // "mera_pehla_mazmoon"
-urduSlug("میرا پہلا مضمون", { maxLength: 12 });     // "mera-pehla" — cut at a word boundary
-urduSlug("میرا پہلا مضمون", { preserveUrdu: true }); // "میرا-پہلا-مضمون"
+urduSlug("میرا پہلا مضمون");                          // "mera-pehla-mazmoon"
+urduSlug("آپ کیسے ہیں؟");                             // "aap-kaisay-hain"
+urduSlug("میرا پہلا مضمون", { separator: "_" });      // "mera_pehla_mazmoon"
+urduSlug("میرا پہلا مضمون", { maxLength: 12 });       // "mera-pehla"
+urduSlug("میرا پہلا مضمون", { preserveUrdu: true });  // "میرا-پہلا-مضمون"
 ```
 
-### Which mode for permanent URLs
-
-`preserveUrdu: true` is **lossless**. The slug percent-encodes in a URL but displays as readable Urdu in browsers and is stable forever, because no dictionary is involved.
-
-The transliterating mode is prettier in a Latin address bar but its output **can change between versions** — a word added to the dictionary changes what that word transliterates to. If you use it:
-
-- Generate the slug once, store it on the record, and never recompute it.
-- Or pin the version and accept that upgrading may need a redirect table.
-
-This is why `urduSlug` is marked experimental while `sortUrdu` and `searchUrdu` are not: only this one has output that is allowed to drift.
+For permanent URLs, `preserveUrdu: true` is lossless and does not depend on the transliteration dictionary. Otherwise, generate a slug once and store it: a future dictionary improvement may change the Roman spelling. If slugs are recomputed, keep redirects for old URLs.
 
 ## Try it
 

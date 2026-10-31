@@ -25,7 +25,7 @@ const pageDescriptions: Record<string, string> = {
   "guide/stemming": "Use the Urdu stemmer to strip common prefixes, suffixes and inflections for search and text analysis.",
   "guide/stemming-deep-dive": "Explore Urdu stemming rules, morphological restoration, affixes, exceptions and known linguistic tradeoffs.",
   "guide/date-time": "Format, parse and display Urdu dates, Gregorian and Hijri month names, digits and relative times.",
-  "guide/transliteration": "Transliterate Urdu to Roman Urdu, convert Roman Urdu to Urdu and generate URL slugs with clear limitations.",
+  "guide/transliteration": "Normalize Roman Urdu spelling variants, transliterate Urdu script, convert Roman Urdu to Urdu and create stable Urdu URL slugs.",
   "guide/php": "Install and use the native PHP port of urdu-text-utils, with shared tables and TypeScript-verified parity fixtures.",
   "guide/use-cases": "Practical Urdu text processing recipes for search autocomplete, CMS content, form validation and URL slugs.",
   "guide/performance": "Review urdu-text-utils performance benchmarks, bundle sizes and guidance for running the measurements.",
@@ -132,6 +132,8 @@ const pageKeywords: Record<string, string[]> = {
     "Urdu relative time",
   ],
   "guide/transliteration": [
+    "Roman Urdu normalization",
+    "normalize Roman Urdu spelling variants",
     "Urdu Roman transliteration",
     "Roman Urdu to Urdu converter",
     "Urdu to Roman Urdu JavaScript",
