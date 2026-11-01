@@ -282,10 +282,22 @@ const canonicalOwners = new Map();
 const descriptionOwners = new Map();
 const keywordOwners = new Map();
 let checked = 0;
+let verificationFiles = 0;
 for (const file of files) {
   const html = readFileSync(file, "utf8");
+  const page = relative(distDir, file).replace(/\\/gu, "/");
+  const verificationMatch = /^google-site-verification:\s*(google[0-9a-f]+\.html)\s*$/iu.exec(html.trim());
+  if (verificationMatch) {
+    verificationFiles++;
+    if (verificationMatch[1] !== page) {
+      failures.push({
+        file: page,
+        problems: [`Google Search Console verification content does not match the filename`],
+      });
+    }
+    continue;
+  }
   checked++;
-  const page = relative(distDir, file);
   const { problems, canonical, description, keywords } = checkPage(html, page);
   if (canonical) {
     const owner = canonicalOwners.get(canonical);
@@ -312,6 +324,7 @@ for (const file of files) {
 
 console.log("Docs output check (rendered HTML)");
 console.log(`  pages checked  ${checked}`);
+if (verificationFiles > 0) console.log(`  verification files  ${verificationFiles}`);
 console.log(`  title suffix   ${JSON.stringify(suffix)}`);
 console.log(`  unique canonicals  ${canonicalOwners.size}`);
 console.log(`  unique descriptions  ${descriptionOwners.size}`);
