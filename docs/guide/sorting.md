@@ -7,6 +7,17 @@ sortUrdu(["گل", "آم", "بادام"]);
 // ["آم", "بادام", "گل"]
 ```
 
+## When to use it
+
+Use Urdu collation for alphabetized names, products or suggestions instead of
+JavaScript's default string order, which does not follow the Urdu alphabet:
+
+```ts
+sortUrdu(["گھر", "کتاب"]); // ["کتاب", "گھر"]
+```
+
+See the [`sortUrdu` and `compareUrdu` API](/api/#sorting).
+
 ## Why not `Intl`
 
 ```ts

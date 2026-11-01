@@ -39,6 +39,18 @@ stemUrdu("کھاتی");      // "کھا"
 stemUrdu("پڑھیںگے");    // "پڑھ"
 ```
 
+## When to use it
+
+Use stemming on a derived search or analytics index when inflected forms such
+as `کتابیں` and `کتابوں` should share a token. Keep the original text for
+display; stemming is heuristic, not a translation or full morphological parse.
+
+```ts
+stemUrdu("کتابیں"); // "کتاب"
+```
+
+See the [`stemUrdu`, `stemUrduText` and `getAffixes` API](/api/#stemmer).
+
 ## `stemUrduText(text, options?)`
 
 Stems all words in a sentence or document while preserving whitespace, line breaks, and punctuation.

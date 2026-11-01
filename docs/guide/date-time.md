@@ -28,6 +28,18 @@ timeAgoUrdu(Date.now() - 86400 * 1000);    // "کل"
 timeAgoUrdu(Date.now() - 2 * 86400 * 1000);// "پرسوں"
 ```
 
+## When to use it
+
+Use Urdu date formatting in localized interfaces—such as post timestamps—and
+relative time in feeds where readers need to know how recent an item is:
+
+```ts
+formatUrduDate(new Date(2026, 7, 22), "DD MMMM YYYY"); // "۲۲ اگست ۲۰۲۶"
+timeAgoUrdu(Date.now() - 5 * 60 * 1000);               // "۵ منٹ پہلے"
+```
+
+See the [`formatUrduDate`, `parseUrduDate` and `timeAgoUrdu` API](/api/#date-time).
+
 ## `formatUrduDate(date, pattern?, options?)`
 
 Formats any `Date`, ISO string, or timestamp into an Urdu formatted string.

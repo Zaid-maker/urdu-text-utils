@@ -18,6 +18,20 @@ romanToUrdu("mera naam zaid hai");   // "میرا نام زید ہے"
 urduSlug("میرا پہلا مضمون");          // "mera-pehla-mazmoon"
 ```
 
+## When to use it
+
+Use Roman Urdu normalization to standardize known spellings in chat or search
+input, and slug generation for a readable URL segment. Transliteration is
+approximate, so review output and store permanent slugs rather than recomputing
+them:
+
+```ts
+normalizeRomanUrdu("Hay, kese ho?"); // "Hai, kaisay ho?"
+urduSlug("میرا پہلا مضمون");          // "mera-pehla-mazmoon"
+```
+
+See the [Roman Urdu and slug API](/api/#transliteration).
+
 ## Normalize Roman Urdu spelling
 
 `normalizeRomanUrdu` replaces known Roman Urdu spellings with the package's preferred Roman spelling. Unknown words are left alone.

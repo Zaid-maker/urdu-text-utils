@@ -26,7 +26,8 @@ The function is deterministic and pure: same input always gives the same stem, a
 
 ## When stemming helps
 
-Stemming is most useful when you care about the word rather than the word form. A few concrete cases:
+Stemming with [`stemUrdu` or `stemUrduText`](/api/#stemmer) is most useful
+when you care about the word rather than the word form. A few concrete cases:
 
 - **Search indexing.** Index `کتاب`, `کتابیں`, `کتابوں` under the same token so a query for one matches all of them.
 - **Term frequency counts.** Counting "how often does this root appear" is more meaningful than counting literal tokens, because Urdu writes most short vowels and a lot of inflection is morphological.

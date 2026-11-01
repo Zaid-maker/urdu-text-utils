@@ -7,6 +7,18 @@ isUrdu("آپ کیسے ہیں؟"); // true
 isUrdu("hello world"); // false
 ```
 
+## When to use it
+
+Use `isUrdu` as a lightweight script-ratio check for an Urdu-oriented field or
+content filter—not as proof that text is Urdu rather than Arabic or Persian.
+For example, it accepts this Urdu-script message:
+
+```ts
+isUrdu("براہ کرم اردو میں لکھیں"); // true
+```
+
+See the [`isUrdu`, `urduRatio` and `hasUrduSpecificLetters` API](/api/#detection).
+
 ## It is a ratio, not a contains-check
 
 ```ts

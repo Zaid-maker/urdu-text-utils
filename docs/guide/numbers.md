@@ -14,6 +14,18 @@ import {
 } from "urdu-text-utils";
 ```
 
+## When to use it
+
+Parse localized digits when users enter amounts, then format the numeric value
+for display. Keep the amount numeric for calculations and storage:
+
+```ts
+const amount = parseUrduNumber("۱٬۲۵۰"); // 1250
+formatUrduCurrency(amount);              // "۱٬۲۵۰ روپے"
+```
+
+See the [number parsing and formatting API](/api/#numbers).
+
 ## Two digit systems, not one
 
 | System | Digits | Block |

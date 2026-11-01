@@ -6,6 +6,19 @@ import { analyzeUrdu, countWords, countSentences, splitWords, splitSentences } f
 analyzeUrdu("پاکستان ایک خوبصورت ملک ہے۔ اس کی آبادی زیادہ ہے۔");
 ```
 
+## When to use it
+
+Use `analyzeUrdu` for a CMS/editor summary such as word count, paragraph count
+and estimated reading time, without maintaining separate tokenization logic:
+
+```ts
+const stats = analyzeUrdu("پاکستان ایک خوبصورت ملک ہے۔");
+stats.words; // 5
+stats.sentences; // 1
+```
+
+See the [`analyzeUrdu` and tokenization API](/api/#statistics-tokenization).
+
 ```json
 {
   "characters": 49,

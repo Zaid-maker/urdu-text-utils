@@ -7,6 +7,18 @@ normalizeUrdu("كيا حال ہے");
 // "کیا حال ہے"
 ```
 
+## When to use it
+
+Normalize incoming text when equivalent Arabic- and Urdu-keyboard spellings
+should match. Keep the submitted value separately if you need to preserve the
+exact original; use [`foldUrdu`](/api/#normalization) as a comparison key.
+
+```ts
+normalizeUrdu("كيا حال ہے"); // "کیا حال ہے"
+```
+
+See the [`normalizeUrdu` and `foldUrdu` API](/api/#normalization).
+
 ## What it changes
 
 | Input | Output | Why |

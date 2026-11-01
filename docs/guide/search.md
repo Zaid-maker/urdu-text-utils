@@ -7,6 +7,20 @@ searchUrdu("محمد", ["مُحَمَّد علی", "احمد", "محمد خان"
 // ["مُحَمَّد علی", "محمد خان"]
 ```
 
+## When to use it
+
+Use `searchUrdu` when a small in-memory list should match Urdu spelling
+variants and optional diacritics—for example, finding an article title as
+someone types:
+
+```ts
+const titles = ["مُحَمَّد علی", "کراچی میں بارش"];
+searchUrdu("محمد", titles, { limit: 5 }); // ["مُحَمَّد علی"]
+```
+
+For database-backed search, use a folded search key and your database's index.
+See the [search API](/api/#search).
+
 ## Why a plain `includes()` fails
 
 Users do not type the spelling you stored. They omit diacritics, or their keyboard produces Arabic `ك` and `ي`. Both sides are folded with [`foldUrdu`](/guide/normalization) before comparison, so all of these match the same record:
