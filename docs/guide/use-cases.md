@@ -2,6 +2,10 @@
 
 Real-world examples showing how to integrate `urdu-text-utils` into your applications.
 
+These recipes are starting points, not a replacement for your app's database,
+validation policy or rendering framework. Keep original user input when you need
+an audit trail, and normalize a separate value for consistent matching.
+
 ## Search Autocomplete
 
 Build a search input that handles Urdu text normalization, diacritics, and fuzzy matching:
@@ -53,47 +57,90 @@ if (results.length !== 1 || results[0] !== articles[1]) {
 }
 ```
 
-## CMS Text Processing
+### Rank results and highlight the original text
 
-Process Urdu content in a CMS — normalize, count words, and extract statistics:
+Use the ranked API when the UI should show the strongest matches first. Search
+folds Arabic/Urdu letter variants and diacritics for comparison, while
+`highlightUrdu` keeps the source spelling in its result:
 
 ```ts
+// docs-check
+import { foldUrdu, highlightUrdu, searchUrduRanked } from "urdu-text-utils";
+
+const articles = [
+  { id: 1, title: "مُحَمَّد علی کی کہانی", category: "ادب" },
+  { id: 2, title: "کراچی میں بارش", category: "موسم" },
+];
+
+const searchable = articles.map((article) => ({
+  ...article,
+  searchKey: foldUrdu(`${article.title} ${article.category}`),
+}));
+
+const results = searchUrduRanked("محمد", searchable, {
+  getText: (article) => article.searchKey,
+  limit: 5,
+});
+
+if (results[0]?.item.id !== 1) {
+  throw new Error("The matching article should rank first");
+}
+
+const highlightedTitle = highlightUrdu(results[0].item.title, "محمد");
+if (!highlightedTitle.includes("<mark>مُحَمَّد</mark>")) {
+  throw new Error("Highlighting should retain the original diacritics");
+}
+```
+
+For a database-backed search box, persist `foldUrdu(title)` in a separate
+search-key column and query that column using your database's indexing strategy.
+The package does not connect to databases or provide a network autocomplete
+endpoint. Debounce requests, cap result counts, and keep the original title for
+display.
+
+`highlightUrdu` returns an HTML string by default. It does not sanitize HTML:
+don't insert output based on user-authored text with `innerHTML` or an equivalent
+unsafe HTML API. Render text safely with your UI framework, or escape and build
+highlight elements using your framework's DOM APIs.
+
+## CMS Text Processing
+
+Keep submitted text, a normalized display value and a comparison key as distinct
+values. Normalization preserves diacritics by default; the comparison key folds
+them for matching without replacing the text shown to readers.
+
+```ts
+// docs-check
 import {
+  foldUrdu,
   normalizeUrdu,
-  countWords,
   analyzeUrdu,
-  removeDiacritics,
-  convertNumbers,
 } from "urdu-text-utils";
 
-// User submits content from a WYSIWYG editor
-const rawContent = "مُحَمَّد ﷺ نے فرمایا: کتب العلم بہترین ہے۔";
+const rawContent = "مُحَمَّد ﷺ نے فرمایا: علم بہترین ہے۔";
+const normalizedContent = normalizeUrdu(rawContent);
 
-// Step 1: Normalize for storage
-const normalized = normalizeUrdu(rawContent);
-// "محمد ﷺ نے فرمایا: کتب العلم بہترین ہے۔"
+const record = {
+  rawContent,
+  normalizedContent,
+  searchKey: foldUrdu(normalizedContent),
+  stats: analyzeUrdu(normalizedContent),
+};
 
-// Step 2: Get statistics for the editor UI
-const stats = analyzeUrdu(normalized);
-// {
-//   words: 8,
-//   sentences: 1,
-//   characters: 45,
-//   readingTimeMinutes: 0.03,
-//   ...
-// }
-
-// Step 3: Create a search-friendly version (no diacritics)
-const searchIndex = removeDiacritics(normalized);
-// "محمد ﷺ نے فرمایا: کتب العلم بہترين ہے۔"
-
-// Step 4: Convert any mixed digits to Urdu
-const displayContent = convertNumbers(normalized, "urdu");
+if (record.searchKey !== foldUrdu(rawContent)) {
+  throw new Error("Equivalent spellings should produce the same search key");
+}
 ```
+
+Use `normalizedContent` for consistent display only if that matches your
+product's editorial policy. Keep `rawContent` when exact submitted text matters,
+and keep numbers in their numeric form in the database; localize digits at the
+presentation layer when appropriate.
 
 ## Form Validation
 
-Validate Urdu input fields with proper error messages:
+Validate the requirements of a specific field, and return the normalized value
+so callers don't accidentally validate one string but store another:
 
 ```ts
 import {
@@ -106,49 +153,52 @@ import {
 
 interface ValidationResult {
   valid: boolean;
+  normalized?: string;
   error?: string;
 }
 
 function validateUrduName(name: string): ValidationResult {
-  // Check if input contains Urdu script
-  if (!isUrdu(name)) {
+  const normalized = normalizeUrdu(name);
+  if (!normalized) {
+    return { valid: false, error: "براہ کرم اپنا نام درج کریں" };
+  }
+
+  if (!isUrdu(normalized)) {
     return { valid: false, error: "براہ کرم اردو میں لکھیں" };
   }
 
-  // Ensure it's mostly Urdu (not mixed with English)
-  const ratio = urduRatio(name);
+  const ratio = urduRatio(normalized);
   if (ratio < 0.8) {
     return { valid: false, error: "نام میں اردو کا حصہ زیادہ ہونا چاہیے" };
   }
 
-  // Check minimum length
-  const wordCount = countWords(name);
+  const wordCount = countWords(normalized);
   if (wordCount < 2) {
     return { valid: false, error: "نام میں کم از کم دو الفاظ ہونے چاہیں" };
   }
 
-  // Normalize for consistent storage
-  const normalized = normalizeUrdu(name);
-
-  return { valid: true };
+  return { valid: true, normalized };
 }
 
-// Usage
 const result = validateUrduName("محمد علی");
-// { valid: true }
-
-const result2 = validateUrduName("Ali");
-// { valid: false, error: "براہ کرم اردو میں لکھیں" }
+if (result.valid) {
+  // Persist result.normalized after the rest of your server-side checks.
+}
 ```
+
+`isUrdu` measures the share of Arabic-script letters; it cannot tell Urdu from
+Arabic, Persian or other languages that use the script. Tune the threshold for
+the field, and don't use a script check as a substitute for authorization,
+abuse prevention or server-side validation.
 
 ## URL Slug Generation
 
-Create SEO-friendly slugs from Urdu titles:
+Create a readable URL segment from a title:
 
 ```ts
 import { urduSlug, normalizeUrdu } from "urdu-text-utils";
 
-// Romanized slug (default)
+// Romanized slug (default; transliteration is approximate)
 const slug1 = urduSlug("میرا پہلا مضمون");
 // "mera-pehla-mazmoon"
 
@@ -165,12 +215,17 @@ const slug3 = urduSlug("پاکستان ایک خوبصورت ملک ہے جس ک
 
 // In a CMS slug field
 function generateSlug(title: string): string {
-  return urduSlug(normalizeUrdu(title), {
+  return urduSlug(title, {
     maxLength: 60,
     preserveUrdu: true,
   });
 }
 ```
+
+Generate a slug once when the record is created, check that it is unique, and
+store it. Don't silently change existing URLs when titles are edited; retain old
+slugs with redirects. Roman transliteration can be ambiguous, so choose the Urdu
+form when preserving the source spelling matters.
 
 ## Sorting Urdu Lists
 
@@ -205,13 +260,13 @@ names.sort(compareUrdu);
 
 ## Text Analysis Dashboard
 
-Build a text analysis tool for Urdu content:
+Build an editor summary from the returned statistics. For exploratory word
+counts, stemming can group some inflected forms; it is heuristic and should not
+replace the original text or be treated as a linguistic analysis:
 
 ```ts
 import {
   analyzeUrdu,
-  removeDiacritics,
-  countSentences,
   splitWords,
   stemUrduText,
 } from "urdu-text-utils";
@@ -223,25 +278,11 @@ function analyzeDocument(text: string) {
   const stemmed = stemUrduText(text);
   const uniqueWords = new Set(splitWords(stemmed));
 
-  // Count diacritics (for readability analysis)
-  const withDiacritics = text.length - removeDiacritics(text).length;
-
   return {
     ...stats,
     uniqueWords: uniqueWords.size,
-    diacriticCount: withDiacritics,
-    readabilityScore: calculateReadability(stats),
+    diacriticCount: stats.diacritics,
   };
-}
-
-function calculateReadability(stats: {
-  words: number;
-  sentences: number;
-}): number {
-  // Simple readability heuristic
-  const avgWordsPerSentence = stats.words / Math.max(stats.sentences, 1);
-  // Lower is easier to read
-  return Math.min(100, Math.round(avgWordsPerSentence * 10));
 }
 
 // Usage
@@ -285,28 +326,21 @@ function formatPostTime(timestamp: number): string {
 }
 ```
 
-## Stop Words for Search Indexing
+## Stop Words for a bag-of-words index
 
-Remove common Urdu stop words for better search indexing:
+Stop-word removal can reduce noise in keyword extraction or a bag-of-words
+index. It is not always right for phrase search, names or exact matching, so
+keep the original text and apply it only to the derived index:
 
 ```ts
-import { removeStopWords, isStopWord, filterStopWords } from "urdu-text-utils";
+import { filterStopWords, normalizeUrdu, splitWords } from "urdu-text-utils";
 
-// Index content for search (remove stop words)
 function indexForSearch(text: string): string[] {
-  const words = text.split(/\s+/);
-  return words.filter((word) => !isStopWord(word));
+  return filterStopWords(splitWords(normalizeUrdu(text)));
 }
 
-// Example
 const content = "پاکستان ایک خوبصورت ملک ہے";
 const keywords = indexForSearch(content);
-// ["پاکستان", "خوبصورت", "ملک"] — removed "ایک", "ہے"
-
-// Or batch process
-const tokens = ["یہ", "ایک", "بہترین", "کتاب", "ہے"];
-const meaningful = filterStopWords(tokens);
-// ["بہترین", "کتاب"]
 ```
 
 ## Number Conversion in UI
@@ -315,27 +349,20 @@ Display numbers in Urdu throughout your application:
 
 ```ts
 import {
-  convertNumbers,
+  formatUrduCurrency,
   parseUrduNumber,
   numberToUrduWords,
 } from "urdu-text-utils";
-
-// Convert English digits to Urdu
-const price = convertNumbers("1250", "urdu");
-// "۱۲۵۰"
 
 // Parse Urdu number string to JavaScript number
 const amount = parseUrduNumber("۱٬۲۵۰");
 // 1250
 
+// Keep amounts numeric for calculations and format only for display
+const displayPrice = formatUrduCurrency(amount);
+// "۱٬۲۵۰ روپے"
+
 // Spell out numbers in Urdu (for formal writing)
 const words = numberToUrduWords(1250);
 // "ایک ہزار دو سو پچاس"
-
-// In an e-commerce UI
-function formatPrice(amount: number): string {
-  const urduDigits = convertNumbers(amount.toLocaleString("en-IN"), "urdu");
-  return `Rs. ${urduDigits}`;
-}
-// formatPrice(1250) → "Rs. ۱٬۲۵۰"
 ```
