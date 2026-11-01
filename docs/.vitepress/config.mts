@@ -178,7 +178,9 @@ export default defineConfig({
   base: "/urdu-text-utils/",
 
   head: [
-    ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
+    ["link", { rel: "icon", href: `${siteBase}logo.png`, type: "image/png" }],
+    ["meta", { property: "og:image", content: new URL("logo.png", `${siteOrigin}${siteBase}`).href }],
+    ["meta", { name: "twitter:image", content: new URL("logo.png", `${siteOrigin}${siteBase}`).href }],
     // Nastaliq is how Urdu is actually set. Loaded with display=swap so the page
     // never blocks on it, and applied only to Urdu text via the .urdu class.
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
@@ -234,8 +236,10 @@ export default defineConfig({
       ["meta", { property: "og:title", content: socialTitle }],
       ["meta", { property: "og:description", content: pageDescription }],
       ["meta", { property: "og:url", content: canonical }],
+      ["meta", { property: "og:image", content: new URL("logo.png", `${siteOrigin}${siteBase}`).href }],
       ["meta", { name: "twitter:title", content: socialTitle }],
       ["meta", { name: "twitter:description", content: pageDescription }],
+      ["meta", { name: "twitter:image", content: new URL("logo.png", `${siteOrigin}${siteBase}`).href }],
     ];
   },
 

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zaid-maker.github.io/urdu-text-utils/sitemap.xml
