@@ -8,8 +8,8 @@ const version: string = JSON.parse(
   readFileSync(fileURLToPath(new URL("../../package.json", import.meta.url)), "utf8"),
 ).version;
 
-const siteOrigin = "https://zaid-maker.github.io";
-const siteBase = "/urdu-text-utils/";
+const siteOrigin = "https://urdu-text-utils-docs.vercel.app";
+const siteBase = "/";
 const pageDescriptions: Record<string, string> = {
   "index": "Explore urdu-text-utils, a zero-dependency Urdu text processing toolkit for JavaScript and TypeScript, with a live playground.",
   "api/index": "Complete API reference for urdu-text-utils: normalization, search, transliteration, dates, numbers, statistics, stemming and more.",
@@ -169,13 +169,10 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   sitemap: {
-    hostname: "https://zaid-maker.github.io/urdu-text-utils/",
+    hostname: `${siteOrigin}${siteBase}`,
   },
 
-  // The site is served from https://zaid-maker.github.io/urdu-text-utils/, so
-  // every asset and link needs the repository name as a prefix. Without this the
-  // pages render but load their CSS and JS from the domain root and 404.
-  base: "/urdu-text-utils/",
+  base: siteBase,
 
   head: [
     ["link", { rel: "icon", href: `${siteBase}logo.png`, type: "image/png" }],
