@@ -78,6 +78,33 @@
   font-family: var(--vp-font-family-base), "Noto Naskh Arabic", serif;
 }
 
+/* Keep homepage features in a swipeable, scroll-snapping carousel. */
+.VPHomeFeatures .items {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 8px 8px 16px;
+  scroll-padding-inline: 8px;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--vp-c-brand-1) var(--vp-c-bg-soft);
+  scrollbar-width: thin;
+}
+
+.VPHomeFeatures .item {
+  flex: 0 0 min(82vw, 320px);
+  scroll-snap-align: start;
+}
+
+.VPHomeFeatures .VPFeature {
+  scroll-snap-stop: always;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .VPHomeFeatures .items {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Wider content column: the API tables have four columns and wrap badly at the default. */
 .VPDoc.has-aside .content-container {
   max-width: 768px;
