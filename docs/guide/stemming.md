@@ -2,7 +2,10 @@
 
 `urdu-text-utils` includes a rule-based **Urdu Stemmer** designed to strip grammatical inflections (plurals, case markers, tense indicators, negation prefixes, and adjectival suffixes) while applying morphological restoration rules.
 
-Stemming is essential for **search engine indexing**, **TF-IDF scoring**, **keyword extraction**, and **AI/LLM embeddings preprocessing** (RAG pipelines).
+Stemming can help with **search indexing**, **term-frequency analysis**,
+**keyword extraction**, or retrieval preprocessing when inflected forms should
+share a token. It is heuristic and may reduce precision, so compare results
+with and without stemming on your own text before using it in a search pipeline.
 
 ## Quick start
 

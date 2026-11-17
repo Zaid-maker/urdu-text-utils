@@ -4,7 +4,10 @@
 
 ## Benchmark Results
 
-Measured on Node.js 22 (AMD Ryzen 5, 16GB RAM). Higher ops/sec is better.
+These are indicative results from one local run on Node.js 22 (AMD Ryzen 5,
+16GB RAM), not performance guarantees. The script warms each operation with 100
+calls, then times 1,000 calls once; results vary with hardware, runtime, input
+and system load. Higher ops/sec is better.
 
 ### Normalization
 
@@ -73,30 +76,36 @@ Measured on Node.js 22 (AMD Ryzen 5, 16GB RAM). Higher ops/sec is better.
 
 ## Key Takeaways
 
-1. **Fastest functions** — `removeDiacritics`, `convertNumbers`, and `romanToUrdu` run at 400K–1.8M ops/sec. These are essentially regex-based and have negligible overhead.
+1. **Fastest functions** — `removeDiacritics`, `convertNumbers`, and `romanToUrdu` are the fastest in these measurements. Actual throughput depends on input and runtime.
 
-2. **Normalization** — Handles 80K+ short strings/sec, which is well above typical UI requirements (even for real-time search as the user types).
+2. **Normalization** — The short-string result may be adequate for per-keystroke UI use, but profile with representative input and devices.
 
-3. **Search** — Exact search over 100 items completes in ~1.7ms; fuzzy search adds ~1ms for edit distance calculation. For larger corpora, consider building an index with `foldUrdu` keys.
+3. **Search** — Fuzzy search is slower than exact search in this benchmark. For larger corpora, consider building an index with `foldUrdu` keys.
 
-4. **Transliteration** — Dictionary lookups are near-instant (436K ops/sec). Rule-based fallback adds ~0.1ms per word, which is imperceptible in UI contexts.
+4. **Transliteration** — Costs vary by input; benchmark representative phrases if transliteration is on a performance-critical path.
 
-5. **Zero dependencies** — No external libraries means smaller bundle size and no transitive dependency overhead.
+5. **Zero runtime dependencies** — The package does not add third-party runtime dependencies.
 
 ## Bundle Size
 
+Approximate sizes for the complete package entry points after minification and
+gzip compression. Your application bundle may be smaller when a bundler removes
+unused exports; results also depend on tool and compression versions.
+
 | Format | Size (minified) | Size (min + gzip) |
 |--------|-----------------|-------------------|
-| ESM | 162 KB | ~11 KB |
-| CJS | 163 KB | ~11 KB |
-| IIFE | 128 KB | ~11 KB |
+| ESM | 147 KB | 38 KB |
+| CJS | 152 KB | 39 KB |
+| IIFE | 147 KB | 38 KB |
 
 ## Running Benchmarks
 
 To run benchmarks yourself:
 
 ```bash
-npx tsx bench.mjs
+npm run build
+node bench.mjs
 ```
 
-The benchmark script is in the repository root. Results will vary based on your hardware and Node.js version.
+The benchmark script is in the repository root and reads the built package from
+`dist/`. Results will vary based on your hardware and Node.js version.

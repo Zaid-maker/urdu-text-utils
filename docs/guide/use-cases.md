@@ -146,7 +146,6 @@ so callers don't accidentally validate one string but store another:
 import {
   isUrdu,
   urduRatio,
-  hasUrduSpecificLetters,
   countWords,
   normalizeUrdu,
 } from "urdu-text-utils";
@@ -196,7 +195,7 @@ abuse prevention or server-side validation.
 Create a readable URL segment from a title:
 
 ```ts
-import { urduSlug, normalizeUrdu } from "urdu-text-utils";
+import { urduSlug } from "urdu-text-utils";
 
 // Romanized slug (default; transliteration is approximate)
 const slug1 = urduSlug("میرا پہلا مضمون");

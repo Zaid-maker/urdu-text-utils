@@ -148,7 +148,11 @@ timeAgoUrdu(now - 5 * 60 * 1000, now, { addSuffix: false });
 
 ## `parseUrduDate(input, options?)`
 
-`formatUrduDate` has an inverse. Anything it can produce parses back to the same wall-clock moment, which makes the pair safe for round-tripping stored text.
+`parseUrduDate` accepts common Urdu and English date forms, including several
+formats produced by `formatUrduDate`. For a round trip, include the fields you
+need to preserve and use a format the parser accepts. It does not parse Hijri
+month names or ISO timestamps with a timezone offset; see
+[Deliberately rejected](#deliberately-rejected).
 
 ```ts
 const d = new Date(2026, 7, 22, 14, 30);

@@ -71,9 +71,13 @@ Terminators are `۔` (U+06D4), `؟` (U+061F), `!`, `.` and `…`. Note the Urdu 
 | `averageWordsPerSentence` | Rounded to one decimal |
 | `readingTimeMinutes` | At 180 words per minute |
 
-Reading speed is set at 180 wpm rather than the ~230 wpm usually quoted for English: the script is denser and short vowels are inferred rather than read. Treat it as an editorial estimate.
+Reading time uses a fixed estimate of 180 words per minute. Treat it as a rough
+editorial estimate, not a measure of an individual reader's speed or an
+Urdu-specific standard.
 
-`urduPercentage` is a useful moderation signal — a submission at 20% in an Urdu-only form is probably English with a few pasted words.
+`urduPercentage` measures Arabic-script letters, not language. It may be one
+signal in a form-specific review, but it cannot establish that text is Urdu or
+that a submission should be accepted or rejected.
 
 ## Try it
 

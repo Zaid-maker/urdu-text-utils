@@ -18,7 +18,7 @@ import {
   timeAgoUrdu,
   splitWords,
   splitSentences,
-} from "./src/index.ts";
+} from "./dist/index.js";
 
 // Test data
 const shortText = "پاکستان ایک خوبصورت ملک ہے۔";

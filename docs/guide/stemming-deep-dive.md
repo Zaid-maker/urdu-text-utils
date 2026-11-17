@@ -1,6 +1,10 @@
 # Morphological Analysis: Stemming & Affix Breakdown
 
-The Urdu stemmer reduces an inflected word to its root so that different surface forms of the same word can be treated as one. It is the layer between raw text and anything you want to count, index, or embed: search, TF-IDF, keyword extraction, and RAG preprocessing all start here.
+The Urdu stemmer heuristically reduces an inflected word so that some surface
+forms can share an index token. It can be useful for search, term-frequency
+analysis, or retrieval preprocessing, but it is not required for those
+pipelines and can reduce precision. Measure it on your own corpus before
+adopting it.
 
 This page is the companion to the [quick start](/guide/stemming). Read this one when you need to decide whether stemming is the right tool, understand why a stem looks the way it does, or wire the stemmer into a pipeline.
 
@@ -19,10 +23,11 @@ stemUrdu("نااہل");      // "اہل"    -- prefix نا stripped
 stemUrdu("دکاندار");    // "دکان"   -- derivational suffix -دار stripped
 stemUrdu("پڑھتے");      // "پڑھ"    -- verbal inflection stripped
 stemUrdu("پڑھیںگے");    // "پڑھ"    -- compound future tense reduced
-stemUrdu("خوبصورت ترین"); // "خوبصورت" -- superlative suffix removed
 ```
 
-The function is deterministic and pure: same input always gives the same stem, and nothing outside the word is needed. That makes it safe to run during indexing, on every request, or in a build step.
+Use `stemUrdu` on a single word; use `stemUrduText` to apply the heuristic to
+text token by token. The result is deterministic, but the rules do not use
+context and can alter words that resemble an affix pattern.
 
 ## When stemming helps
 
@@ -102,7 +107,8 @@ These rules are why `stemUrdu("لڑکیاں")` returns `لڑکی` rather than `�
 
 ## What the stemmer does not do
 
-- **It does not disambiguate senses.** ` divisive morphology` — one written form, two meanings — is not resolved. A rule stemmer only strips form, never chooses meaning.
+- **It does not disambiguate senses.** A written form with multiple meanings is
+  not resolved. A rule stemmer only strips form; it never chooses meaning.
 - **It does not hand-build exceptions for every word.** The protected-word list prevents the most common false breaks, and the `exceptions` option handles the rest on a per-project basis.
 - **It does not preserve the original form.** Once stemmed, you cannot reliably get the surface form back. If you need the original text for display, keep it alongside the index, not inside it.
 - **It is not a parser.** The result is a root or near-root, not a linguistically annotated token. If you need part-of-speech or dependency structure, that is a different tool.
@@ -133,15 +139,19 @@ stemUrdu("کتابیں", { stripSuffixes: false }); // "کتابیں"
 
 ### Custom affix lists
 
-When the canonical list misses a suffix your corpus uses, add it locally.
+When the canonical list misses a suffix your corpus uses, provide a custom list.
 
 ```ts
+import { stemUrdu, URDU_SUFFIXES } from "urdu-text-utils";
+
 stemUrdu("خوبصورتی", {
-  customSuffixes: ["صورتی"],
+  customSuffixes: [...URDU_SUFFIXES, "صورتی"],
 });
 ```
 
-Custom lists replace the canonical ones for that call; they do not extend them. Pass both lists if you need the canonical rules plus a project-specific addition — but in practice it is cleaner to add to the canonical list upstream than to repeat it per call.
+Custom lists replace the canonical ones for that call; they do not extend them.
+Spread the exported defaults into a custom list when you want to keep those
+rules while adding project-specific affixes.
 
 ### Per-word exceptions
 
@@ -218,14 +228,24 @@ If the downstream model already does its own subword tokenization, stemming is l
 
 ## A real pipeline: extract candidate keywords
 
-A simple keyword extractor from a block of Urdu text.
+A simple keyword-frequency baseline for a block of Urdu text. It uses
+normalization, diacritic removal, stemming, tokenization and stop-word filtering;
+the original text remains untouched.
 
 ```ts
-import { analyzeUrdu, stemUrduText, splitWords, filterStopWords, urduRatio } from "urdu-text-utils";
+// docs-check
+import {
+  analyzeUrdu,
+  filterStopWords,
+  normalizeUrdu,
+  removeDiacritics,
+  splitWords,
+  stemUrduText,
+} from "urdu-text-utils";
 
-function candidateKeywords(raw: string, top: number = 10) {
+function candidateKeywords(raw: string, top = 10): string[] {
   const stats = analyzeUrdu(raw);
-  if (stats.words === 0) return [];
+  if (stats.words === 0 || top <= 0) return [];
 
   const clean = stemUrduText(removeDiacritics(normalizeUrdu(raw)));
   const tokens = splitWords(clean);
@@ -242,11 +262,18 @@ function candidateKeywords(raw: string, top: number = 10) {
     .map(([word]) => word);
 }
 
-candidateKeywords("پاکستان ایک خوبصورت ملک ہے۔ اس کی تاریخ پرانی ہے۔ اس کی آبادی زیادہ ہے۔");
-// a few stemmed, stop-word-free candidates, ranked by frequency
+const candidates = candidateKeywords(
+  "پاکستان ایک خوبصورت ملک ہے۔ اس کی تاریخ پرانی ہے۔ اس کی آبادی زیادہ ہے۔",
+);
+if (candidates.length === 0) {
+  throw new Error("Expected candidate terms from the Urdu sample");
+}
 ```
 
-This is a starting heuristic, not a production ranking. Real keyword extraction usually adds IDF across a corpus, length filters, and a notion of what counts as a "term" in your domain. The stemmer's job here is only to reduce the token set so the ranker sees fewer near-duplicates.
+This is a starting heuristic, not a production ranking. A useful extractor may
+also need corpus-level weighting, minimum term lengths, phrase handling, and
+domain-specific exclusions. Stemming is optional; compare the candidates with
+and without it, since an incorrect stem can merge distinct terms.
 
 ## Troubleshooting
 

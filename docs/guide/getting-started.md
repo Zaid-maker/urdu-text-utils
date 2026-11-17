@@ -1,5 +1,9 @@
 # Getting started
 
+Install the package, import only the helpers you need, and keep display text
+separate from comparison keys. This guide takes a few minutes and works with
+Node.js, browser bundlers, and supported runtimes such as Deno and Bun.
+
 ## Install
 
 ::: code-group
@@ -71,19 +75,28 @@ const { normalizeUrdu } = require("urdu-text-utils");
 | URL slugs for Urdu article titles | [`urduSlug`](/guide/transliteration) |
 | Filtering out non-Urdu submissions | [`isUrdu`](/guide/detection) |
 
-## One rule worth adopting early
+## Keep source text and comparison keys separate
 
-Normalize on the way in, not on the way out.
+Normalize equivalent spellings for consistent storage or display, but keep the
+original submission if exact text matters. Use `foldUrdu` for a separate search
+or deduplication key:
 
 ```ts
-// When a record is created or updated
-const stored = normalizeUrdu(userInput);
+// docs-check
+import { foldUrdu, normalizeUrdu } from "urdu-text-utils";
 
-// Index this alongside it for search and dedupe
-const key = foldUrdu(userInput);
+const rawInput = "كيا حال ہے";
+const normalized = normalizeUrdu(rawInput);
+const searchKey = foldUrdu(normalized);
+
+if (normalized !== "کیا حال ہے" || searchKey !== foldUrdu("کیا حال ہے")) {
+  throw new Error("Arabic and Urdu spellings should share the same search key");
+}
 ```
 
-Storing raw input and normalizing at query time means every comparison, every unique constraint and every `GROUP BY` sees a different spelling of the same word. Normalizing at write time makes the problem disappear once.
+Apply the same folding rules when creating and querying an index. Normalization
+helps align Unicode spellings; it does not replace database constraints,
+validation, or a search index.
 
 ## Everything is pure
 

@@ -60,7 +60,11 @@ hasUrduSpecificLetters("پاکستان");   // true  — پ, ک
 hasUrduSpecificLetters("كتاب مدرسة"); // false — pure Arabic letters
 ```
 
-The signals are `ٹ ڈ ڑ ں ے ۓ ہ ھ ک گ چ پ ژ ی`. Note this is shared with Persian for some letters (`پ چ گ ژ`), so a `true` means "not Arabic" rather than "definitely Urdu". Combining it with a short stopword check (`ہے`, `اور`, `کی`) gets you the rest of the way if you need it.
+The signals are `ٹ ڈ ڑ ں ے ۓ ہ ھ ک گ چ پ ژ ی`. Some (`پ چ گ ژ`) are also
+used in Persian, so a `true` means the text contains an Urdu-specific letter,
+not that the language is certainly Urdu. Stop-word checks can add clues for a
+particular corpus, but they are still heuristics—not reliable language
+identification.
 
 ## Try it
 
