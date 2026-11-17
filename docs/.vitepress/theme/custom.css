@@ -99,6 +99,226 @@
   scroll-snap-stop: always;
 }
 
+.home-compatibility {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+}
+
+.home-compatibility-label {
+  font-weight: 500;
+  margin-right: 2px;
+}
+
+.home-compatibility-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  background: var(--vp-c-bg-soft);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.home-compatibility-badge::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--vp-c-brand-1);
+  content: "";
+}
+
+.home-install-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 16px;
+  background: var(--vp-c-bg-soft);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 0.12);
+  text-align: left;
+}
+
+.VPHomeHero .image-bg {
+  pointer-events: none;
+}
+
+.home-install-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.home-install-eyebrow {
+  margin: 0 0 6px;
+  color: var(--vp-c-brand-1);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-install-heading h2 {
+  margin: 0;
+  border: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.home-install-manager {
+  padding: 4px 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+}
+
+.home-install-command {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 10px 10px 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg);
+}
+
+.home-install-command code,
+.home-install-import code {
+  font-family: var(--vp-font-family-mono);
+}
+
+.home-install-command code {
+  min-width: 0;
+  overflow-x: auto;
+  color: var(--vp-c-text-1);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.home-install-command button {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 7px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.home-install-command button:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.home-install-command button:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+
+.home-install-status {
+  min-height: 20px;
+  margin: 16px 0 8px;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+}
+
+.home-install-import {
+  overflow-x: auto;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--vp-c-bg);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.home-install-import code {
+  white-space: pre;
+}
+
+.VPHomeHero.VPHero {
+  padding-bottom: 24px;
+}
+
+@media (max-width: 1199px) {
+  .VPHomeHero.VPHero {
+    padding-bottom: 32px;
+  }
+
+  .VPHomeHero.VPHero .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .VPHomeHero.VPHero .main {
+    order: 1;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .VPHomeHero.VPHero .name,
+  .VPHomeHero.VPHero .text,
+  .VPHomeHero.VPHero .tagline {
+    margin-inline: auto;
+  }
+
+  .VPHomeHero.VPHero .actions {
+    justify-content: center;
+  }
+
+  .VPHomeHero.VPHero .image {
+    order: 2;
+    flex: none;
+    min-height: 0;
+    margin: 32px 0 0;
+  }
+
+  .VPHomeHero.VPHero .image-container {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    transform: none;
+  }
+
+  .home-compatibility {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 639px) {
+  .VPHomeHero.VPHero .image {
+    margin-top: 24px;
+  }
+
+  .home-install-card {
+    padding: 18px;
+  }
+
+  .home-install-import {
+    overflow-x: hidden;
+  }
+
+  .home-install-import code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .VPHomeFeatures .items {
     scroll-behavior: smooth;
