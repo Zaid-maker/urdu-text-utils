@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.4
+
+- Add SEO assets for docs site.
+- Add Google Search Console verification file.
+- Allow Search Console file in docs output check.
+- Improve Urdu text use-case guide.
+- Add use guidance to feature docs.
+- Remove GitHub Pages docs workflow.
+- Configure docs site for Vercel.
+- Enable clean Vercel docs routes.
+- Improve developer guides.
+
 ## 0.4.3
 
 - Improve the Roman Urdu guide with clearer API choices, normalization examples, custom aliases, mixed-language cautions, and cross-script search limitations.
