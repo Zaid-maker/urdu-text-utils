@@ -20,12 +20,13 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npm run build
 
       # Run benchmarks in JSON mode
       - name: Run benchmarks
         id: bench
         run: |
-          RESULT=$(npx tsx bench.mjs --json)
+          RESULT=$(node bench.mjs --json)
           echo "$RESULT" > /tmp/bench-results.json
           echo "results<<EOF" >> "$GITHUB_OUTPUT"
           echo "$RESULT" >> "$GITHUB_OUTPUT"
