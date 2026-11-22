@@ -230,6 +230,22 @@ export default defineConfig({
       ...(pageData.frontmatter.head ?? []),
       ["link", { rel: "canonical", href: canonical }],
       ["meta", { name: "keywords", content: keywords.join(", ") }],
+      ...(pageKey === "index"
+        ? [
+            [
+              "script",
+              { type: "application/ld+json" },
+              JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": `${canonical}#website`,
+                name: "urdu-text-utils",
+                alternateName: "Urdu Text Utilities",
+                url: canonical,
+              }),
+            ],
+          ]
+        : []),
       ["meta", { property: "og:title", content: socialTitle }],
       ["meta", { property: "og:description", content: pageDescription }],
       ["meta", { property: "og:url", content: canonical }],

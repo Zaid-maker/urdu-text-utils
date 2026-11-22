@@ -238,6 +238,26 @@ function checkPage(html, page) {
     problems.push(`expected one non-empty canonical URL, found ${canonicalTags.length}`);
   }
 
+  if (page === "index.html") {
+    const websiteScripts = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/giu)]
+      .filter(([, content]) => /"@type"\s*:\s*"WebSite"/u.test(content));
+    if (websiteScripts.length !== 1) {
+      problems.push(`expected one homepage WebSite structured-data block, found ${websiteScripts.length}`);
+    } else {
+      try {
+        const website = JSON.parse(websiteScripts[0][1]);
+        if (website.name !== "urdu-text-utils") {
+          problems.push("homepage WebSite structured data must name the site urdu-text-utils");
+        }
+        if (website.url !== canonical) {
+          problems.push("homepage WebSite structured-data URL must match the canonical URL");
+        }
+      } catch {
+        problems.push("homepage WebSite structured data contains invalid JSON");
+      }
+    }
+  }
+
   const descriptions = matchingMetaTags(html, "name", "description");
   const description =
     descriptions.length === 1 ? tagAttribute(descriptions[0], "content") : "";
