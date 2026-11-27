@@ -62,9 +62,9 @@ Typed shorthands for the above. Accept all three digit systems as input.
 
 Parses Urdu or Arabic-Indic digits, including `٫` decimal and `٬` thousands separators. Returns `number`, or `NaN`.
 
-### `numberToUrduWords(value)` <Badge type="warning" text="experimental" />
+### `numberToUrduWords(value)`
 
-Spells a whole number using the South Asian scale (ہزار, لاکھ, کروڑ, ارب, کھرب). Every cardinal from 0 to 99 is a real word — `21` is `اکیس`, not `بیس ایک`. Throws `TypeError` on a non-integer. Returns `string`.
+Spells a whole number using the South Asian scale (ہزار, لاکھ, کروڑ, ارب, کھرب). Every cardinal from 0 to 99 is a real word — `21` is `اکیس`, not `بیس ایک`. Uses one canonical spelling where Urdu has recognised variants. Throws `TypeError` on a non-integer. Returns `string`.
 
 ### `formatUrduNumber(value, options?)`
 
@@ -84,7 +84,7 @@ formatUrduNumber(1234, { digits: "english" });       // "1,234"
 
 ### `formatUrduCurrency(value, options?)`
 
-Formats an amount with `روپیہ` for exactly one and `روپے` otherwise, or spells it out with `style: "words"`. Accepts every `formatUrduNumber` option plus `style`, `unit` and `singularUnit`. `style: "words"` throws `TypeError` on a fractional amount.
+Formats an amount with `روپیہ` for exactly one and `روپے` otherwise, or spells it out with `style: "words"`. Accepts every `formatUrduNumber` option plus `style`, `unit` and `singularUnit`. The `style: "words"` option throws `TypeError` on a fractional amount rather than splitting it into whole units and paisa.
 
 ```ts
 formatUrduCurrency(1500);                     // "۱٬۵۰۰ روپے"
@@ -92,9 +92,9 @@ formatUrduCurrency(1);                        // "۱ روپیہ"
 formatUrduCurrency(1500, { style: "words" }); // "ایک ہزار پانچ سو روپے"
 ```
 
-### `toUrduOrdinal(value, options?)` <Badge type="warning" text="experimental" />
+### `toUrduOrdinal(value, options?)`
 
-Spells an ordinal, inflecting for `gender` (`"masculine"` by default). 1–6 are irregular (`پہلا`, `چھٹا`); larger ordinals suffix the last word of the cardinal, with a final `و` contracting (`نواں`, `سواں`). Throws `TypeError` on a non-integer.
+Spells a standalone ordinal, inflecting for `gender` (`"masculine"` by default). 1–6 are irregular (`پہلا`, `چھٹا`); larger ordinals suffix the last word of the cardinal, with a final `و` contracting (`نواں`, `سواں`). It does not infer agreement from a following noun or sentence context. Throws `TypeError` on a non-integer.
 
 ```ts
 toUrduOrdinal(1);                        // "پہلا"

@@ -275,8 +275,8 @@ export const URDU_ORDINAL_IRREGULARS: Readonly<
  * composed `بیس ایک` — and the scale words are exact up to 10^15, beyond which
  * JavaScript's own floating-point representation loses precision.
  *
- * @experimental The irregular 21-99 word table is transcribed from standard
- * textbook forms; a handful of those words have recognised variant spellings.
+ * The irregular 21-99 table uses one canonical textbook spelling for
+ * deterministic output. Some words have recognised variant spellings.
  *
  * @example
  * numberToUrduWords(1234567) // "بارہ لاکھ چونتیس ہزار پانچ سو سڑسٹھ"
@@ -433,8 +433,8 @@ export interface FormatUrduCurrencyOptions extends FormatUrduNumberOptions {
 /**
  * Format a money amount with the right Urdu unit for the quantity.
  *
- * @experimental The `"words"` style inherits the note on
- * {@link numberToUrduWords}, and like it requires a whole amount.
+ * The `"words"` style supports whole amounts only; fractional values throw
+ * instead of being split into whole units and paisa.
  *
  * @example
  * formatUrduCurrency(1500)                    // "۱٬۵۰۰ روپے"
@@ -474,7 +474,8 @@ export interface UrduOrdinalOptions {
  * `0` returns `صفر`, since "zeroth" has no Urdu ordinal form. Returns `""` for
  * non-finite input and throws for fractions, like {@link numberToUrduWords}.
  *
- * @experimental Inherits the note on {@link numberToUrduWords}.
+ * These are standalone forms; the function does not infer agreement from a
+ * following noun or sentence context.
  *
  * @example
  * toUrduOrdinal(1)                            // "پہلا"
