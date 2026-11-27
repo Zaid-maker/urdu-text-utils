@@ -22,6 +22,16 @@ describe("romanize", () => {
     expect(romanize("مُحَمَّد")).toBe(romanize("محمد"));
     expect(romanize("")).toBe("");
   });
+
+  it("uses dictionary entries when Urdu punctuation is attached", () => {
+    expect(romanize("پاکستان، کراچی۔")).toBe("pakistan، karachi۔");
+    expect(romanize("آپ کیسے ہیں؟")).toBe("aap kaisay hain؟");
+  });
+
+  it("preserves digits, Latin text, and non-letter Arabic symbols", () => {
+    expect(romanize("123 کتابیں ABC")).toBe("123 katabein ABC");
+    expect(romanize("محمد 🙂")).toBe("muhammad 🙂");
+  });
 });
 
 describe("romanToUrdu", () => {

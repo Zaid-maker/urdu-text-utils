@@ -54,7 +54,7 @@ Each PHP class mirrors the equivalently named TypeScript module:
 | `Numbers` | `numbers.ts` | digit conversion, `parseUrduNumber`, `formatUrduNumber`, `formatUrduCurrency`, `numberToUrduWords`, `toUrduOrdinal` |
 | `Collator` | `collate.ts` | explicit Urdu alphabet collation, `sortUrdu`, `compareUrdu` |
 | `Search` | `search.ts` | folding search, fuzzy, ranked results, highlighting |
-| `Transliterator` | `transliterate.ts` | `romanize`, `romanToUrdu`, `urduSlug` (`@experimental` parity) |
+| `Transliterator` | `transliterate.ts` | `romanize` (stable best-effort), `romanToUrdu` and Romanized `urduSlug` (experimental) |
 | `Stemmer` | `stemmer.ts` | affix tables, morphological restoration, `stemText` |
 | `Date` | `date.ts` | `formatUrduDate` token engine, `parseUrduDate`, `timeAgoUrdu` ladder |
 | `Names` | `names.ts` | Urdu ⇄ English name transliteration, name-part extraction |

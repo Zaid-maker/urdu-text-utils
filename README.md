@@ -300,13 +300,20 @@ analyzeUrdu("پاکستان ایک خوبصورت ملک ہے۔ اس کی آبا
 // }
 ```
 
-## Transliteration and slugs — `@experimental`
+## Transliteration and slugs
 
-Read this before putting it in front of users.
+`romanize` is a stable best-effort Urdu-to-Roman-Urdu API. `romanToUrdu` and
+Romanized `urduSlug` output remain experimental; read the limitations before
+putting any transliteration in front of users.
 
 Urdu script omits short vowels, so the mapping is genuinely ambiguous: `کتب` is `kitab` or `kutub` depending on context and no rule table can decide which. The reverse direction is worse, because Roman Urdu has no standard orthography (`hai` / `hay` / `he` all occur).
 
-These functions work in two layers: a dictionary of ~650 high-frequency words, English loanwords and oblique verb forms, then a rule fallback that handles aspirated digraphs, word-initial `و`/`ی` as consonants, word-final `ہ` as `-a`, `ی` by position (`کھیل` → `khel`, `پڑھی` → `parhi`, `سڑکیں` → `sarkein`), and a schwa insertion so unseen words stay pronounceable. Dictionary hits are reliable; rule output is an approximation. Do not build anything irreversible on it. A real lexicon plus a statistical model is planned, not faked here.
+`romanize` uses dictionary entries for known words and a rule fallback for
+unseen words. The rules handle aspirated digraphs, word-initial `و`/`ی` as
+consonants, word-final `ہ` as `-a`, and `ی` by position (`کھیل` → `khel`,
+`پڑھی` → `parhi`, `سڑکیں` → `sarkein`). Dictionary entries provide preferred
+spellings for listed words; rule output is approximate. Review results before
+using them in permanent identifiers or other irreversible workflows.
 
 ```ts
 romanize("آپ کیسے ہیں"); // "aap kaisay hain"

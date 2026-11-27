@@ -219,9 +219,12 @@ normalizeRomanUrdu("hay, kese ho?"); // "hai, kaisay ho?"
 
 `options.customVariants` is a case-insensitive `Record<string, string>` for adding or overriding spellings.
 
-### `romanize(input, options?)` <Badge type="warning" text="experimental" />
+### `romanize(input, options?)`
 
-Urdu script to Roman Urdu. Option: `capitalize` (default `false`). Returns `string`.
+Best-effort Urdu script to Roman Urdu using dictionary entries and spelling
+rules. Unseen words may have ambiguous vowels because Urdu omits short vowels.
+Punctuation, digits, and non-Urdu text are preserved. Option: `capitalize`
+(default `false`). Returns `string`.
 
 ### `romanToUrdu(input)` <Badge type="warning" text="experimental" />
 

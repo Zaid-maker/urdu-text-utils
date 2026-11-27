@@ -8,9 +8,9 @@ namespace UrduTextUtils;
  * Transliteration between Urdu script and Roman Urdu — a faithful PHP port of
  * src/transliterate.ts.
  *
- * Two layers, like the original: a dictionary of common words, then a rule
- * fallback. Urdu script omits short vowels, so expect roughly 70% word accuracy
- * on ordinary prose from the rules; treat everything here as experimental.
+ * Urdu -> Roman Urdu is stable best-effort behavior, using dictionary entries
+ * for known words and spelling rules for unseen ones. Roman Urdu -> Urdu and
+ * transliterated slugs remain experimental because their input is ambiguous.
  */
 final class Transliterator
 {
@@ -139,7 +139,7 @@ final class Transliterator
     }
 
     /**
-     * Urdu script -> Roman Urdu. @experimental; see the module note.
+     * Best-effort Urdu script -> Roman Urdu; see the module note.
      *
      * @param array{capitalize?: bool} $options
      */
@@ -149,10 +149,14 @@ final class Transliterator
             return '';
         }
         $clean = Normalizer::removeDiacritics(Normalizer::normalizeUrdu($input));
-        $chunks = preg_split('/(\s+)/u', $clean, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) ?: [];
-        $out = '';
-        foreach ($chunks as $chunk) {
-            $out .= preg_match('/^\s+$/u', $chunk) ? $chunk : self::romanizeWord($chunk);
+        $out = preg_replace_callback('/[\p{L}\p{M}]+/u', static function (array $matches): string {
+            $word = $matches[0];
+            return preg_match('/\p{sc=Arabic}/u', $word) === 1
+                ? self::romanizeWord($word)
+                : $word;
+        }, $clean);
+        if ($out === null) {
+            throw new \RuntimeException('Could not transliterate text: ' . preg_last_error_msg());
         }
         if (!empty($options['capitalize']) && $out !== '') {
             $out = strtoupper($out[0]) . substr($out, 1);

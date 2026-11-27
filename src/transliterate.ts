@@ -8,11 +8,9 @@
  * which. The reverse direction is worse, because Roman Urdu has no standard
  * orthography (hai / hay / he / hei all occur in the wild).
  *
- * This module therefore works in two layers: a dictionary of common words, then
- * a rule fallback. Expect roughly 70% word accuracy on ordinary prose from the
- * rule layer, and treat every function here as `@experimental`. Anything better
- * needs a real lexicon plus a statistical model, which is planned for a later
- * release and deliberately not faked here.
+ * Urdu -> Roman Urdu is a stable best-effort API: it uses a dictionary for
+ * known words and spelling rules for unseen ones. Roman Urdu -> Urdu and
+ * transliterated slugs remain experimental because their input is ambiguous.
  */
 import { removeDiacritics, normalizeUrdu } from "./normalize.js";
 import { splitWords } from "./stats.js";
@@ -133,17 +131,18 @@ function romanizeWord(word: string): string {
 /**
  * Urdu script -> Roman Urdu.
  *
- * @experimental Rule + dictionary based; see the module note on accuracy.
+ * Best-effort Urdu -> Roman Urdu using a dictionary and spelling rules.
+ * Unseen words may be ambiguous because Urdu omits short vowels; punctuation,
+ * digits, and non-Urdu text are preserved.
  * @example
  * romanize("آپ کیسے ہیں") // "aap kaisay hain"
  */
 export function romanize(input: string, options: { capitalize?: boolean } = {}): string {
   if (!input) return "";
   const clean = removeDiacritics(normalizeUrdu(input));
-  const roman = clean
-    .split(/(\s+)/u)
-    .map((chunk) => (/^\s+$/u.test(chunk) ? chunk : romanizeWord(chunk)))
-    .join("");
+  const roman = clean.replace(/[\p{L}\p{M}]+/gu, (word) =>
+    /\p{Script=Arabic}/u.test(word) ? romanizeWord(word) : word,
+  );
   if (!options.capitalize) return roman;
   return roman.charAt(0).toUpperCase() + roman.slice(1);
 }

@@ -68,7 +68,12 @@ Apply the normalizer to text you have identified as Roman Urdu. A Latin word can
 
 Urdu script omits short vowels. `کتب` can be read as *kitab* or *kutub*, depending on context, so no character-by-character mapping can always choose correctly. The reverse direction is also ambiguous: Roman Urdu has no standard spelling, and `hai`, `hay`, `he`, and `hei` can represent the same Urdu word.
 
-`romanize` uses a dictionary of common words, then applies spelling rules to words it does not know. `romanToUrdu` uses the same dictionary and its known spelling variants, then falls back to approximate letter rules. Treat both as best-effort tools, not language translation or spell correction.
+`romanize` is a stable best-effort API: it uses dictionary entries for known
+words and applies spelling rules to unseen ones. Urdu omits short vowels, so
+unseen-word output can still be ambiguous; this is transliteration, not
+translation or pronunciation analysis. `romanToUrdu` remains experimental and
+uses the same dictionary and known spelling variants before falling back to
+approximate letter rules.
 
 Some rules used by `romanize`:
 
@@ -83,6 +88,19 @@ Some rules used by `romanize`:
 ```ts
 romanize("کراچی میں بارش کے بعد سڑکیں بند ہیں");
 // "karachi mein barish ke baad sarkein band hain"
+```
+
+Punctuation stays outside word lookup, so a word still gets its dictionary
+spelling when punctuation is attached:
+
+```ts
+// docs-check
+import { romanize } from "urdu-text-utils";
+
+const romanized = romanize("پاکستان، کراچی۔ 123 ABC");
+if (romanized !== "pakistan، karachi۔ 123 ABC") {
+  throw new Error("romanize should preserve punctuation, digits, and Latin text");
+}
 ```
 
 Unseen words can have the wrong vowel: `حصہ` may come out `hasa` instead of `hissa`, and `دوڑتا` may come out `dorta` instead of `daurta`. Review output before showing it to users or using it in permanent identifiers.

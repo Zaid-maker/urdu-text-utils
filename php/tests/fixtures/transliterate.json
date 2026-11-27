@@ -20,6 +20,30 @@
  {
   "fn": "romanize",
   "args": [
+   "پاکستان، کراچی۔"
+  ],
+  "options": {},
+  "expected": "pakistan، karachi۔"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "123 کتابیں ABC"
+  ],
+  "options": {},
+  "expected": "123 katabein ABC"
+ },
+ {
+  "fn": "romanize",
+  "args": [
+   "محمد 🙂"
+  ],
+  "options": {},
+  "expected": "muhammad 🙂"
+ },
+ {
+  "fn": "romanize",
+  "args": [
    "میرا دوست بہت اچھا انسان ہے"
   ],
   "options": {},
