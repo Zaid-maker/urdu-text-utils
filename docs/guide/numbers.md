@@ -113,7 +113,7 @@ formatUrduCurrency(1500, { digits: "english" }); // "1,500 روپے"
 formatUrduCurrency(2.5, { unit: "ڈالر", singularUnit: "ڈالر" }); // "۲٫۵ ڈالر"
 ```
 
-It accepts every `formatUrduNumber` option plus `style`, `unit` and `singularUnit`. The `style: "words"` path spells the amount out and, like `numberToUrduWords`, **throws** on a fractional amount rather than silently dropping the paisa.
+It accepts every `formatUrduNumber` option plus `style`, `unit` and `singularUnit`. The `style: "words"` path spells whole amounts and **throws** on a fractional amount; it does not split the amount into whole units and paisa.
 
 ## Numbers in words
 
@@ -132,9 +132,7 @@ It uses the South Asian scale — ہزار, لاکھ, کروڑ, ارب, کھرب
 
 Every cardinal from 0 to 99 is a real word. Urdu does not compose them, so `21` is `اکیس`, not `بیس ایک`.
 
-::: warning Experimental
-The 21–99 words are transcribed from standard textbook forms. A few have recognised variant spellings (`26` also appears as `چھببیس`, `92` as `بیانوے`); this library prints one canonical set and does not yet accept variants on input. Output is exact up to 10¹⁵, beyond which JavaScript's own number representation loses precision.
-:::
+The 21–99 words are transcribed from standard textbook forms. A few have recognised variant spellings (`26` also appears as `چھببیس`, `92` as `بیانوے`); this API consistently prints the canonical forms shown in its table. Output is exact up to 10¹⁵, beyond which JavaScript's own number representation loses precision.
 
 ## Ordinals
 
@@ -155,6 +153,8 @@ Urdu ordinals inflect for gender, which is why `gender` exists. 1–6 are irregu
 - An exact scale value drops its `ایک`: 100th is `سواں`, not `ایک سواں`. A compound keeps it — 1100th is `ایک ہزار ایک سواں`.
 
 `toUrduOrdinal(0)` returns `صفر`, since "zeroth" has no Urdu ordinal form. Like `numberToUrduWords`, it throws `TypeError` on a fraction and returns `""` for non-finite input.
+
+These are standalone forms; the API does not infer agreement from a following noun or sentence context.
 
 ## Try it
 

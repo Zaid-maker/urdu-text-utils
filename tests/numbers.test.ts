@@ -75,6 +75,7 @@ describe("numberToUrduWords", () => {
     expect(numberToUrduWords(90)).toBe("نوے");
     expect(numberToUrduWords(21)).toBe("اکیس");
     expect(numberToUrduWords(26)).toBe("چھبیس");
+    expect(numberToUrduWords(92)).toBe("بانوے");
     expect(numberToUrduWords(200)).toBe("دو سو");
     expect(numberToUrduWords(1005)).toBe("ایک ہزار پانچ");
   });

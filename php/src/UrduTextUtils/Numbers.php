@@ -151,7 +151,8 @@ final class Numbers
      * irregular word, so 21 is اکیس rather than a composed بیس ایک.
      *
      * Non-integers throw \TypeError, non-finite values return ''.
-     * @experimental — see the TS module note on variant spellings.
+     * The 21-99 table uses one canonical textbook spelling for deterministic
+     * output; some words have recognised variant spellings.
      */
     public static function numberToUrduWords(float|int $value): string
     {
@@ -271,8 +272,8 @@ final class Numbers
     /**
      * Format a money amount with the right Urdu unit for the quantity.
      *
-     * @experimental The 'words' style inherits the note on numberToUrduWords,
-     * and like it requires a whole amount.
+     * The 'words' style supports whole amounts only; fractional values throw
+     * instead of being split into whole units and paisa.
      *
      * @param array{digits?: 'urdu'|'english', grouping?: 'southAsian'|'western'|'none', decimals?: int, style?: 'digits'|'words', unit?: string, singularUnit?: string} $options
      */
@@ -303,7 +304,8 @@ final class Numbers
      * and a word-final و contracts rather than doubling (نو -> نواں).
      * 0 returns صفر, since "zeroth" has no Urdu ordinal form.
      *
-     * @experimental Inherits the note on numberToUrduWords.
+     * These are standalone forms; the function does not infer agreement from
+     * a following noun or sentence context.
      *
      * @param array{gender?: 'masculine'|'feminine'} $options
      */

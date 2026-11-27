@@ -187,7 +187,7 @@ toUrduOrdinal(21); // "اکیسواں"
 toUrduOrdinal(1, { gender: "feminine" }); // "پہلی"
 ```
 
-The word tables cover every cardinal from 0 to 99 (`21` is `اکیس`, never a composed `بیس ایک`) and the scale runs ہزار → لاکھ → کروڑ → ارب → کھرب. `numberToUrduWords`, `formatUrduCurrency`'s `style: "words"` and `toUrduOrdinal` are `@experimental`: several of the 21–99 words have recognised variant spellings.
+The word tables cover every cardinal from 0 to 99 (`21` is `اکیس`, never a composed `بیس ایک`) and the scale runs ہزار → لاکھ → کروڑ → ارب → کھرب. `numberToUrduWords`, `toUrduOrdinal` and `formatUrduCurrency` (including `style: "words"`) are stable; Urdu variants use the library's canonical spellings, and word-style currency requires a whole amount.
 
 ## Urdu dates & relative time
 
