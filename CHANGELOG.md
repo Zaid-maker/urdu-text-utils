@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.5
+
+- Build package before benchmarks
+- Redesign homepage features as carousel
+- Add responsive homepage install card
+- Add homepage site name structured data
+- Promote romanize to stable best-effort API
+
+
 ## 0.4.4
 
 - Add SEO assets for docs site.
